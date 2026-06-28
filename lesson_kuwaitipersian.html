@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Revive - Kuwaiti Persian Lesson</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<style>
+:root {
+  --main:#7dd3a0;
+  --bg-start: #0a4d2a;
+  --bg-end: #2d8a5e;
+  --bg: linear-gradient(150deg, var(--bg-start), var(--bg-end));
+  --card:rgba(255, 255, 255, 0.12);
+  --text:#f3f8fb;
+  --muted:#cde3d7;
+  --border:rgba(255, 255, 255, 0.18);
+  --correct:#4caf50;
+  --incorrect:#f44336;
+  --xp:#ffc107;
+}
+* { box-sizing:border-box; }
+body { 
+  margin:0; 
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+  background:var(--bg); 
+  color:var(--text);
+  position: relative;
+  min-height: 100vh;
+}
+body::before {
+  content: "Revive   Learn   Practice   Grow   Connect   Speak   Read   Write   Translate   Achieve";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 15%;
+  color: rgba(255, 255, 255, 0.14);
+  font-size: clamp(1.5rem, 2vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  white-space: pre-wrap;
+  line-height: 1.1;
+  pointer-events: none;
+  z-index: -1;
+  transform: rotate(-90deg);
+}
+body::after {
+  content: "فارسی کویتی   Kuwait   سلام   شکر";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 15%;
+  color: rgba(255, 255, 255, 0.08);
+  font-size: clamp(1.2rem, 1.5vw, 2rem);
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 0.35em;
+  pointer-events: none;
+  z-index: -1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  padding: 1rem;
+  transform: rotate(90deg);
+}
+header { background:linear-gradient(135deg,var(--main),#1b4332); color:white; padding:1rem 1.5rem; }
+.header-content { max-width:900px; margin:auto; display:flex; justify-content:space-between; align-items:center; }
+.lesson-progress { display:flex; align-items:center; gap:1rem; }
+.progress-bar { width:200px; height:8px; background:rgba(255,255,255,0.3); border-radius:4px; overflow:hidden; }
+.progress-fill { height:100%; background:white; transition:width 0.3s ease; }
+.hearts-display { display:flex; align-items:center; gap:0.3rem; }
+main { max-width:900px; margin:auto; padding:2rem 1.5rem; }
+.lesson-container { background:var(--card); border:1px solid var(--border); border-radius:24px; padding:2rem; margin-bottom:2rem; }
+.question-area { margin-bottom:2rem; }
+.question-text { font-size:1.5rem; font-weight:600; margin-bottom:1.5rem; }
+.options-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem; }
+.option-btn { background:rgba(255,255,255,0.1); border:2px solid var(--border); border-radius:16px; padding:1.5rem; color:var(--text); cursor:pointer; transition:all 0.2s ease; font-size:1.1rem; text-align:center; }
+.option-btn:hover { background:rgba(255,255,255,0.2); border-color:var(--main); }
+.option-btn.selected { background:var(--main); color:#1b4332; border-color:var(--main); }
+.option-btn.correct { background:var(--correct); color:white; border-color:var(--correct); }
+.option-btn.incorrect { background:var(--incorrect); color:white; border-color:var(--incorrect); }
+.fill-blank { font-size:1.5rem; line-height:2.5; }
+.blank-input { border:none; border-bottom:3px solid var(--border); background:transparent; color:var(--text); font-size:1.5rem; width:150px; text-align:center; padding:0 0.5rem; }
+.blank-input:focus { outline:none; border-color:var(--main); }
+.check-btn { background:var(--main); color:#1b4332; border:none; padding:1rem 2rem; border-radius:999px; font-weight:600; font-size:1.1rem; cursor:pointer; transition:transform 0.2s ease; }
+.check-btn:hover { transform:scale(1.05); }
+.check-btn:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
+.feedback-area { margin-top:1.5rem; padding:1rem; border-radius:12px; display:none; }
+.feedback-area.correct { background:rgba(76,175,80,0.2); color:#81c784; }
+.feedback-area.incorrect { background:rgba(244,67,54,0.2); color:#e57373; }
+.lesson-complete { text-align:center; padding:3rem; }
+.lesson-complete h2 { font-size:2.5rem; margin:0 0 1rem; }
+.xp-gained { font-size:3rem; color:var(--xp); font-weight:700; margin:1rem 0; }
+.stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1rem; margin:2rem 0; }
+.stat-box { background:rgba(255,255,255,0.08); padding:1.5rem; border-radius:16px; }
+.stat-value { font-size:2rem; font-weight:700; }
+.stat-label { color:var(--muted); font-size:0.9rem; }
+.continue-btn { background:linear-gradient(135deg,var(--main),#4caf50); color:#1b4332; border:none; padding:1rem 3rem; border-radius:999px; font-weight:600; font-size:1.2rem; cursor:pointer; transition:transform 0.2s ease; }
+.continue-btn:hover { transform:scale(1.05); }
+.hidden { display:none; }
+</style>
+</head>
+<body>
+<header>
+  <div style="display:flex; justify-content:space-between; align-items:center; max-width:900px; margin:auto;">
+    <div style="display:flex; align-items:center; gap:0.5rem;">
+      <span style="font-size:1.5rem;">🇰🇼</span>
+      <span style="font-weight:600;">Kuwaiti Persian Lesson</span>
+    </div>
+    <div class="lesson-progress">
+      <div class="hearts-display">
+        <span>❤️</span>
+        <span id="heartsCount">5</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="lessonProgress" style="width:0%"></div>
+      </div>
+      <span id="questionCounter">1/10</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div id="lessonContainer" class="lesson-container">
+    <div id="questionArea" class="question-area"></div>
+    <div id="feedbackArea" class="feedback-area"></div>
+    <div id="checkArea" style="text-align:right;">
+      <button id="checkBtn" class="check-btn" onclick="checkAnswer()" disabled>Check</button>
+    </div>
+  </div>
+
+  <div id="lessonComplete" class="lesson-complete hidden">
+    <h2>🎉 Lesson Complete!</h2>
+    <div class="xp-gained">+<span id="xpGained">0</span> XP</div>
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-value" id="correctCount">0</div>
+        <div class="stat-label">Correct</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="accuracy">0%</div>
+        <div class="stat-label">Accuracy</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="timeSpent">0:00</div>
+        <div class="stat-label">Time</div>
+      </div>
+    </div>
+    <button class="continue-btn" onclick="continueToDashboard()">Continue</button>
+  </div>
+</main>
+
+<script>
+const userData = JSON.parse(localStorage.getItem('reviveUserData')) || {
+  xp: 0, streak: 0, hearts: 5, level: 1, currentLanguage: 'KuwaitiPersian',
+  languages: {}, achievements: [], lastLogin: null
+};
+
+let lessonState = {
+  questions: [],
+  currentIndex: 0,
+  selectedAnswer: null,
+  correct: 0,
+  incorrect: 0,
+  startTime: Date.now(),
+  lessonXP: 0
+};
+
+const kuwaitipersianQuestions = [
+  { type: 'translate', question: 'Hello', answer: 'سلام', options: ['سلام', 'شکر', 'بله', 'نه'] },
+  { type: 'translate', question: 'Thank you', answer: 'شکر', options: ['سلام', 'شکر', 'بله', 'نه'] },
+  { type: 'translate', question: 'Yes', answer: 'بله', options: ['سلام', 'شکر', 'بله', 'نه'] },
+  { type: 'translate', question: 'No', answer: 'نه', options: ['سلام', 'شکر', 'بله', 'نه'] },
+  { type: 'translate', question: 'Good', answer: 'خوب', options: ['سلام', 'خوب', 'بله', 'نه'] },
+  { type: 'fillblank', sentence: 'سلا___', answer: 'م', hint: 'Hello' },
+  { type: 'fillblank', sentence: 'شک___', answer: 'ر', hint: 'Thank you' },
+  { type: 'fillblank', sentence: 'خو___', answer: 'ب', hint: 'Good' },
+  { type: 'translate', question: 'One', answer: 'یک', options: ['یک', 'دو', 'سه', 'چهار'] },
+  { type: 'translate', question: 'Two', answer: 'دو', options: ['یک', 'دو', 'سه', 'چهار'] }
+];
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+function startLesson() {
+  shuffleArray(kuwaitipersianQuestions);
+  lessonState.questions = kuwaitipersianQuestions.slice(0, 10);
+  lessonState.currentIndex = 0;
+  lessonState.startTime = Date.now();
+  showQuestion();
+  updateProgress();
+}
+
+function showQuestion() {
+  if (lessonState.currentIndex >= lessonState.questions.length) {
+    showLessonComplete();
+    return;
+  }
+  
+  const question = lessonState.questions[lessonState.currentIndex];
+  const container = document.getElementById('questionArea');
+  const feedback = document.getElementById('feedbackArea');
+  
+  feedback.style.display = 'none';
+  lessonState.selectedAnswer = null;
+  document.getElementById('checkBtn').disabled = true;
+  
+  if (question.type === 'translate') {
+    container.innerHTML = `
+      <div class="question-text">Translate this word:</div>
+      <div style="font-size:2rem; font-weight:700; margin-bottom:2rem;">${question.question}</div>
+      <div class="options-grid">
+        ${question.options.map(opt => `
+          <button class="option-btn" onclick="selectOption('${opt}', this)">${opt}</button>
+        `).join('')}
+      </div>
+    `;
+  } else if (question.type === 'fillblank') {
+    container.innerHTML = `
+      <div class="question-text">Fill in the blank:</div>
+      <div class="fill-blank">
+        ${question.sentence.replace('___', '<input type="text" class="blank-input" id="blankInput" oninput="enableCheck()">')}
+        <span style="color:var(--muted); font-size:1rem; margin-left:1rem;">(${question.hint})</span>
+      </div>
+    `;
+  }
+  
+  updateProgress();
+}
+
+function selectOption(answer, btn) {
+  lessonState.selectedAnswer = answer;
+  document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById('checkBtn').disabled = false;
+}
+
+function enableCheck() {
+  const input = document.getElementById('blankInput');
+  if (input && input.value.trim()) {
+    document.getElementById('checkBtn').disabled = false;
+  }
+}
+
+function checkAnswer() {
+  const question = lessonState.questions[lessonState.currentIndex];
+  const feedback = document.getElementById('feedbackArea');
+  const checkBtn = document.getElementById('checkBtn');
+  
+  checkBtn.disabled = true;
+  
+  let userAnswer;
+  if (question.type === 'translate') {
+    userAnswer = lessonState.selectedAnswer;
+  } else if (question.type === 'fillblank') {
+    userAnswer = document.getElementById('blankInput').value.trim();
+  }
+  
+  const isCorrect = userAnswer === question.answer;
+  
+  if (isCorrect) {
+    lessonState.correct++;
+    lessonState.lessonXP += 10;
+    feedback.textContent = '✓ Correct! +10 XP';
+    feedback.className = 'feedback-area correct';
+    
+    if (question.type === 'translate') {
+      document.querySelectorAll('.option-btn').forEach(btn => {
+        if (btn.textContent === question.answer) {
+          btn.classList.add('correct');
+        }
+      });
+    }
+  } else {
+    lessonState.incorrect--;
+    userData.hearts--;
+    feedback.textContent = `✗ Incorrect. The correct answer is: ${question.answer}`;
+    feedback.className = 'feedback-area incorrect';
+    
+    if (question.type === 'translate') {
+      document.querySelectorAll('.option-btn').forEach(btn => {
+        if (btn.textContent === userAnswer) {
+          btn.classList.add('incorrect');
+        }
+        if (btn.textContent === question.answer) {
+          btn.classList.add('correct');
+        }
+      });
+    }
+  }
+  
+  feedback.style.display = 'block';
+  updateHearts();
+  
+  setTimeout(() => {
+    lessonState.currentIndex++;
+    showQuestion();
+  }, 1500);
+}
+
+function updateProgress() {
+  const progress = (lessonState.currentIndex / lessonState.questions.length) * 100;
+  document.getElementById('lessonProgress').style.width = `${progress}%`;
+  document.getElementById('questionCounter').textContent = `${lessonState.currentIndex + 1}/${lessonState.questions.length}`;
+}
+
+function updateHearts() {
+  document.getElementById('heartsCount').textContent = userData.hearts;
+  if (userData.hearts <= 0) {
+    alert('You ran out of hearts! Come back later to restore them.');
+    window.close();
+  }
+}
+
+function showLessonComplete() {
+  document.getElementById('lessonContainer').classList.add('hidden');
+  document.getElementById('lessonComplete').classList.remove('hidden');
+  
+  const totalTime = Math.floor((Date.now() - lessonState.startTime) / 1000);
+  const minutes = Math.floor(totalTime / 60);
+  const seconds = totalTime % 60;
+  const accuracy = Math.round((lessonState.correct / lessonState.questions.length) * 100);
+  
+  document.getElementById('xpGained').textContent = lessonState.lessonXP;
+  document.getElementById('correctCount').textContent = lessonState.correct;
+  document.getElementById('accuracy').textContent = `${accuracy}%`;
+  document.getElementById('timeSpent').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  
+  userData.xp += lessonState.lessonXP;
+  userData.level = Math.floor(userData.xp / 100) + 1;
+  
+  if (!userData.languages.KuwaitiPersian) {
+    userData.languages.KuwaitiPersian = { progress: 0, lessons: 0, unlocked: true };
+  }
+  userData.languages.KuwaitiPersian.lessons++;
+  userData.languages.KuwaitiPersian.progress = Math.min(100, userData.languages.KuwaitiPersian.progress + 10);
+  
+  if (accuracy === 100 && lessonState.questions.length > 0) {
+    if (!userData.achievements.includes('perfect_lesson')) {
+      userData.achievements.push('perfect_lesson');
+    }
+  }
+  
+  if (!userData.achievements.includes('first_lesson')) {
+    userData.achievements.push('first_lesson');
+  }
+  
+  localStorage.setItem('reviveUserData', JSON.stringify(userData));
+}
+
+function continueToDashboard() {
+  window.open('dashboard.html', '_self');
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  updateHearts();
+  startLesson();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Revive Language Page</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<style>
+:root {
+  --main:#7dd3a0;
+  --bg-start: #0a4d2a;
+  --bg-end: #2d8a5e;
+  --bg: linear-gradient(150deg, var(--bg-start), var(--bg-end));
+  --card:rgba(255, 255, 255, 0.12);
+  --text:#f3f8fb;
+  --muted:#cde3d7;
+  --border:rgba(255, 255, 255, 0.18);
+}
+* { box-sizing:border-box; }
+body { 
+  margin:0; 
+  font-family:Segoe UI, sans-serif; 
+  background:var(--bg); 
+  color:var(--text);
+  position: relative;
+  min-height: 100vh;
+}
+body::before {
+  content: "Revive   Bonjour   Hola   مرحبا   こんにちは   你好   안녕하세요   Привет   Olá   Ciao   Hallo   Hej   Szia   Γεια   Merhaba   Salam   Namaste   Zdravei   Ahoj   Shalom   Sawasdee   Kumusta   Selam   Buna   Sveiki   Labas   Tere   Hyvä   God dag   Hei   Hallå   Guten Tag   Dzień dobry   Bună ziua   Dobrý den   Pozdrav   Nazdar   Zdravo   Përshëndetje   Mirëdita   Shën   Alo   Moi   Heippa   Hei   Terve   Hyvää päivää   Hyvää huomenta   Hyvää iltaa   Kiitos   Tack   Danke   Grazie   Merci   Gracias   Obrigado   Tak   Dank u   Bedankt   Multumesc   Hvala   Köszönöm   Blagodarya   Efharistó   Teşekkürler   Shukran   Dhanyavaad   Spasibo   Aitäh   Ačiū   Paldies   Tänan   Tapadhò leat   Go raibh maith agat   Diolch   Misaotra   Asante   Siyabonga   Ke a leboga   Ngiyabonga   Ro livhuwa   Enkosi   Amogelang   Ke a leboga   Ndi a livhuwa   Inkomu   Kanimambo   Zikomo   Tatenda   Twalumba   Zikomo kwambiri   Natotela";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 15%;
+  color: rgba(255, 255, 255, 0.14);
+  font-size: clamp(1.5rem, 2vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  white-space: pre-wrap;
+  line-height: 1.1;
+  pointer-events: none;
+  z-index: -1;
+  transform: rotate(-90deg);
+}
+body::after {
+  content: "語言 | 언어 | Language | لغة | Langue | Lingua | Sprache | Язык | Língua | Γλώσσα | Dil | اللغة | भाषा | Język | Limba | Tun | Nyelv | Keel | Valoda | Kalba";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 15%;
+  color: rgba(255, 255, 255, 0.08);
+  font-size: clamp(1.2rem, 1.5vw, 2rem);
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 0.35em;
+  pointer-events: none;
+  z-index: -1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  padding: 1rem;
+  transform: rotate(90deg);
+}
+header { background:linear-gradient(135deg,var(--main),#1b4332); color:white; padding:1.5rem 1rem; text-align:center; }
+header .top-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:.75rem; max-width:1200px; margin:auto; }
+header .top-nav a, header .top-nav button { color:white; text-decoration:none; border:1px solid rgba(255,255,255,.35); padding:.65rem 1rem; border-radius:999px; background:transparent; transition:background .2s ease, transform .2s ease; cursor:pointer; }
+header .top-nav a:hover, header .top-nav button:hover { background:rgba(255,255,255,.14); transform:translateY(-1px); }
+header .top-nav button { font:inherit; }
+main { max-width:1100px; margin:auto; padding:2rem 1rem; }
+.page-title { margin:0 0 1rem; font-size:2.3rem; line-height:1.1; }
+.page-subtitle { margin:0 0 1.5rem; color:var(--muted); }
+.section-card { background:var(--card); border:1px solid var(--border); border-radius:22px; padding:1.75rem; margin-bottom:1.5rem; box-shadow:0 18px 40px rgba(0,0,0,0.06); }
+.section-card h2 { margin-top:0; }
+.section-card p { margin:1rem 0; line-height:1.8; }
+.quick-links { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; margin-top:1rem; }
+.quick-card { background:var(--card); border:1px solid var(--border); border-radius:18px; padding:1rem 1.2rem; transition:transform .2s ease, box-shadow .2s ease; cursor:pointer; }
+.quick-card:hover { transform:translateY(-3px); box-shadow:0 18px 40px rgba(0,0,0,0.08); }
+.quick-card span { display:block; font-size:1.4rem; margin-bottom:.5rem; }
+.quick-card button { width:100%; border:none; background:transparent; text-align:left; padding:1rem; font:inherit; cursor:pointer; }
+.hidden { display:none; }
+.speak-btn { display:inline-flex; align-items:center; gap:0.5rem; background:#e8f5e9; color:#1b4332; border:1.5px solid #1b4332; border-radius:999px; padding:.5rem 1rem; cursor:pointer; font-size:.9rem; transition:all .2s ease; }
+.speak-btn:hover { background:#1b4332; color:white; }
+.practice-input { width:100%; padding:.8rem; border:1px solid var(--border); border-radius:12px; background:rgba(255,255,255,0.1); color:var(--text); font-size:1rem; margin-top:.5rem; }
+.practice-input:focus { outline:none; border-color:var(--main); background:rgba(255,255,255,0.15); }
+.practice-feedback { margin-top:.5rem; padding:.5rem; border-radius:8px; font-size:.9rem; }
+.practice-feedback.correct { background:rgba(76,175,80,0.2); color:#81c784; }
+.practice-feedback.incorrect { background:rgba(244,67,54,0.2); color:#e57373; }
+.quiz-mode { background:rgba(255,255,255,0.08); border:1px solid var(--border); border-radius:18px; padding:1.5rem; margin-top:1rem; }
+.quiz-option { display:block; width:100%; padding:.8rem 1rem; margin:.4rem 0; border:1px solid var(--border); border-radius:10px; background:rgba(255,255,255,0.05); color:var(--text); cursor:pointer; transition:all .2s ease; text-align:left; }
+.quiz-option:hover { background:rgba(255,255,255,0.12); border-color:var(--main); }
+.quiz-option.selected { background:var(--main); color:#1b4332; border-color:var(--main); }
+.progress-bar { width:100%; height:8px; background:rgba(255,255,255,0.1); border-radius:4px; overflow:hidden; margin:.5rem 0; }
+.progress-fill { height:100%; background:linear-gradient(90deg, var(--main), #4caf50); transition:width .3s ease; }
+footer { text-align:center; padding:1.5rem 1rem; color:var(--muted); }
+@media (max-width: 720px) {
+  header .top-nav { flex-direction:column; text-align:center; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="top-nav">
+    <div>
+      <div style="font-size:.95rem; opacity:.82;">Revive</div>
+      <h1 style="margin:.35rem 0 .1rem; font-size:2rem;">Language Explorer</h1>
+      <div style="font-size:.92rem; opacity:.9;">Open a dedicated language window for deep daily account, jobs, and proficiency content.</div>
+    </div>
+    <div style="display:flex; gap:0.75rem; flex-wrap:wrap; justify-content:center;">
+      <a href="Revive.html">← Back to dashboard</a>
+      <button id="nextLanguageBtn" type="button">Next language</button>
+      <button id="showAllBtn" type="button">Show all 100</button>
+    </div>
+  </div>
+</header>
+<main>
+  <article>
+    <div class="section-card">
+      <h2 id="languageHeading">Loading language...</h2>
+      <p id="languageDescription" class="page-subtitle"></p>
+      <div id="voiceSelectorContainer" style="margin-top:1rem;"></div>
+    </div>
+    
+    <div class="section-card">
+      <h2>📚 Learning Units</h2>
+      <div id="unitsContainer" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1rem; margin-top:1rem;"></div>
+    </div>
+
+    <div class="section-card">
+      <h2>✍️ Practice Mode</h2>
+      <p style="color:var(--muted); margin-bottom:1rem;">Test your knowledge with typing practice and quizzes.</p>
+      <div id="practiceContainer"></div>
+      <button type="button" onclick="startPractice()" style="background:var(--main); color:#1b4332; border:none; padding:.8rem 1.5rem; border-radius:999px; cursor:pointer; font-weight:600; margin-top:1rem;">Start Practice Session</button>
+    </div>
+
+    <div class="section-card">
+      <h2>🎯 Comprehensive Test Mode</h2>
+      <p style="color:var(--muted); margin-bottom:1rem;">Test all your language skills: Writing, Reading, Translating, and Speaking.</p>
+      <div id="testContainer"></div>
+      <div id="testMenu" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem; margin-top:1rem;">
+        <button type="button" onclick="startTest('writing')" style="background:var(--main); color:#1b4332; border:none; padding:1rem; border-radius:18px; cursor:pointer; font-weight:600;">
+          <div style="font-size:2rem; margin-bottom:.5rem;">✍️</div>
+          <div>Writing Test</div>
+          <div style="font-size:.8rem; opacity:.8; margin-top:.3rem;">Type words in target language</div>
+        </button>
+        <button type="button" onclick="startTest('reading')" style="background:var(--main); color:#1b4332; border:none; padding:1rem; border-radius:18px; cursor:pointer; font-weight:600;">
+          <div style="font-size:2rem; margin-bottom:.5rem;">📖</div>
+          <div>Reading Test</div>
+          <div style="font-size:.8rem; opacity:.8; margin-top:.3rem;">Select correct meanings</div>
+        </button>
+        <button type="button" onclick="startTest('translating')" style="background:var(--main); color:#1b4332; border:none; padding:1rem; border-radius:18px; cursor:pointer; font-weight:600;">
+          <div style="font-size:2rem; margin-bottom:.5rem;">🔄</div>
+          <div>Translating Test</div>
+          <div style="font-size:.8rem; opacity:.8; margin-top:.3rem;">Bidirectional translation</div>
+        </button>
+        <button type="button" onclick="startTest('speaking')" style="background:var(--main); color:#1b4332; border:none; padding:1rem; border-radius:18px; cursor:pointer; font-weight:600;">
+          <div style="font-size:2rem; margin-bottom:.5rem;">🎤</div>
+          <div>Speaking Test</div>
+          <div style="font-size:.8rem; opacity:.8; margin-top:.3rem;">Pronunciation practice</div>
+        </button>
+        <button type="button" onclick="startTest('comprehensive')" style="background:linear-gradient(135deg,var(--main),#4caf50); color:#1b4332; border:none; padding:1rem; border-radius:18px; cursor:pointer; font-weight:600; grid-column:1/-1;">
+          <div style="font-size:2rem; margin-bottom:.5rem;">🏆</div>
+          <div>Full Comprehensive Test</div>
+          <div style="font-size:.8rem; opacity:.8; margin-top:.3rem;">Test all skills together</div>
+        </button>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h2>📚 Topic-Based Learning</h2>
+      <p style="color:var(--muted); margin-bottom:1rem;">Focus on specific vocabulary areas with dedicated lessons.</p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem; margin-top:1rem;">
+        <button type="button" onclick="openTopic('food')" style="background:var(--main); color:#1b4332; border:none; padding:1rem; border-radius:18px; cursor:pointer; font-weight:600;">
+          <div style="font-size:2rem; margin-bottom:.5rem;">🍽️</div>
+          <div>Food & Drink</div>
+          <div style="font-size:.8rem; opacity:.8; margin-top:.3rem;">15 vocabulary words</div>
+        </button>
+        <button type="button" onclick="openTopic('jobs')" style="background:var(--main); color:#1b4332; border:none; padding:1rem; border-radius:18px; cursor:pointer; font-weight:600;">
+          <div style="font-size:2rem; margin-bottom:.5rem;">💼</div>
+          <div>Jobs & Professions</div>
+          <div style="font-size:.8rem; opacity:.8; margin-top:.3rem;">12 vocabulary words</div>
+        </button>
+        <button type="button" onclick="openTopic('transport')" style="background:var(--main); color:#1b4332; border:none; padding:1rem; border-radius:18px; cursor:pointer; font-weight:600;">
+          <div style="font-size:2rem; margin-bottom:.5rem;">🚗</div>
+          <div>Transport</div>
+          <div style="font-size:.8rem; opacity:.8; margin-top:.3rem;">10 vocabulary words</div>
+        </button>
+        <button type="button" onclick="openTopic('dailylife')" style="background:var(--main); color:#1b4332; border:none; padding:1rem; border-radius:18px; cursor:pointer; font-weight:600;">
+          <div style="font-size:2rem; margin-bottom:.5rem;">🏠</div>
+          <div>Daily Life</div>
+          <div style="font-size:.8rem; opacity:.8; margin-top:.3rem;">12 vocabulary words</div>
+        </button>
+      </div>
+    </div>
+
+    <div id="lessonView" class="hidden">
+      <div class="section-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+          <h2 id="unitTitle" style="margin:0;">Unit</h2>
+          <button type="button" onclick="backToUnits()" style="background:var(--main); color:white; border:none; padding:.6rem 1.2rem; border-radius:999px; cursor:pointer;">← Back</button>
+        </div>
+        <div id="lessonsContainer"></div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h2>Jump to other languages</h2>
+      <div id="quickLinks" class="quick-links"></div>
+      <div id="fullLanguageList" class="section-card hidden" style="margin-top:1rem;"></div>
+    </div>
+  </article>
+</main>
+<footer>
+  <p>Each language window is built to support deep daily, job, account, and professional content for learning.</p>
+</footer>
+<script>
+const languageProfiles = [
+  ['Irish','Gaeilge','🇮🇪','Ireland'],
+  ['Welsh','Cymraeg','🏴','Wales'],
+  ['Ainu','アイヌ・イタㇰ','🇯🇵','Japan'],
+  ['TerSami','Doaje sámegiella','🇫🇮','Finland'],
+  ['Manchu','ᠮᠠᠨᠵᡠ','🇨🇳','China'],
+  ['Picard','Picard','🇫🇷','France'],
+  ['LowSaxon','Plattdüütsch','🇩🇪','Germany'],
+  ['Gondi','Gonḍi','🇮🇳','India'],
+  ['Cornish','Kernewek','🏴','England'],
+  ['Breton','Brezhoneg','🇫🇷','Brittany'],
+  ['ScottishGaelic','Gàidhlig','🇬🇧','Scotland'],
+  ['Yiddish','ייִדיש','🇮🇱','Europe'],
+  ['Navajo','Diné bizaad','🇺🇸','USA'],
+  ['Guarani','Avañeʼẽ','🇵🇾','South America'],
+  ['Uighur','ئۇيغۇر تىلى','🇨🇳','China'],
+  ['Quechua','Runa Simi','🇵🇪','Andes'],
+  ['Kiche','Kʼicheʼ','🇬🇹','Guatemala'],
+  ['Basque','Euskara','🇪🇸','Spain'],
+  ['Frisian','Frysk','🇳🇱','Netherlands'],
+  ['Sardinian','Sardu','🇮🇹','Italy'],
+  ['Occitan','Occitan','🇫🇷','France'],
+  ['Catalan','Català','🇪🇸','Spain'],
+  ['Romani','Romani','🌍','Europe'],
+  ['Inuktitut','ᐃᓄᒃᑎᑐᑦ','🇨🇦','Canada'],
+  ['Kalaallisut','Kalaallisut','🇬🇱','Greenland'],
+  ['Ojibwe','Anishinaabemowin','🇨🇦','Canada'],
+  ['Cree','ᓀᐦᐃᑲᐣ','🇨🇦','Canada'],
+  ['Lakota','Lakȟótiyapi','🇺🇸','USA'],
+  ['Cherokee','ᏣᎳᎩ','🇺🇸','USA'],
+  ['Hawaiian','ʻŌlelo Hawaiʻi','🇺🇸','Hawaii'],
+  ['Maori','Te Reo Māori','🇳🇿','New Zealand'],
+  ['Samoan','Gagana Samoa','🇼🇸','Samoa'],
+  ['Tahitian','Reo Tahiti','🇵🇫','French Polynesia'],
+  ['Fijian','Vosa Vakaviti','🇫🇯','Fiji'],
+  ['Chamorro','Chamoru','🇬🇺','Guam'],
+  ['Palauan','Belau','🇵🇼','Palau'],
+  ['Tlingit','Lingít','🇺🇸','Alaska'],
+  ['Haida','X̱aad Kil','🇨🇦','Canada'],
+  ['Nuxalk','Sm\'algya̱x','🇨🇦','Canada'],
+  ['LuleSami','Julevsámegiella','🇳🇴','Norway'],
+  ['Dhivehi','ދިވެހި','🇲🇻','Maldives'],
+  ['Aromanian','Armãneashce','🇷🇴','Balkans'],
+  ['Ladino','Ladino','🇹🇷','Eastern Mediterranean'],
+  ['Sicilian','Sicilianu','🇮🇹','Italy'],
+  ['Galician','Galego','🇪🇸','Spain'],
+  ['Friulian','Furlan','🇮🇹','Italy'],
+  ['FrancoProvençal','Arpitan','🇫🇷','France'],
+  ['SaterlandFrisian','Seeltersk','🇩🇪','Germany'],
+  ['Yoruba','Yorùbá','🇳🇬','Nigeria'],
+  ['Igbo','Igbo','🇳🇬','Nigeria'],
+  ['Ewe','Eʋegbe','🇬🇭','Ghana'],
+  ['Wolof','Wolof','🇸🇳','Senegal'],
+  ['Kinyarwanda','Kinyarwanda','🇷🇼','Rwanda'],
+  ['Akan','Twi','🇬🇭','Ghana'],
+  ['Shona','ChiShona','🇿🇼','Zimbabwe'],
+  ['Xhosa','isiXhosa','🇿🇦','South Africa'],
+  ['Zulu','isiZulu','🇿🇦','South Africa'],
+  ['Afrikaans','Afrikaans','🇿🇦','South Africa'],
+  ['Kurdish','Kurdî','🇹🇷','Turkey'],
+  ['Sorbian','Serbsce','🇩🇪','Germany'],
+  ['Czech','Čeština','🇨🇿','Czech Republic'],
+  ['Slovak','Slovenčina','🇸🇰','Slovakia'],
+  ['Slovene','Slovenščina','🇸🇮','Slovenia'],
+  ['Maltese','Malti','🇲🇹','Malta'],
+  ['Aragonese','Aragonés','🇪🇸','Spain'],
+  ['Asturian','Asturianu','🇪🇸','Spain'],
+  ['Mingrelian','მარგალური','🇬🇪','Georgia'],
+  ['Tatar','Tatarça','🇷🇺','Russia'],
+  ['KuwaitiPersian','فارسی کویتی','🇰🇼','Kuwait'],
+  ['Bashkir','Башҡортса','🇷🇺','Russia'],
+  ['Yakut','Саха тыла','🇷🇺','Russia'],
+  ['Chechen','Нохчийн мотт','🇷🇺','Russia'],
+  ['Aymara','Aymar aru','🇧🇴','Bolivia'],
+  ['Basay','Basay','🇹🇼','Taiwan'],
+  ['SakhalinAinu','アイヌ イタク','🇷🇺','Russia'],
+  ['SamiInari','Anarâškielâ','🇫🇮','Finland'],
+  ['Pomo','Pomo','🇺🇸','USA'],
+  ['Mayan','Maya','🇲🇽','Mexico'],
+  ['Tzotzil','Batsʼil kʼop','🇲🇽','Mexico'],
+  ['Zapotec','Diidxazá','🇲🇽','Mexico'],
+  ['Mixe','Teej Makom','🇲🇽','Mexico'],
+  ['CherokeeSyllabary','ᏣᎳᎩ','🇺🇸','USA'],
+  ['Sundanese','Basa Sunda','🇮🇩','Indonesia'],
+  ['Balinese','Basa Bali','🇮🇩','Indonesia'],
+  ['RapaNui','Rapa Nui','🇨🇱','Easter Island'],
+  ['Saramaccan','Saramaka','🇸🇷','Suriname'],
+  ['AkanFante','Fante','🇬🇭','Ghana'],
+  ['Miwok','Miwu','🇺🇸','USA'],
+  ['Salish','nsyilxcən','🇨🇦','Canada'],
+  ['Hupa','Natinixwe','🇺🇸','USA'],
+  ['Udmurt','удмурт кыл','🇷🇺','Russia'],
+  ['Mari','марий йылме','🇷🇺','Russia'],
+  ['Komi','коми кыв','🇷🇺','Russia'],
+  ['Tibetan','བོད་ཡིག','🇨🇳','Tibet'],
+  ['Zazaki','Zazakî','🇹🇷','Turkey'],
+  ['Chepang','Chepang','🇳🇵','Nepal'],
+  ['Rombo','Kihorombo','🇹🇿','Tanzania'],
+  ['Naro','Naro','🇧🇼','Botswana']
+];
+
+const defaults = {
+  title: 'Revive Language',
+  native: '',
+  flag: '🌍',
+  region: 'Worldwide'
+};
+
+const speechLangCodeMap = {
+  Irish:'ga-IE', Welsh:'cy-GB', Ainu:'ja-JP', TerSami:'fi-FI', Manchu:'zh-CN',
+  Picard:'fr-FR', LowSaxon:'de-DE', Gondi:'hi-IN', Tatar:'ru-RU', KuwaitiPersian:'fa-IR',
+  Navajo:'en-US', Cherokee:'en-US', Ojibwe:'en-US', Lakota:'en-US', Japanese:'ja-JP',
+  Chinese:'zh-CN', Spanish:'es-ES', French:'fr-FR', Italian:'it-IT', Portuguese:'pt-PT',
+  Russian:'ru-RU', Korean:'ko-KR'
+};
+
+const speechVoiceMap = {
+  Irish:['google ireland','ga-IE','irish','karl','tessa'],
+  Welsh:['google wales','cy-GB','welsh','daniel'],
+  Ainu:['google japanese','ja-JP','kyoko','hikari','takumi'],
+  TerSami:['google finnish','fi-FI','finnish','se'],
+  Manchu:['google chinese','zh-CN','mandarin'],
+  Picard:['google french','fr-FR','french','pierre','nicolas'],
+  LowSaxon:['german','de-DE','niederdeutsch','nds'],
+  Gondi:['google hindi','hi-IN','hindi','indian'],
+  Tatar:['google russian','ru-RU','tatar','tt'],
+  KuwaitiPersian:['google persian','fa-IR','persian'],
+  Navajo:['en-US','english','us'],
+  Cherokee:['en-US','english','us'],
+  Ojibwe:['en-US','english','us'],
+  Lakota:['en-US','english','us'],
+  Japanese:['ja-JP','japanese','kyoko'],
+  Chinese:['zh-CN','chinese','mandarin'],
+  Spanish:['es-ES','spanish','castilian'],
+  French:['fr-FR','french','français'],
+  Italian:['it-IT','italian'],
+  Portuguese:['pt-PT','portuguese'],
+  Russian:['ru-RU','russian'],
+  Korean:['ko-KR','korean']
+};
+
+const speechVoiceFallbacks = {
+  Irish:['ga-IE','en-IE','en-GB'],
+  Welsh:['cy-GB','en-GB'],
+  Ainu:['ja-JP','en-JP'],
+  TerSami:['fi-FI','se-FI','en-GB'],
+  Manchu:['zh-CN','zh'],
+  Picard:['fr-FR','fr'],
+  LowSaxon:['de-DE','de'],
+  Gondi:['hi-IN','hi'],
+  Tatar:['ru-RU','tt-RU','ru'],
+  KuwaitiPersian:['fa-IR','fa','ar-SA'],
+  Navajo:['en-US','en-GB'],
+  Cherokee:['en-US','en-GB'],
+  Ojibwe:['en-US','en-GB'],
+  Lakota:['en-US','en-GB'],
+  Japanese:['ja-JP','ja'],
+  Chinese:['zh-CN','zh'],
+  Spanish:['es-ES','es'],
+  French:['fr-FR','fr'],
+  Italian:['it-IT','it'],
+  Portuguese:['pt-PT','pt'],
+  Russian:['ru-RU','ru'],
+  Korean:['ko-KR','ko']
+};
+
+let availableSpeechVoices = [];
+function loadSpeechVoices() {
+  availableSpeechVoices = window.speechSynthesis.getVoices();
+}
+loadSpeechVoices();
+if (window.speechSynthesis.onvoiceschanged !== undefined) {
+  window.speechSynthesis.onvoiceschanged = loadSpeechVoices;
+}
+
+function getBestSpeechVoice(language) {
+  if (!availableSpeechVoices.length) availableSpeechVoices = window.speechSynthesis.getVoices();
+  const langCode = speechLangCodeMap[language] || language.toLowerCase();
+  const exact = availableSpeechVoices.filter(v => v.lang && v.lang.toLowerCase().startsWith(langCode.toLowerCase()));
+  if (exact.length) return exact[0];
+  const prefNames = speechVoiceMap[language] || [];
+  for (const name of prefNames) {
+    const voice = availableSpeechVoices.find(v => v.name && v.name.toLowerCase().includes(name.toLowerCase()));
+    if (voice) return voice;
+  }
+  const fallbackCodes = speechVoiceFallbacks[language] || [];
+  for (const code of fallbackCodes) {
+    const voice = availableSpeechVoices.find(v => v.lang && v.lang.toLowerCase().startsWith(code.toLowerCase()));
+    if (voice) return voice;
+  }
+  return availableSpeechVoices.find(v => v.lang && v.lang.toLowerCase().startsWith('en')) || availableSpeechVoices[0] || null;
+}
+
+function getAvailableSpeechVoices(language) {
+  if (!availableSpeechVoices.length) availableSpeechVoices = window.speechSynthesis.getVoices();
+  const langCode = speechLangCodeMap[language] || language.toLowerCase();
+  const exact = availableSpeechVoices.filter(v => v.lang && v.lang.toLowerCase().startsWith(langCode.toLowerCase()));
+  if (exact.length) return exact;
+
+  const prefNames = speechVoiceMap[language] || [];
+  for (const name of prefNames) {
+    const matches = availableSpeechVoices.filter(v => v.name && v.name.toLowerCase().includes(name.toLowerCase()));
+    if (matches.length) return matches;
+  }
+
+  const fallbackCodes = speechVoiceFallbacks[language] || [];
+  let results = [];
+  for (const code of fallbackCodes) {
+    results = results.concat(availableSpeechVoices.filter(v => v.lang && v.lang.toLowerCase().startsWith(code.toLowerCase())));
+  }
+  if (results.length) return results;
+
+  return availableSpeechVoices;
+}
+
+let selectedSpeechVoiceName = null;
+
+function renderVoiceSelector(language) {
+  const container = document.getElementById('voiceSelectorContainer');
+  if (!container) return;
+  const voices = getAvailableSpeechVoices(language);
+  if (!voices.length) {
+    container.innerHTML = '<em>No speech voices found for this language.</em>';
+    return;
+  }
+
+  const options = voices.map((voice, index) => {
+    const selected = voice.name === selectedSpeechVoiceName ? ' selected' : '';
+    return `<option value="${voice.name}"${selected}>${voice.name} (${voice.lang})</option>`;
+  }).join('');
+
+  container.innerHTML = `
+    <label style="display:block; font-weight:600; margin-bottom:.4rem;">Choose a voice for ${language}:</label>
+    <select id="voiceSelect" style="width:100%; padding:.75rem; border:1px solid var(--border); border-radius:12px; background:white;">
+      ${options}
+    </select>
+  `;
+
+  const select = document.getElementById('voiceSelect');
+  select.onchange = () => {
+    selectedSpeechVoiceName = select.value;
+  };
+}
+
+function getSelectedSpeechVoice(language) {
+  const voices = getAvailableSpeechVoices(language);
+  if (selectedSpeechVoiceName) {
+    const forced = voices.find(v => v.name === selectedSpeechVoiceName);
+    if (forced) return forced;
+  }
+  return getBestSpeechVoice(language);
+}
+
+function getQueryParam(name) {
+  const params = new URLSearchParams(window.location.search);
+  return params.get(name);
+}
+
+function createLanguageObject(entry) {
+  return {
+    key: entry[0],
+    name: entry[0],
+    native: entry[1],
+    flag: entry[2],
+    region: entry[3]
+  };
+}
+
+const languageData = languageProfiles.map(createLanguageObject);
+
+function findLanguage(key) {
+  return languageData.find(l => l.key.toLowerCase() === key.toLowerCase()) || null;
+}
+
+function getCurrentIndex(key) {
+  const index = languageData.findIndex(l => l.key.toLowerCase() === key.toLowerCase());
+  return index === -1 ? 0 : index;
+}
+
+function openLanguageWindow(key) {
+  window.open(`language.html?lang=${encodeURIComponent(key)}`, '_blank', 'noopener');
+}
+
+const realLanguages = ['Irish', 'Welsh', 'Ainu', 'TerSami', 'Manchu', 'Picard', 'LowSaxon', 'Gondi', 'German', 'Japanese', 'Chinese', 'Spanish', 'French', 'Italian', 'Portuguese', 'Russian', 'Korean', 'Tatar', 'Navajo', 'Cherokee', 'Ojibwe', 'Lakota', 'KuwaitiPersian'];
+
+function generateLanguageCourse(lang) {
+  if (!realLanguages.includes(lang)) return null;
+  
+  const courses = {
+    Irish: { units: [{ name: 'Basics', icon: '🍀', lessons: [{ word: 'Dia duit', translit: '', meaning: 'Hello' }, { word: 'Go raibh maith agat', translit: '', meaning: 'Thank you' }, { word: 'Tá', translit: '', meaning: 'Yes' }, { word: 'Níl', translit: '', meaning: 'No' }, { word: 'Conas atá tú?', translit: '', meaning: 'How are you?' }, { word: 'Oíche mhaith', translit: '', meaning: 'Good night' }] }, { name: 'Travel', icon: '🧭', lessons: [{ word: 'Fáilte', translit: '', meaning: 'Welcome' }, { word: 'Le do thoil', translit: '', meaning: 'Please' }, { word: 'Gabh mo leithscéal', translit: '', meaning: 'Excuse me' }, { word: 'Slán', translit: '', meaning: 'Goodbye' }, { word: 'Cén t-am é?', translit: '', meaning: 'What time is it?' }, { word: 'An bhfuil tú ceart go leor?', translit: '', meaning: 'Are you okay?' }] }, { name: 'Food & Drink', icon: '🍽️', lessons: [{ word: 'Bia', translit: '', meaning: 'Food' }, { word: 'Uisce', translit: '', meaning: 'Water' }, { word: 'Tae', translit: '', meaning: 'Tea' }, { word: 'Café', translit: '', meaning: 'Coffee' }, { word: 'Arán', translit: '', meaning: 'Bread' }, { word: 'Feoil', translit: '', meaning: 'Meat' }, { word: 'Úll', translit: '', meaning: 'Apple' }, { word: 'Bainne', translit: '', meaning: 'Milk' }, { word: 'Cáis', translit: '', meaning: 'Cheese' }] }, { name: 'Family', icon: '👨‍👩‍👧‍👦', lessons: [{ word: 'Máthair', translit: '', meaning: 'Mother' }, { word: 'Athair', translit: '', meaning: 'Father' }, { word: 'Deirfiúr', translit: '', meaning: 'Sister' }, { word: 'Deartháir', translit: '', meaning: 'Brother' }, { word: 'Seanmháthair', translit: '', meaning: 'Grandmother' }, { word: 'Seanathair', translit: '', meaning: 'Grandfather' }, { word: 'Iníon', translit: '', meaning: 'Daughter' }, { word: 'Mac', translit: '', meaning: 'Son' }] }, { name: 'Numbers', icon: '🔢', lessons: [{ word: 'Aon', translit: '', meaning: 'One' }, { word: 'Dó', translit: '', meaning: 'Two' }, { word: 'Trí', translit: '', meaning: 'Three' }, { word: 'Ceathair', translit: '', meaning: 'Four' }, { word: 'Cúig', translit: '', meaning: 'Five' }, { word: 'Sé', translit: '', meaning: 'Six' }, { word: 'Seacht', translit: '', meaning: 'Seven' }, { word: 'Ocht', translit: '', meaning: 'Eight' }] }, { name: 'Colors', icon: '🎨', lessons: [{ word: 'Dearg', translit: '', meaning: 'Red' }, { word: 'Gorm', translit: '', meaning: 'Blue' }, { word: 'Buí', translit: '', meaning: 'Yellow' }, { word: 'Glas', translit: '', meaning: 'Green' }, { word: 'Dubh', translit: '', meaning: 'Black' }, { word: 'Bán', translit: '', meaning: 'White' }, { word: 'Oráiste', translit: '', meaning: 'Orange' }, { word: 'Corcra', translit: '', meaning: 'Purple' }] }, { name: 'Time', icon: '⏰', lessons: [{ word: 'Anocht', translit: '', meaning: 'Tonight' }, { word: 'Amárach', translit: '', meaning: 'Tomorrow' }, { word: 'Inné', translit: '', meaning: 'Yesterday' }, { word: 'Seachtain', translit: '', meaning: 'Week' }, { word: 'Mí', translit: '', meaning: 'Month' }, { word: 'Bliain', translit: '', meaning: 'Year' }] }] },
+    Welsh: { units: [{ name: 'Basics', icon: '🏴', lessons: [{ word: 'Helo', translit: '', meaning: 'Hello' }, { word: 'Diolch', translit: '', meaning: 'Thank you' }, { word: 'Ie', translit: '', meaning: 'Yes' }, { word: 'Nage', translit: '', meaning: 'No' }, { word: 'Sut wyt ti?', translit: '', meaning: 'How are you?' }, { word: 'Nos da', translit: '', meaning: 'Good night' }] }, { name: 'Travel', icon: '🧳', lessons: [{ word: 'Croeso', translit: '', meaning: 'Welcome' }, { word: 'Os gwelwch yn dda', translit: '', meaning: 'Please' }, { word: 'Esgusodwch fi', translit: '', meaning: 'Excuse me' }, { word: 'Hwyl fawr', translit: '', meaning: 'Goodbye' }, { word: 'Faint o\'r gloch yw hi?', translit: '', meaning: 'What time is it?' }, { word: 'Ydych chi\'n iawn?', translit: '', meaning: 'Are you okay?' }] }, { name: 'Food & Drink', icon: '🍽️', lessons: [{ word: 'Bwyd', translit: '', meaning: 'Food' }, { word: 'Dŵr', translit: '', meaning: 'Water' }, { word: 'Te', translit: '', meaning: 'Tea' }, { word: 'Coffi', translit: '', meaning: 'Coffee' }, { word: 'Bara', translit: '', meaning: 'Bread' }, { word: 'Cig', translit: '', meaning: 'Meat' }, { word: 'Afal', translit: '', meaning: 'Apple' }, { word: 'Llaeth', translit: '', meaning: 'Milk' }, { word: 'Caws', translit: '', meaning: 'Cheese' }] }, { name: 'Family', icon: '👨‍👩‍👧‍👦', lessons: [{ word: 'Mam', translit: '', meaning: 'Mother' }, { word: 'Tad', translit: '', meaning: 'Father' }, { word: 'Chwaer', translit: '', meaning: 'Sister' }, { word: 'Brawd', translit: '', meaning: 'Brother' }, { word: 'Mam-gu', translit: '', meaning: 'Grandmother' }, { word: 'Tad-cu', translit: '', meaning: 'Grandfather' }, { word: 'Merch', translit: '', meaning: 'Daughter' }, { word: 'Mab', translit: '', meaning: 'Son' }] }, { name: 'Numbers', icon: '🔢', lessons: [{ word: 'Un', translit: '', meaning: 'One' }, { word: 'Dau', translit: '', meaning: 'Two' }, { word: 'Tri', translit: '', meaning: 'Three' }, { word: 'Pedwar', translit: '', meaning: 'Four' }, { word: 'Pump', translit: '', meaning: 'Five' }, { word: 'Chwech', translit: '', meaning: 'Six' }, { word: 'Saith', translit: '', meaning: 'Seven' }, { word: 'Wyth', translit: '', meaning: 'Eight' }] }, { name: 'Colors', icon: '🎨', lessons: [{ word: 'Coch', translit: '', meaning: 'Red' }, { word: 'Glas', translit: '', meaning: 'Blue' }, { word: 'Melyn', translit: '', meaning: 'Yellow' }, { word: 'Gwyrdd', translit: '', meaning: 'Green' }, { word: 'Du', translit: '', meaning: 'Black' }, { word: 'Gwyn', translit: '', meaning: 'White' }, { word: 'Oren', translit: '', meaning: 'Orange' }, { word: 'Piws', translit: '', meaning: 'Purple' }] }, { name: 'Time', icon: '⏰', lessons: [{ word: 'Heno', translit: '', meaning: 'Tonight' }, { word: 'Yfory', translit: '', meaning: 'Tomorrow' }, { word: 'Ddoe', translit: '', meaning: 'Yesterday' }, { word: 'Wythnos', translit: '', meaning: 'Week' }, { word: 'Mis', translit: '', meaning: 'Month' }, { word: 'Blwyddyn', translit: '', meaning: 'Year' }] }] },
+    Spanish: { units: [{ name: 'Basics', icon: '¡Hola!', lessons: [{ word: 'Hola', translit: '', meaning: 'Hello' }, { word: 'Gracias', translit: '', meaning: 'Thank you' }, { word: 'Sí', translit: '', meaning: 'Yes' }, { word: 'No', translit: '', meaning: 'No' }, { word: '¿Cómo estás?', translit: '', meaning: 'How are you?' }, { word: 'Buenas noches', translit: '', meaning: 'Good night' }] }, { name: 'Travel', icon: '🧭', lessons: [{ word: 'De nada', translit: '', meaning: 'You\'re welcome' }, { word: 'Por favor', translit: '', meaning: 'Please' }, { word: 'Disculpe', translit: '', meaning: 'Excuse me' }, { word: 'Adiós', translit: '', meaning: 'Goodbye' }, { word: '¿Qué hora es?', translit: '', meaning: 'What time is it?' }, { word: '¿Estás bien?', translit: '', meaning: 'Are you okay?' }] }, { name: 'Food & Drink', icon: '🍽️', lessons: [{ word: 'Comida', translit: '', meaning: 'Food' }, { word: 'Agua', translit: '', meaning: 'Water' }, { word: 'Té', translit: '', meaning: 'Tea' }, { word: 'Café', translit: '', meaning: 'Coffee' }, { word: 'Pan', translit: '', meaning: 'Bread' }, { word: 'Carne', translit: '', meaning: 'Meat' }] }, { name: 'Family', icon: '👨‍👩‍👧‍👦', lessons: [{ word: 'Madre', translit: '', meaning: 'Mother' }, { word: 'Padre', translit: '', meaning: 'Father' }, { word: 'Hermana', translit: '', meaning: 'Sister' }, { word: 'Hermano', translit: '', meaning: 'Brother' }, { word: 'Abuela', translit: '', meaning: 'Grandmother' }, { word: 'Abuelo', translit: '', meaning: 'Grandfather' }] }, { name: 'Numbers', icon: '🔢', lessons: [{ word: 'Uno', translit: '', meaning: 'One' }, { word: 'Dos', translit: '', meaning: 'Two' }, { word: 'Tres', translit: '', meaning: 'Three' }, { word: 'Cuatro', translit: '', meaning: 'Four' }, { word: 'Cinco', translit: '', meaning: 'Five' }, { word: 'Seis', translit: '', meaning: 'Six' }] }, { name: 'Colors', icon: '🎨', lessons: [{ word: 'Rojo', translit: '', meaning: 'Red' }, { word: 'Azul', translit: '', meaning: 'Blue' }, { word: 'Amarillo', translit: '', meaning: 'Yellow' }, { word: 'Verde', translit: '', meaning: 'Green' }, { word: 'Negro', translit: '', meaning: 'Black' }, { word: 'Blanco', translit: '', meaning: 'White' }] }] },
+    French: { units: [{ name: 'Basics', icon: 'Bonjour', lessons: [{ word: 'Bonjour', translit: '', meaning: 'Hello' }, { word: 'Merci', translit: '', meaning: 'Thank you' }, { word: 'Oui', translit: '', meaning: 'Yes' }, { word: 'Non', translit: '', meaning: 'No' }, { word: 'Comment allez-vous?', translit: '', meaning: 'How are you?' }, { word: 'Bonsoir', translit: '', meaning: 'Good evening' }] }, { name: 'Travel', icon: '🧳', lessons: [{ word: 'De rien', translit: '', meaning: 'You\'re welcome' }, { word: 'S\'il vous plaît', translit: '', meaning: 'Please' }, { word: 'Excusez-moi', translit: '', meaning: 'Excuse me' }, { word: 'Au revoir', translit: '', meaning: 'Goodbye' }, { word: 'Quelle heure est-il?', translit: '', meaning: 'What time is it?' }, { word: 'Ça va?', translit: '', meaning: 'Are you okay?' }] }, { name: 'Food & Drink', icon: '🍽️', lessons: [{ word: 'Nourriture', translit: '', meaning: 'Food' }, { word: 'Eau', translit: '', meaning: 'Water' }, { word: 'Thé', translit: '', meaning: 'Tea' }, { word: 'Café', translit: '', meaning: 'Coffee' }, { word: 'Pain', translit: '', meaning: 'Bread' }, { word: 'Viande', translit: '', meaning: 'Meat' }] }, { name: 'Family', icon: '👨‍👩‍👧‍👦', lessons: [{ word: 'Mère', translit: '', meaning: 'Mother' }, { word: 'Père', translit: '', meaning: 'Father' }, { word: 'Sœur', translit: '', meaning: 'Sister' }, { word: 'Frère', translit: '', meaning: 'Brother' }, { word: 'Grand-mère', translit: '', meaning: 'Grandmother' }, { word: 'Grand-père', translit: '', meaning: 'Grandfather' }] }, { name: 'Numbers', icon: '🔢', lessons: [{ word: 'Un', translit: '', meaning: 'One' }, { word: 'Deux', translit: '', meaning: 'Two' }, { word: 'Trois', translit: '', meaning: 'Three' }, { word: 'Quatre', translit: '', meaning: 'Four' }, { word: 'Cinq', translit: '', meaning: 'Five' }, { word: 'Six', translit: '', meaning: 'Six' }] }, { name: 'Colors', icon: '🎨', lessons: [{ word: 'Rouge', translit: '', meaning: 'Red' }, { word: 'Bleu', translit: '', meaning: 'Blue' }, { word: 'Jaune', translit: '', meaning: 'Yellow' }, { word: 'Vert', translit: '', meaning: 'Green' }, { word: 'Noir', translit: '', meaning: 'Black' }, { word: 'Blanc', translit: '', meaning: 'White' }] }] },
+    German: { units: [{ name: 'Basics', icon: '🛡️', lessons: [{ word: 'Hallo', translit: '', meaning: 'Hello' }, { word: 'Danke', translit: '', meaning: 'Thank you' }, { word: 'Ja', translit: '', meaning: 'Yes' }, { word: 'Nein', translit: '', meaning: 'No' }, { word: 'Wie geht es dir?', translit: '', meaning: 'How are you?' }, { word: 'Gute Nacht', translit: '', meaning: 'Good night' }] }, { name: 'Food & Drink', icon: '🍽️', lessons: [{ word: 'Essen', translit: '', meaning: 'Food' }, { word: 'Wasser', translit: '', meaning: 'Water' }, { word: 'Tee', translit: '', meaning: 'Tea' }, { word: 'Kaffee', translit: '', meaning: 'Coffee' }, { word: 'Brot', translit: '', meaning: 'Bread' }, { word: 'Fleisch', translit: '', meaning: 'Meat' }] }, { name: 'Family', icon: '👨‍👩‍👧‍👦', lessons: [{ word: 'Mutter', translit: '', meaning: 'Mother' }, { word: 'Vater', translit: '', meaning: 'Father' }, { word: 'Schwester', translit: '', meaning: 'Sister' }, { word: 'Bruder', translit: '', meaning: 'Brother' }, { word: 'Großmutter', translit: '', meaning: 'Grandmother' }, { word: 'Großvater', translit: '', meaning: 'Grandfather' }] }, { name: 'Numbers', icon: '🔢', lessons: [{ word: 'Eins', translit: '', meaning: 'One' }, { word: 'Zwei', translit: '', meaning: 'Two' }, { word: 'Drei', translit: '', meaning: 'Three' }, { word: 'Vier', translit: '', meaning: 'Four' }, { word: 'Fünf', translit: '', meaning: 'Five' }, { word: 'Sechs', translit: '', meaning: 'Six' }] }, { name: 'Colors', icon: '🎨', lessons: [{ word: 'Rot', translit: '', meaning: 'Red' }, { word: 'Blau', translit: '', meaning: 'Blue' }, { word: 'Gelb', translit: '', meaning: 'Yellow' }, { word: 'Grün', translit: '', meaning: 'Green' }, { word: 'Schwarz', translit: '', meaning: 'Black' }, { word: 'Weiß', translit: '', meaning: 'White' }] }] },
+    Italian: { units: [{ name: 'Basics', icon: 'Ciao', lessons: [{ word: 'Ciao', translit: '', meaning: 'Hello' }, { word: 'Grazie', translit: '', meaning: 'Thank you' }, { word: 'Sì', translit: '', meaning: 'Yes' }, { word: 'No', translit: '', meaning: 'No' }, { word: 'Come stai?', translit: '', meaning: 'How are you?' }, { word: 'Buona notte', translit: '', meaning: 'Good night' }] }, { name: 'Food & Drink', icon: '🍽️', lessons: [{ word: 'Cibo', translit: '', meaning: 'Food' }, { word: 'Acqua', translit: '', meaning: 'Water' }, { word: 'Tè', translit: '', meaning: 'Tea' }, { word: 'Caffè', translit: '', meaning: 'Coffee' }, { word: 'Pane', translit: '', meaning: 'Bread' }, { word: 'Carne', translit: '', meaning: 'Meat' }] }, { name: 'Family', icon: '👨‍👩‍👧‍👦', lessons: [{ word: 'Madre', translit: '', meaning: 'Mother' }, { word: 'Padre', translit: '', meaning: 'Father' }, { word: 'Sorella', translit: '', meaning: 'Sister' }, { word: 'Fratello', translit: '', meaning: 'Brother' }, { word: 'Nonna', translit: '', meaning: 'Grandmother' }, { word: 'Nonno', translit: '', meaning: 'Grandfather' }] }, { name: 'Numbers', icon: '🔢', lessons: [{ word: 'Uno', translit: '', meaning: 'One' }, { word: 'Due', translit: '', meaning: 'Two' }, { word: 'Tre', translit: '', meaning: 'Three' }, { word: 'Quattro', translit: '', meaning: 'Four' }, { word: 'Cinque', translit: '', meaning: 'Five' }, { word: 'Sei', translit: '', meaning: 'Six' }] }, { name: 'Colors', icon: '🎨', lessons: [{ word: 'Rosso', translit: '', meaning: 'Red' }, { word: 'Blu', translit: '', meaning: 'Blue' }, { word: 'Giallo', translit: '', meaning: 'Yellow' }, { word: 'Verde', translit: '', meaning: 'Green' }, { word: 'Nero', translit: '', meaning: 'Black' }, { word: 'Bianco', translit: '', meaning: 'White' }] }] },
+    Portuguese: { units: [{ name: 'Basics', icon: 'Olá', lessons: [{ word: 'Olá', translit: '', meaning: 'Hello' }, { word: 'Obrigado', translit: '', meaning: 'Thank you' }, { word: 'Sim', translit: '', meaning: 'Yes' }, { word: 'Não', translit: '', meaning: 'No' }, { word: 'Como você está?', translit: '', meaning: 'How are you?' }, { word: 'Boa noite', translit: '', meaning: 'Good night' }] }, { name: 'Food & Drink', icon: '🍽️', lessons: [{ word: 'Comida', translit: '', meaning: 'Food' }, { word: 'Água', translit: '', meaning: 'Water' }, { word: 'Chá', translit: '', meaning: 'Tea' }, { word: 'Café', translit: '', meaning: 'Coffee' }, { word: 'Pão', translit: '', meaning: 'Bread' }, { word: 'Carne', translit: '', meaning: 'Meat' }] }, { name: 'Family', icon: '👨‍👩‍👧‍👦', lessons: [{ word: 'Mãe', translit: '', meaning: 'Mother' }, { word: 'Pai', translit: '', meaning: 'Father' }, { word: 'Irmã', translit: '', meaning: 'Sister' }, { word: 'Irmão', translit: '', meaning: 'Brother' }, { word: 'Avó', translit: '', meaning: 'Grandmother' }, { word: 'Avô', translit: '', meaning: 'Grandfather' }] }, { name: 'Numbers', icon: '🔢', lessons: [{ word: 'Um', translit: '', meaning: 'One' }, { word: 'Dois', translit: '', meaning: 'Two' }, { word: 'Três', translit: '', meaning: 'Three' }, { word: 'Quatro', translit: '', meaning: 'Four' }, { word: 'Cinco', translit: '', meaning: 'Five' }, { word: 'Seis', translit: '', meaning: 'Six' }] }, { name: 'Colors', icon: '🎨', lessons: [{ word: 'Vermelho', translit: '', meaning: 'Red' }, { word: 'Azul', translit: '', meaning: 'Blue' }, { word: 'Amarelo', translit: '', meaning: 'Yellow' }, { word: 'Verde', translit: '', meaning: 'Green' }, { word: 'Preto', translit: '', meaning: 'Black' }, { word: 'Branco', translit: '', meaning: 'White' }] }] },
+    Russian: { units: [{ name: 'Basics', icon: 'Привет', lessons: [{ word: 'Привет', translit: 'privet', meaning: 'Hello' }, { word: 'Спасибо', translit: 'spasibo', meaning: 'Thank you' }, { word: 'Да', translit: 'da', meaning: 'Yes' }, { word: 'Нет', translit: 'net', meaning: 'No' }, { word: 'Как дела?', translit: 'kak dela', meaning: 'How are you?' }, { word: 'Спокойной ночи', translit: 'spokoynoy nochi', meaning: 'Good night' }] }, { name: 'Food & Drink', icon: '🍽️', lessons: [{ word: 'Еда', translit: 'yeda', meaning: 'Food' }, { word: 'Вода', translit: 'voda', meaning: 'Water' }, { word: 'Чай', translit: 'chay', meaning: 'Tea' }, { word: 'Кофе', translit: 'kofe', meaning: 'Coffee' }, { word: 'Хлеб', translit: 'khleb', meaning: 'Bread' }, { word: 'Мясо', translit: 'myaso', meaning: 'Meat' }] }, { name: 'Family', icon: '👨‍👩‍👧‍👦', lessons: [{ word: 'Мать', translit: 'mat', meaning: 'Mother' }, { word: 'Отец', translit: 'otets', meaning: 'Father' }, { word: 'Сестра', translit: 'sestra', meaning: 'Sister' }, { word: 'Брат', translit: 'brat', meaning: 'Brother' }, { word: 'Бабушка', translit: 'babushka', meaning: 'Grandmother' }, { word: 'Дедушка', translit: 'dedushka', meaning: 'Grandfather' }] }, { name: 'Numbers', icon: '🔢', lessons: [{ word: 'Один', translit: 'odin', meaning: 'One' }, { word: 'Два', translit: 'dva', meaning: 'Two' }, { word: 'Три', translit: 'tri', meaning: 'Three' }, { word: 'Четыре', translit: 'chetyre', meaning: 'Four' }, { word: 'Пять', translit: 'pyat', meaning: 'Five' }, { word: 'Шесть', translit: 'shest', meaning: 'Six' }] }, { name: 'Colors', icon: '🎨', lessons: [{ word: 'Красный', translit: 'krasnyy', meaning: 'Red' }, { word: 'Синий', translit: 'siniy', meaning: 'Blue' }, { word: 'Желтый', translit: 'zheltyy', meaning: 'Yellow' }, { word: 'Зеленый', translit: 'zelenyy', meaning: 'Green' }, { word: 'Черный', translit: 'chernyy', meaning: 'Black' }, { word: 'Белый', translit: 'belyy', meaning: 'White' }] }] },
+    Korean: { units: [{ name: 'Basics', icon: '안녕', lessons: [{ word: '안녕하세요', translit: 'annyeonghaseyo', meaning: 'Hello' }, { word: '감사합니다', translit: 'gamsahamnida', meaning: 'Thank you' }, { word: '네', translit: 'ne', meaning: 'Yes' }, { word: '아니요', translit: 'aniyo', meaning: 'No' }, { word: '어떻게 지내세요?', translit: 'eotteohke jinaeseyo', meaning: 'How are you?' }, { word: '안녕히 주무세요', translit: 'annyeonghi jumuseyo', meaning: 'Good night' }] }, { name: 'Food & Drink', icon: '🍽️', lessons: [{ word: '음식', translit: 'eumsik', meaning: 'Food' }, { word: '물', translit: 'mul', meaning: 'Water' }, { word: '차', translit: 'cha', meaning: 'Tea' }, { word: '커피', translit: 'keopi', meaning: 'Coffee' }, { word: '빵', translit: 'ppang', meaning: 'Bread' }, { word: '고기', translit: 'gogi', meaning: 'Meat' }] }, { name: 'Family', icon: '👨‍👩‍👧‍👦', lessons: [{ word: '어머니', translit: 'eomeoni', meaning: 'Mother' }, { word: '아버지', translit: 'abeoji', meaning: 'Father' }, { word: '누나', translit: 'nuna', meaning: 'Sister' }, { word: '형', translit: 'hyeong', meaning: 'Brother' }, { word: '할머니', translit: 'halmeoni', meaning: 'Grandmother' }, { word: '할아버지', translit: 'harabeoji', meaning: 'Grandfather' }] }, { name: 'Numbers', icon: '🔢', lessons: [{ word: '하나', translit: 'hana', meaning: 'One' }, { word: '둘', translit: 'dul', meaning: 'Two' }, { word: '셋', translit: 'set', meaning: 'Three' }, { word: '넷', translit: 'net', meaning: 'Four' }, { word: '다섯', translit: 'daseot', meaning: 'Five' }, { word: '여섯', translit: 'yeoseot', meaning: 'Six' }] }, { name: 'Colors', icon: '🎨', lessons: [{ word: '빨간색', translit: 'ppalgansaek', meaning: 'Red' }, { word: '파란색', translit: 'paransaek', meaning: 'Blue' }, { word: '노란색', translit: 'noransaek', meaning: 'Yellow' }, { word: '초록색', translit: 'choroksaek', meaning: 'Green' }, { word: '검은색', translit: 'geomeunsaek', meaning: 'Black' }, { word: '흰색', translit: 'huinsaek', meaning: 'White' }] }] },
+    Japanese: { units: [{ name: 'Basics', icon: '🎎', lessons: [{ word: 'こんにちは', translit: 'konnichiwa', meaning: 'Hello' }, { word: 'ありがとう', translit: 'arigatou', meaning: 'Thank you' }, { word: 'はい', translit: 'hai', meaning: 'Yes' }, { word: 'いいえ', translit: 'iie', meaning: 'No' }, { word: 'お元気ですか?', translit: 'genkidesuka', meaning: 'How are you?' }, { word: 'おやすみなさい', translit: 'oyasuminasai', meaning: 'Good night' }] }, { name: 'Food & Drink', icon: '🍽️', lessons: [{ word: '食べ物', translit: 'tabemono', meaning: 'Food' }, { word: '水', translit: 'mizu', meaning: 'Water' }, { word: 'お茶', translit: 'ocha', meaning: 'Tea' }, { word: 'コーヒー', translit: 'kōhī', meaning: 'Coffee' }, { word: 'パン', translit: 'pan', meaning: 'Bread' }, { word: '肉', translit: 'niku', meaning: 'Meat' }] }, { name: 'Family', icon: '👨‍👩‍👧‍👦', lessons: [{ word: '母', translit: 'haha', meaning: 'Mother' }, { word: '父', translit: 'chichi', meaning: 'Father' }, { word: '姉', translit: 'ane', meaning: 'Sister' }, { word: '兄', translit: 'ani', meaning: 'Brother' }, { word: '祖母', translit: 'sobo', meaning: 'Grandmother' }, { word: '祖父', translit: 'sofu', meaning: 'Grandfather' }] }, { name: 'Numbers', icon: '🔢', lessons: [{ word: '一', translit: 'ichi', meaning: 'One' }, { word: '二', translit: 'ni', meaning: 'Two' }, { word: '三', translit: 'san', meaning: 'Three' }, { word: '四', translit: 'yon', meaning: 'Four' }, { word: '五', translit: 'go', meaning: 'Five' }, { word: '六', translit: 'roku', meaning: 'Six' }] }, { name: 'Colors', icon: '🎨', lessons: [{ word: '赤', translit: 'aka', meaning: 'Red' }, { word: '青', translit: 'ao', meaning: 'Blue' }, { word: '黄', translit: 'ki', meaning: 'Yellow' }, { word: '緑', translit: 'midori', meaning: 'Green' }, { word: '黒', translit: 'kuro', meaning: 'Black' }, { word: '白', translit: 'shiro', meaning: 'White' }] }] },
+    Chinese: { units: [{ name: 'Basics', icon: '🐉', lessons: [{ word: '你好', translit: 'nǐ hǎo', meaning: 'Hello' }, { word: '谢谢', translit: 'xièxie', meaning: 'Thank you' }, { word: '是', translit: 'shì', meaning: 'Yes' }, { word: '不是', translit: 'búshi', meaning: 'No' }, { word: '你好吗?', translit: 'nǐ hǎo ma', meaning: 'How are you?' }, { word: '晚安', translit: 'wǎn\'ān', meaning: 'Good night' }] }, { name: 'Food & Drink', icon: '🍽️', lessons: [{ word: '食物', translit: 'shíwù', meaning: 'Food' }, { word: '水', translit: 'shuǐ', meaning: 'Water' }, { word: '茶', translit: 'chá', meaning: 'Tea' }, { word: '咖啡', translit: 'kāfēi', meaning: 'Coffee' }, { word: '面包', translit: 'miànbāo', meaning: 'Bread' }, { word: '肉', translit: 'ròu', meaning: 'Meat' }] }, { name: 'Family', icon: '👨‍👩‍👧‍👦', lessons: [{ word: '母亲', translit: 'mǔqīn', meaning: 'Mother' }, { word: '父亲', translit: 'fùqīn', meaning: 'Father' }, { word: '姐妹', translit: 'jiěmèi', meaning: 'Sister' }, { word: '兄弟', translit: 'xiōngdì', meaning: 'Brother' }, { word: '祖母', translit: 'zǔmǔ', meaning: 'Grandmother' }, { word: '祖父', translit: 'zǔfù', meaning: 'Grandfather' }] }, { name: 'Numbers', icon: '🔢', lessons: [{ word: '一', translit: 'yī', meaning: 'One' }, { word: '二', translit: 'èr', meaning: 'Two' }, { word: '三', translit: 'sān', meaning: 'Three' }, { word: '四', translit: 'sì', meaning: 'Four' }, { word: '五', translit: 'wǔ', meaning: 'Five' }, { word: '六', translit: 'liù', meaning: 'Six' }] }, { name: 'Colors', icon: '🎨', lessons: [{ word: '红色', translit: 'hóngsè', meaning: 'Red' }, { word: '蓝色', translit: 'lánsè', meaning: 'Blue' }, { word: '黄色', translit: 'huángsè', meaning: 'Yellow' }, { word: '绿色', translit: 'lǜsè', meaning: 'Green' }, { word: '黑色', translit: 'hēisè', meaning: 'Black' }, { word: '白色', translit: 'báisè', meaning: 'White' }] }] },
+    Ainu: { units: [{ name: 'Intro', icon: '🐻', lessons: [{ word: 'イランカラプテ', translit: '', meaning: 'Hello' }, { word: 'アィヌコタン', translit: '', meaning: 'Ainu' }, { word: 'アロー', translit: '', meaning: 'Yes' }, { word: 'オパ', translit: '', meaning: 'No' }, { word: 'ワーン', translit: '', meaning: 'Good' }, { word: 'シペ', translit: '', meaning: 'Mouth' }] }] },
+    TerSami: { units: [{ name: 'Start', icon: '❄️', lessons: [{ word: 'Buer', translit: '', meaning: 'Hello' }, { word: 'Kiitos', translit: '', meaning: 'Thank you' }, { word: 'Juo', translit: '', meaning: 'Yes' }, { word: 'Ii', translit: '', meaning: 'No' }, { word: 'Makkár?', translit: '', meaning: 'How are you?' }, { word: 'Oajvveguolle', translit: '', meaning: 'Good night' }] }] },
+    Manchu: {
+      units: [
+      { name: 'Foundations', icon: '🕊️', lessons: [
+        { word: 'ᠠᠲ ᠨᠢ', translit: 'at ni', meaning: 'Hello' },
+        { word: 'ᡪᠠᠠ ᡨᠣᡛᡝᡵᠭᡠ', translit: 'huwali', meaning: 'Thank you' },
+        { word: 'ᠪᡝ', translit: 'be', meaning: 'I' },
+        { word: 'ᠰᠤ', translit: 'su', meaning: 'Yes' },
+        { word: 'ᠰᠦᡘᡠ', translit: 'sugu', meaning: 'No' },
+        { word: 'ᡤᡳᠰᡠᠨ', translit: 'gisun', meaning: 'Language' }
+      ] },
+      { name: 'Everyday', icon: '🏠', lessons: [
+        { word: 'ᡤᡝᠯᡳ', translit: 'geli', meaning: 'Good' },
+        { word: 'ᠵᠠᠯᠠ', translit: 'jala', meaning: 'Eat' },
+        { word: 'ᠮᠠᠨᡠ', translit: 'manu', meaning: 'Water' },
+        { word: 'ᡤᡡᠰᡝ', translit: 'guse', meaning: 'Where' },
+        { word: 'ᡤᡝ ᠪᡠ', translit: 'ge bu', meaning: 'Please' },
+        { word: 'ᡩᡝ ᠪᡠ', translit: 'de bu', meaning: 'Thank you very much' }
+      ] },
+      { name: 'Food & Travel', icon: '🍜', lessons: [
+        { word: 'ᠵᠠᠯᠠ', translit: 'jala', meaning: 'to eat' },
+        { word: 'ᡤᡡᠰᡝ ᡥᡝ', translit: 'guse he', meaning: 'Where is it?' },
+        { word: 'ᡤᡝ ᠪᡠ', translit: 'ge bu', meaning: 'Please' },
+        { word: 'ᡤᡳ ᡨᠠ', translit: 'gi ta', meaning: 'How much?' }
+      ] },
+      { name: 'Numbers & Time', icon: '🕰️', lessons: [
+        { word: 'ᠠᠯᡝ', translit: 'ale', meaning: 'One' },
+        { word: 'ᠪᠠ', translit: 'ba', meaning: 'Two' },
+        { word: 'ᠰᡝᠨ', translit: 'sen', meaning: 'Three' },
+        { word: 'ᡤᡠᠨ ᡠᠷᡳ', translit: 'gun uri', meaning: 'What time?' }
+      ] }
+      ]
+    },
+    Picard: { units: [{ name: 'Basics', icon: '🥖', lessons: [{ word: 'Bonjor', translit: '', meaning: 'Hello' }, { word: 'Merci', translit: '', meaning: 'Thank you' }, { word: 'Ouai', translit: '', meaning: 'Yes' }, { word: 'Nan', translit: '', meaning: 'No' }, { word: 'Coment qu´tu va?', translit: '', meaning: 'How are you?' }, { word: 'Bone nuit', translit: '', meaning: 'Good night' }] }] },
+    LowSaxon: { units: [{ name: 'Basics', icon: '🌾', lessons: [{ word: 'Moin', translit: '', meaning: 'Hello' }, { word: 'Danke', translit: '', meaning: 'Thank you' }, { word: 'Ja', translit: '', meaning: 'Yes' }, { word: 'Nee', translit: '', meaning: 'No' }, { word: 'Wo gahn\'t di?', translit: '', meaning: 'How are you?' }, { word: 'Gute Nacht', translit: '', meaning: 'Good night' }] }] },
+    Gondi: { units: [{ name: 'Basics', icon: '🌿', lessons: [{ word: 'नमस्ते', translit: '', meaning: 'Hello' }, { word: 'धन्यवाद', translit: '', meaning: 'Thank you' }, { word: 'हा', translit: '', meaning: 'Yes' }, { word: 'ना', translit: '', meaning: 'No' }, { word: 'आप कैसे हो?', translit: '', meaning: 'How are you?' }, { word: 'शुभ रात्रि', translit: '', meaning: 'Good night' }] }] },
+    Tatar: { units: [{ name: 'Basics', icon: '🪶', lessons: [{ word: 'Isänmesez', translit: '', meaning: 'Hello' }, { word: 'Rähmät', translit: '', meaning: 'Thank you' }, { word: 'Äye', translit: '', meaning: 'Yes' }, { word: 'Yuq', translit: '', meaning: 'No' }, { word: 'Nihayät?', translit: '', meaning: 'How are you?' }, { word: 'Xäyerle kiç', translit: '', meaning: 'Good night' }] }] },
+    Navajo: { units: [{ name: 'Basics', icon: '🏜️', lessons: [{ word: 'Yáʼátʼééh', translit: '', meaning: 'Hello' }, { word: 'Ahéheeʼ', translit: '', meaning: 'Thank you' }, { word: 'Aooʼ', translit: '', meaning: 'Yes' }, { word: 'Dooda', translit: '', meaning: 'No' }, { word: 'Haash yinilyé?', translit: '', meaning: 'How are you?' }, { word: 'Hágoóneeʼ', translit: '', meaning: 'Goodbye' }] }] },
+    Cherokee: { units: [{ name: 'Basics', icon: '🪶', lessons: [{ word: 'ᎣᏏᏲ', translit: 'Osiyo', meaning: 'Hello' }, { word: 'ᎯᎠ', translit: 'Hia', meaning: 'Yes' }, { word: 'ᎥᎥ', translit: 'Vv', meaning: 'No' }, { word: 'ᎯᎠ ᎯᎳ?', translit: 'Hia hala?', meaning: 'How are you?' }, { word: 'ᏍᎦᎵ', translit: 'Sgali', meaning: 'Thank you' }, { word: 'ᎣᏏᏲ ᎤᎾᎵᎮᎵᏍᎩ', translit: 'Osiyo unalihelisgi', meaning: 'Nice to meet you' }] }] },
+    Ojibwe: { units: [{ name: 'Basics', icon: '🍁', lessons: [{ word: 'Boozhoo', translit: '', meaning: 'Hello' }, { word: 'Miigwech', translit: '', meaning: 'Thank you' }, { word: 'Eeyaa', translit: '', meaning: 'Yes' }, { word: 'Gaawiin', translit: '', meaning: 'No' }, { word: 'Aaniin ezhi-ayaayan?', translit: '', meaning: 'How are you?' }, { word: 'Gikinoo\'amaadiiwin', translit: '', meaning: 'Good education' }] }] },
+    Lakota: { units: [{ name: 'Basics', icon: '🪶', lessons: [{ word: 'Hau', translit: '', meaning: 'Hello' }, { word: 'Pilamaya', translit: '', meaning: 'Thank you' }, { word: 'Haa', translit: '', meaning: 'Yes' }, { word: 'Maȟpíya', translit: '', meaning: 'No' }, { word: 'Tókȟa wóyakapi?', translit: '', meaning: 'How are you?' }, { word: 'Hau mitákuye oyás’iŋ', translit: '', meaning: 'Hello everyone' }] }] },
+    KuwaitiPersian: { units: [{ name: 'Basics', icon: '🕌', lessons: [{ word: 'سلام', translit: 'salaam', meaning: 'Hello' }, { word: 'ممنون', translit: 'mamnoon', meaning: 'Thank you' }, { word: 'بله', translit: 'bale', meaning: 'Yes' }, { word: 'نه', translit: 'na', meaning: 'No' }, { word: 'حالت چطوره؟', translit: 'haalet chetore?', meaning: 'How are you?' }, { word: 'شب بخیر', translit: 'shab bekheir', meaning: 'Good night' }] }, { name: 'Travel', icon: '🛫', lessons: [{ word: 'دنبال سرویس می‌گردم', translit: 'donbāl service migardam', meaning: 'I am looking for a taxi' }, { word: 'چقدر هزینه دارد؟', translit: 'cheghadr hazineh darad?', meaning: 'How much does it cost?' }, { word: 'لطفاً کمک کنید', translit: 'lotfan komak konid', meaning: 'Please help me' }, { word: 'کجا می‌روم؟', translit: 'koja miravam?', meaning: 'Where am I going?' }, { word: 'بفهمید؟', translit: 'befahmid?', meaning: 'Do you understand?' }, { word: 'خدای حافظ', translit: 'khodā hāfez', meaning: 'Goodbye' }] }] }
+  };
+  
+  return courses[lang] || null;
+}
+
+function renderLanguageCourse(lang) {
+  const course = generateLanguageCourse(lang);
+  if (!course) return;
+  
+  const container = document.getElementById('unitsContainer');
+  container.innerHTML = '';
+  
+  course.units.forEach((unit, idx) => {
+    const card = document.createElement('div');
+    card.className = 'section-card';
+    card.style.cursor = 'pointer';
+    card.innerHTML = `
+      <h3 style="margin:0 0 .5rem; font-size:1.3rem;">${unit.icon} ${unit.name}</h3>
+      <p style="margin:0; color:var(--muted);">${unit.lessons.length} words</p>
+    `;
+    card.onclick = () => showUnitLessons(lang, idx, unit);
+    container.appendChild(card);
+  });
+}
+
+function showUnitLessons(lang, unitIdx, unit) {
+  const lessonView = document.getElementById('lessonView');
+  const lessonsContainer = document.getElementById('lessonsContainer');
+  const unitTitle = document.getElementById('unitTitle');
+  
+  unitTitle.textContent = `${unit.icon} ${unit.name}`;
+  lessonsContainer.innerHTML = '';
+  
+  unit.lessons.forEach(lesson => {
+    const lessonCard = document.createElement('div');
+    lessonCard.className = 'section-card';
+    lessonCard.style.marginBottom = '1rem';
+    lessonCard.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:start; gap:1rem;">
+        <div>
+          <h4 style="margin:0 0 .5rem; font-size:1.3rem; color:var(--main);">${lesson.word}</h4>
+          <p style="margin:0 0 .5rem; color:var(--muted); font-size:.95rem;">
+            <strong>Meaning:</strong> ${lesson.meaning}
+          </p>
+          ${lesson.translit ? `<p style="margin:0; font-style:italic; color:var(--muted);">${lesson.translit}</p>` : ''}
+        </div>
+        <button type="button" class="speak-btn" onclick="speakWord('${lesson.word}', '${lang}')">
+          🔊 Hear
+        </button>
+      </div>
+    `;
+    lessonsContainer.appendChild(lessonCard);
+  });
+  
+  document.getElementById('unitsContainer').parentElement.classList.add('hidden');
+  lessonView.classList.remove('hidden');
+}
+
+function speakWord(word, lang) {
+  const utter = new SpeechSynthesisUtterance(word);
+  const voice = getSelectedSpeechVoice(lang);
+  if (voice) {
+    utter.voice = voice;
+    utter.lang = voice.lang;
+  } else {
+    utter.lang = speechLangCodeMap[lang] || lang.toLowerCase();
+  }
+  utter.rate = 0.9;
+  utter.pitch = 1.0;
+  window.speechSynthesis.speak(utter);
+}
+
+function backToUnits() {
+  document.getElementById('lessonView').classList.add('hidden');
+  document.getElementById('unitsContainer').parentElement.classList.remove('hidden');
+}
+
+function openTopic(topic) {
+  const lang = new URLSearchParams(window.location.search).get('lang') || 'Irish';
+  window.open(`topics_${topic}.html?lang=${encodeURIComponent(lang)}`, '_self');
+}
+
+let practiceState = {
+  currentWord: null,
+  score: 0,
+  total: 0,
+  mode: 'typing',
+  words: []
+};
+
+let userProgress = JSON.parse(localStorage.getItem('reviveLanguageProgress')) || {};
+
+function saveProgress(lang, word, result) {
+  const key = `${lang}_${word}`;
+  if (!userProgress[key]) {
+    userProgress[key] = { correct: 0, incorrect: 0, lastReviewed: null, nextReview: Date.now() };
+  }
+  
+  if (result === 'correct') {
+    userProgress[key].correct++;
+ userProgress[key].nextReview = Date.now() + (Math.pow(2, userProgress[key].correct) * 24 * 60 * 60 * 1000);
+  } else {
+    userProgress[key].incorrect++;
+    userProgress[key].nextReview = Date.now() + (60 * 60 * 1000);
+  }
+  
+  userProgress[key].lastReviewed = Date.now();
+  localStorage.setItem('reviveLanguageProgress', JSON.stringify(userProgress));
+}
+
+function getWordsForReview(lang) {
+  const course = generateLanguageCourse(lang);
+  if (!course) return [];
+  
+  const allWords = [];
+  course.units.forEach(unit => {
+    unit.lessons.forEach(lesson => {
+      const key = `${lang}_${lesson.word}`;
+      const progress = userProgress[key];
+      
+      if (!progress || progress.nextReview <= Date.now()) {
+        allWords.push({ ...lesson, priority: progress ? -progress.correct : 0 });
+      }
+    });
+  });
+  
+  allWords.sort((a, b) => a.priority - b.priority);
+  return allWords;
+}
+
+function startPractice() {
+  const lang = getQueryParam('lang') || 'Irish';
+  const course = generateLanguageCourse(lang);
+  if (!course) return;
+  
+  const reviewWords = getWordsForReview(lang);
+  
+  if (reviewWords.length > 0) {
+    practiceState.words = reviewWords;
+  } else {
+    practiceState.words = [];
+    course.units.forEach(unit => {
+      unit.lessons.forEach(lesson => {
+        practiceState.words.push(lesson);
+      });
+    });
+    shuffleArray(practiceState.words);
+  }
+  
+  practiceState.score = 0;
+  practiceState.total = 0;
+  practiceState.mode = 'typing';
+  
+  showNextPracticeWord(lang);
+}
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+function showNextPracticeWord(lang) {
+  if (practiceState.words.length === 0) {
+    showPracticeSummary();
+    return;
+  }
+  
+  practiceState.currentWord = practiceState.words.pop();
+  const container = document.getElementById('practiceContainer');
+  
+  if (practiceState.mode === 'typing') {
+    container.innerHTML = `
+      <div class="quiz-mode">
+        <h3 style="margin:0 0 1rem;">Type the word for: "${practiceState.currentWord.meaning}"</h3>
+        <p style="color:var(--muted); font-size:.9rem; margin-bottom:1rem;">Progress: ${practiceState.total} completed</p>
+        <input type="text" class="practice-input" id="practiceInput" placeholder="Type the word in ${lang}" autocomplete="off">
+        <div id="practiceFeedback" class="practice-feedback"></div>
+        <div style="display:flex; gap:.5rem; margin-top:1rem;">
+          <button type="button" onclick="checkPracticeAnswer('${lang}')" style="background:var(--main); color:#1b4332; border:none; padding:.6rem 1.2rem; border-radius:999px; cursor:pointer;">Check</button>
+          <button type="button" onclick="speakWord('${practiceState.currentWord.word}', '${lang}')" class="speak-btn">🔊 Hear</button>
+          <button type="button" onclick="skipWord()" style="background:transparent; border:1px solid var(--border); color:var(--text); padding:.6rem 1.2rem; border-radius:999px; cursor:pointer;">Skip</button>
+        </div>
+      </div>
+    `;
+    
+    const input = document.getElementById('practiceInput');
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') checkPracticeAnswer(lang);
+    });
+    input.focus();
+  } else {
+    showQuizMode(lang);
+  }
+}
+
+function checkPracticeAnswer(lang) {
+  const input = document.getElementById('practiceInput');
+  const feedback = document.getElementById('practiceFeedback');
+  const userAnswer = input.value.trim().toLowerCase();
+  const correctAnswer = practiceState.currentWord.word.toLowerCase();
+  
+  practiceState.total++;
+  
+  if (userAnswer === correctAnswer || userAnswer === correctAnswer.normalize('NFD').replace(/[\u0300-\u036f]/g, '')) {
+    practiceState.score++;
+    feedback.textContent = '✓ Correct!';
+    feedback.className = 'practice-feedback correct';
+    saveProgress(lang, practiceState.currentWord.word, 'correct');
+  } else {
+    feedback.textContent = `✗ Incorrect. The answer is: ${practiceState.currentWord.word}`;
+    feedback.className = 'practice-feedback incorrect';
+    saveProgress(lang, practiceState.currentWord.word, 'incorrect');
+  }
+  
+  setTimeout(() => showNextPracticeWord(lang), 1500);
+}
+
+function skipWord() {
+  practiceState.total++;
+  practiceState.words.unshift(practiceState.currentWord);
+  showNextPracticeWord(getQueryParam('lang') || 'Irish');
+}
+
+function showQuizMode(lang) {
+  const correctWord = practiceState.currentWord;
+  const wrongOptions = practiceState.words.slice(0, 3);
+  const options = [correctWord, ...wrongOptions];
+  shuffleArray(options);
+  
+  const container = document.getElementById('practiceContainer');
+  container.innerHTML = `
+    <div class="quiz-mode">
+      <h3 style="margin:0 0 1rem;">What does "${correctWord.word}" mean?</h3>
+      <p style="color:var(--muted); font-size:.9rem; margin-bottom:1rem;">Progress: ${practiceState.total} completed</p>
+      ${options.map((opt, idx) => `
+        <button class="quiz-option" onclick="checkQuizAnswer('${opt.meaning}', '${correctWord.meaning}', '${lang}')">
+          ${opt.meaning}
+        </button>
+      `).join('')}
+      <div style="display:flex; gap:.5rem; margin-top:1rem;">
+        <button type="button" onclick="speakWord('${correctWord.word}', '${lang}')" class="speak-btn">🔊 Hear</button>
+        <button type="button" onclick="skipWord()" style="background:transparent; border:1px solid var(--border); color:var(--text); padding:.6rem 1.2rem; border-radius:999px; cursor:pointer;">Skip</button>
+      </div>
+    </div>
+  `;
+}
+
+function checkQuizAnswer(selected, correct, lang) {
+  practiceState.total++;
+  const container = document.getElementById('practiceContainer');
+  
+  if (selected === correct) {
+    practiceState.score++;
+    container.innerHTML += `<div class="practice-feedback correct">✓ Correct!</div>`;
+    saveProgress(lang, practiceState.currentWord.word, 'correct');
+  } else {
+    container.innerHTML += `<div class="practice-feedback incorrect">✗ Incorrect. The answer is: ${correct}</div>`;
+    saveProgress(lang, practiceState.currentWord.word, 'incorrect');
+  }
+  
+  setTimeout(() => showNextPracticeWord(lang), 1500);
+}
+
+function showPracticeSummary() {
+  const container = document.getElementById('practiceContainer');
+  const percentage = Math.round((practiceState.score / practiceState.total) * 100);
+  
+  container.innerHTML = `
+    <div class="quiz-mode" style="text-align:center;">
+      <h3 style="margin:0 0 1rem;">Practice Complete!</h3>
+      <div style="font-size:3rem; margin:1rem 0;">${percentage}%</div>
+      <p style="color:var(--muted);">You got ${practiceState.score} out of ${practiceState.total} correct.</p>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width:${percentage}%"></div>
+      </div>
+      <button type="button" onclick="startPractice()" style="background:var(--main); color:#1b4332; border:none; padding:.8rem 1.5rem; border-radius:999px; cursor:pointer; font-weight:600; margin-top:1rem;">Practice Again</button>
+      <button type="button" onclick="togglePracticeMode()" style="background:transparent; border:1px solid var(--border); color:var(--text); padding:.8rem 1.5rem; border-radius:999px; cursor:pointer; margin-left:.5rem;">Switch to ${practiceState.mode === 'typing' ? 'Quiz' : 'Typing'} Mode</button>
+    </div>
+  `;
+}
+
+function togglePracticeMode() {
+  practiceState.mode = practiceState.mode === 'typing' ? 'quiz' : 'typing';
+  startPractice();
+}
+
+let testState = {
+  currentTest: null,
+  questions: [],
+  currentIndex: 0,
+  scores: { writing: 0, reading: 0, translating: 0, speaking: 0, fillblank: 0, matching: 0, sentence: 0 },
+  total: { writing: 0, reading: 0, translating: 0, speaking: 0, fillblank: 0, matching: 0, sentence: 0 },
+  currentSkill: null
+};
+
+function startTest(testType) {
+  const lang = getQueryParam('lang') || 'Irish';
+  const course = generateLanguageCourse(lang);
+  if (!course) return;
+  
+  testState.currentTest = testType;
+  testState.currentIndex = 0;
+  testState.scores = { writing: 0, reading: 0, translating: 0, speaking: 0 };
+  testState.total = { writing: 0, reading: 0, translating: 0, speaking: 0 };
+  
+  const allWords = [];
+  course.units.forEach(unit => {
+    unit.lessons.forEach(lesson => {
+      allWords.push(lesson);
+    });
+  });
+  
+  shuffleArray(allWords);
+  testState.questions = allWords.slice(0, 10);
+  
+  document.getElementById('testMenu').classList.add('hidden');
+  
+  if (testType === 'comprehensive') {
+    startComprehensiveTest();
+  } else {
+    testState.currentSkill = testType;
+    showNextTestQuestion(lang);
+  }
+}
+
+function startComprehensiveTest() {
+  const lang = getQueryParam('lang') || 'Irish';
+  const skills = ['writing', 'reading', 'translating', 'speaking', 'fillblank', 'matching', 'sentence'];
+  testState.currentSkill = skills[testState.currentIndex % skills.length];
+  showNextTestQuestion(lang);
+}
+
+function showNextTestQuestion(lang) {
+  if (testState.currentIndex >= testState.questions.length) {
+    showTestResults(lang);
+    return;
+  }
+  
+  const currentWord = testState.questions[testState.currentIndex];
+  const container = document.getElementById('testContainer');
+  
+  switch(testState.currentSkill) {
+    case 'writing':
+      showWritingTest(currentWord, lang);
+      break;
+    case 'reading':
+      showReadingTest(currentWord, lang);
+      break;
+    case 'translating':
+      showTranslatingTest(currentWord, lang);
+      break;
+    case 'speaking':
+      showSpeakingTest(currentWord, lang);
+      break;
+    case 'fillblank':
+      showFillBlankTest(currentWord, lang);
+      break;
+    case 'matching':
+      showMatchingTest(currentWord, lang);
+      break;
+    case 'sentence':
+      showSentenceTest(currentWord, lang);
+      break;
+  }
+}
+
+function showWritingTest(word, lang) {
+  const container = document.getElementById('testContainer');
+  container.innerHTML = `
+    <div class="quiz-mode">
+      <h3 style="margin:0 0 1rem;">✍️ Writing Test - Question ${testState.currentIndex + 1}/${testState.questions.length}</h3>
+      <p style="color:var(--muted); font-size:.9rem; margin-bottom:1rem;">Type the word for: "${word.meaning}"</p>
+      <input type="text" class="practice-input" id="testInput" placeholder="Type the word in ${lang}" autocomplete="off">
+      <div id="testFeedback" class="practice-feedback"></div>
+      <div style="display:flex; gap:.5rem; margin-top:1rem;">
+        <button type="button" onclick="checkWritingAnswer('${lang}')" style="background:var(--main); color:#1b4332; border:none; padding:.6rem 1.2rem; border-radius:999px; cursor:pointer;">Check</button>
+        <button type="button" onclick="speakWord('${word.word}', '${lang}')" class="speak-btn">🔊 Hear</button>
+      </div>
+    </div>
+  `;
+  
+  const input = document.getElementById('testInput');
+  input.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') checkWritingAnswer(lang);
+  });
+  input.focus();
+}
+
+function checkWritingAnswer(lang) {
+  const input = document.getElementById('testInput');
+  const feedback = document.getElementById('testFeedback');
+  const userAnswer = input.value.trim().toLowerCase();
+  const correctAnswer = testState.questions[testState.currentIndex].word.toLowerCase();
+  
+  testState.total.writing++;
+  
+  if (userAnswer === correctAnswer || userAnswer === correctAnswer.normalize('NFD').replace(/[\u0300-\u036f]/g, '')) {
+    testState.scores.writing++;
+    feedback.textContent = '✓ Correct!';
+    feedback.className = 'practice-feedback correct';
+  } else {
+    feedback.textContent = `✗ Incorrect. The answer is: ${testState.questions[testState.currentIndex].word}`;
+    feedback.className = 'practice-feedback incorrect';
+  }
+  
+  setTimeout(() => nextTestQuestion(lang), 1500);
+}
+
+function showReadingTest(word, lang) {
+  const wrongOptions = testState.questions.filter((w, i) => i !== testState.currentIndex).slice(0, 3);
+  const options = [word, ...wrongOptions];
+  shuffleArray(options);
+  
+  const container = document.getElementById('testContainer');
+  container.innerHTML = `
+    <div class="quiz-mode">
+      <h3 style="margin:0 0 1rem;">📖 Reading Test - Question ${testState.currentIndex + 1}/${testState.questions.length}</h3>
+      <p style="color:var(--muted); font-size:.9rem; margin-bottom:1rem;">What does "${word.word}" mean?</p>
+      ${options.map(opt => `
+        <button class="quiz-option" onclick="checkReadingAnswer('${opt.meaning}', '${word.meaning}', '${lang}')">
+          ${opt.meaning}
+        </button>
+      `).join('')}
+      <div style="display:flex; gap:.5rem; margin-top:1rem;">
+        <button type="button" onclick="speakWord('${word.word}', '${lang}')" class="speak-btn">🔊 Hear</button>
+      </div>
+    </div>
+  `;
+}
+
+function checkReadingAnswer(selected, correct, lang) {
+  testState.total.reading++;
+  const container = document.getElementById('testContainer');
+  
+  if (selected === correct) {
+    testState.scores.reading++;
+    container.innerHTML += `<div class="practice-feedback correct">✓ Correct!</div>`;
+  } else {
+    container.innerHTML += `<div class="practice-feedback incorrect">✗ Incorrect. The answer is: ${correct}</div>`;
+  }
+  
+  setTimeout(() => nextTestQuestion(lang), 1500);
+}
+
+function showTranslatingTest(word, lang) {
+  const isReverse = Math.random() > 0.5;
+  const container = document.getElementById('testContainer');
+  
+  if (isReverse) {
+    const wrongOptions = testState.questions.filter((w, i) => i !== testState.currentIndex).slice(0, 3);
+    const options = [word, ...wrongOptions];
+    shuffleArray(options);
+    
+    container.innerHTML = `
+      <div class="quiz-mode">
+        <h3 style="margin:0 0 1rem;">🔄 Translating Test (Reverse) - Question ${testState.currentIndex + 1}/${testState.questions.length}</h3>
+        <p style="color:var(--muted); font-size:.9rem; margin-bottom:1rem;">Translate "${word.meaning}" to ${lang}:</p>
+        ${options.map(opt => `
+          <button class="quiz-option" onclick="checkTranslatingAnswer('${opt.word}', '${word.word}', '${lang}')">
+            ${opt.word}
+          </button>
+        `).join('')}
+      </div>
+    `;
+  } else {
+    container.innerHTML = `
+      <div class="quiz-mode">
+        <h3 style="margin:0 0 1rem;">🔄 Translating Test - Question ${testState.currentIndex + 1}/${testState.questions.length}</h3>
+        <p style="color:var(--muted); font-size:.9rem; margin-bottom:1rem;">Translate "${word.word}" to English:</p>
+        <input type="text" class="practice-input" id="testInput" placeholder="Type the English meaning" autocomplete="off">
+        <div id="testFeedback" class="practice-feedback"></div>
+        <div style="display:flex; gap:.5rem; margin-top:1rem;">
+          <button type="button" onclick="checkTranslatingAnswerInput('${lang}')" style="background:var(--main); color:#1b4332; border:none; padding:.6rem 1.2rem; border-radius:999px; cursor:pointer;">Check</button>
+          <button type="button" onclick="speakWord('${word.word}', '${lang}')" class="speak-btn">🔊 Hear</button>
+        </div>
+      </div>
+    `;
+    
+    const input = document.getElementById('testInput');
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') checkTranslatingAnswerInput(lang);
+    });
+    input.focus();
+  }
+}
+
+function checkTranslatingAnswer(selected, correct, lang) {
+  testState.total.translating++;
+  const container = document.getElementById('testContainer');
+  
+  if (selected === correct) {
+    testState.scores.translating++;
+    container.innerHTML += `<div class="practice-feedback correct">✓ Correct!</div>`;
+  } else {
+    container.innerHTML += `<div class="practice-feedback incorrect">✗ Incorrect. The answer is: ${correct}</div>`;
+  }
+  
+  setTimeout(() => nextTestQuestion(lang), 1500);
+}
+
+function checkTranslatingAnswerInput(lang) {
+  const input = document.getElementById('testInput');
+  const feedback = document.getElementById('testFeedback');
+  const userAnswer = input.value.trim().toLowerCase();
+  const correctAnswer = testState.questions[testState.currentIndex].meaning.toLowerCase();
+  
+  testState.total.translating++;
+  
+  if (userAnswer === correctAnswer || userAnswer.includes(correctAnswer) || correctAnswer.includes(userAnswer)) {
+    testState.scores.translating++;
+    feedback.textContent = '✓ Correct!';
+    feedback.className = 'practice-feedback correct';
+  } else {
+    feedback.textContent = `✗ Incorrect. The answer is: ${testState.questions[testState.currentIndex].meaning}`;
+    feedback.className = 'practice-feedback incorrect';
+  }
+  
+  setTimeout(() => nextTestQuestion(lang), 1500);
+}
+
+function showSpeakingTest(word, lang) {
+  const container = document.getElementById('testContainer');
+  
+  if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+    container.innerHTML = `
+      <div class="quiz-mode">
+        <h3 style="margin:0 0 1rem;">🎤 Speaking Test - Question ${testState.currentIndex + 1}/${testState.questions.length}</h3>
+        <p style="color:var(--muted); font-size:.9rem; margin-bottom:1rem;">Say the word: "${word.word}"</p>
+        <div style="text-align:center; margin:2rem 0;">
+          <button type="button" id="recordBtn" onclick="toggleRecording('${lang}')" style="background:var(--main); color:#1b4332; border:none; padding:1.5rem 2rem; border-radius:50%; cursor:pointer; font-size:2rem;">
+            🎤
+          </button>
+          <p id="recordingStatus" style="margin-top:1rem; color:var(--muted);">Click to start recording</p>
+        </div>
+        <div id="testFeedback" class="practice-feedback"></div>
+        <div style="display:flex; gap:.5rem; margin-top:1rem; justify-content:center;">
+          <button type="button" onclick="speakWord('${word.word}', '${lang}')" class="speak-btn">🔊 Hear Example</button>
+          <button type="button" onclick="skipSpeakingTest('${lang}')" style="background:transparent; border:1px solid var(--border); color:var(--text); padding:.6rem 1.2rem; border-radius:999px; cursor:pointer;">Skip</button>
+        </div>
+      </div>
+    `;
+  } else {
+    container.innerHTML = `
+      <div class="quiz-mode">
+        <h3 style="margin:0 0 1rem;">🎤 Speaking Test - Question ${testState.currentIndex + 1}/${testState.questions.length}</h3>
+        <p style="color:var(--muted); margin-bottom:1rem;">Say the word: "${word.word}"</p>
+        <div style="background:rgba(255,255,255,0.1); padding:1rem; border-radius:12px; margin:1rem 0;">
+          <p style="margin:0;">⚠️ Speech recognition is not supported in your browser. Please use Chrome for this feature.</p>
+        </div>
+        <div style="display:flex; gap:.5rem; margin-top:1rem; justify-content:center;">
+          <button type="button" onclick="speakWord('${word.word}', '${lang}')" class="speak-btn">🔊 Hear Example</button>
+          <button type="button" onclick="skipSpeakingTest('${lang}')" style="background:transparent; border:1px solid var(--border); color:var(--text); padding:.6rem 1.2rem; border-radius:999px; cursor:pointer;">Skip</button>
+        </div>
+      </div>
+    `;
+  }
+}
+
+let recognition = null;
+let isRecording = false;
+
+function toggleRecording(lang) {
+  if (!recognition) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript.toLowerCase();
+      checkSpeakingAnswer(transcript, lang);
+    };
+    
+    recognition.onerror = (event) => {
+      document.getElementById('recordingStatus').textContent = 'Error: ' + event.error;
+      stopRecording();
+    };
+    
+    recognition.onend = () => {
+      stopRecording();
+    };
+  }
+  
+  recognition.lang = speechLangCodeMap[lang] || lang.toLowerCase();
+  
+  if (isRecording) {
+    recognition.stop();
+  } else {
+    recognition.start();
+    isRecording = true;
+    document.getElementById('recordBtn').style.background = '#ef5350';
+    document.getElementById('recordBtn').style.color = 'white';
+    document.getElementById('recordingStatus').textContent = 'Listening...';
+  }
+}
+
+function stopRecording() {
+  isRecording = false;
+  const btn = document.getElementById('recordBtn');
+  if (btn) {
+    btn.style.background = 'var(--main)';
+    btn.style.color = '#1b4332';
+  }
+  const status = document.getElementById('recordingStatus');
+  if (status) {
+    status.textContent = 'Click to start recording';
+  }
+}
+
+function checkSpeakingAnswer(transcript, lang) {
+  testState.total.speaking++;
+  const container = document.getElementById('testContainer');
+  const correctWord = testState.questions[testState.currentIndex].word.toLowerCase();
+  
+  const feedback = document.getElementById('testFeedback');
+  
+  if (transcript.includes(correctWord) || correctWord.includes(transcript) || 
+      transcript.normalize('NFD').replace(/[\u0300-\u036f]/g, '') === correctWord.normalize('NFD').replace(/[\u0300-\u036f]/g, '')) {
+    testState.scores.speaking++;
+    feedback.textContent = `✓ Correct! You said: "${transcript}"`;
+    feedback.className = 'practice-feedback correct';
+  } else {
+    feedback.textContent = `✗ Not quite. You said: "${transcript}". Expected: "${testState.questions[testState.currentIndex].word}"`;
+    feedback.className = 'practice-feedback incorrect';
+  }
+  
+  setTimeout(() => nextTestQuestion(lang), 2000);
+}
+
+function skipSpeakingTest(lang) {
+  testState.total.speaking++;
+  nextTestQuestion(lang);
+}
+
+function showFillBlankTest(word, lang) {
+  const container = document.getElementById('testContainer');
+  const blankIndex = Math.floor(Math.random() * word.word.length);
+  const maskedWord = word.word.substring(0, blankIndex) + '___' + word.word.substring(blankIndex + 1);
+  
+  container.innerHTML = `
+    <div class="quiz-mode">
+      <h3 style="margin:0 0 1rem;">✏️ Fill in the Blank - Question ${testState.currentIndex + 1}/${testState.questions.length}</h3>
+      <p style="color:var(--muted); font-size:.9rem; margin-bottom:1rem;">Complete the word: "${maskedWord}" (${word.meaning})</p>
+      <input type="text" class="practice-input" id="testInput" placeholder="Type the missing letters" autocomplete="off">
+      <div id="testFeedback" class="practice-feedback"></div>
+      <div style="display:flex; gap:.5rem; margin-top:1rem;">
+        <button type="button" onclick="checkFillBlankAnswer('${word.word}', '${lang}')" style="background:var(--main); color:#1b4332; border:none; padding:.6rem 1.2rem; border-radius:999px; cursor:pointer;">Check</button>
+        <button type="button" onclick="speakWord('${word.word}', '${lang}')" class="speak-btn">🔊 Hear</button>
+      </div>
+    </div>
+  `;
+  
+  const input = document.getElementById('testInput');
+  input.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') checkFillBlankAnswer(word.word, lang);
+  });
+  input.focus();
+}
+
+function checkFillBlankAnswer(correctWord, lang) {
+  const input = document.getElementById('testInput');
+  const feedback = document.getElementById('testFeedback');
+  const userAnswer = input.value.trim().toLowerCase();
+  
+  testState.total.fillblank++;
+  
+  if (correctWord.toLowerCase().includes(userAnswer) && userAnswer.length > 0) {
+    testState.scores.fillblank++;
+    feedback.textContent = '✓ Correct!';
+    feedback.className = 'practice-feedback correct';
+  } else {
+    feedback.textContent = `✗ Incorrect. The complete word is: ${correctWord}`;
+    feedback.className = 'practice-feedback incorrect';
+  }
+  
+  setTimeout(() => nextTestQuestion(lang), 1500);
+}
+
+function showMatchingTest(word, lang) {
+  const wrongOptions = testState.questions.filter((w, i) => i !== testState.currentIndex).slice(0, 3);
+  const meanings = [word, ...wrongOptions];
+  shuffleArray(meanings);
+  
+  const words = [word, ...wrongOptions];
+  shuffleArray(words);
+  
+  const container = document.getElementById('testContainer');
+  container.innerHTML = `
+    <div class="quiz-mode">
+      <h3 style="margin:0 0 1rem;">🔗 Matching Test - Question ${testState.currentIndex + 1}/${testState.questions.length}</h3>
+      <p style="color:var(--muted); font-size:.9rem; margin-bottom:1rem;">Match the word "${word.word}" with its meaning:</p>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1rem 0;">
+        <div style="font-size:1.5rem; font-weight:600; text-align:center; padding:1rem; background:rgba(255,255,255,0.1); border-radius:12px;">${word.word}</div>
+        <div id="meaningOptions">
+          ${meanings.map(opt => `
+            <button class="quiz-option" onclick="checkMatchingAnswer('${opt.meaning}', '${word.meaning}', '${lang}')">
+              ${opt.meaning}
+            </button>
+          `).join('')}
+        </div>
+      </div>
+      <div style="display:flex; gap:.5rem; margin-top:1rem; justify-content:center;">
+        <button type="button" onclick="speakWord('${word.word}', '${lang}')" class="speak-btn">🔊 Hear</button>
+      </div>
+    </div>
+  `;
+}
+
+function checkMatchingAnswer(selected, correct, lang) {
+  testState.total.matching++;
+  const container = document.getElementById('testContainer');
+  
+  if (selected === correct) {
+    testState.scores.matching++;
+    container.innerHTML += `<div class="practice-feedback correct">✓ Correct!</div>`;
+  } else {
+    container.innerHTML += `<div class="practice-feedback incorrect">✗ Incorrect. The answer is: ${correct}</div>`;
+  }
+  
+  setTimeout(() => nextTestQuestion(lang), 1500);
+}
+
+function showSentenceTest(word, lang) {
+  const sentences = [
+    `I want to learn ${word.meaning}.`,
+    `Can you say ${word.word}?`,
+    `The word for ${word.meaning} is ${word.word}.`,
+    `Please write ${word.word}.`
+  ];
+  const sentence = sentences[Math.floor(Math.random() * sentences.length)];
+  const blankedSentence = sentence.replace(word.word, '___').replace(word.meaning, '___');
+  
+  const container = document.getElementById('testContainer');
+  container.innerHTML = `
+    <div class="quiz-mode">
+      <h3 style="margin:0 0 1rem;">📝 Sentence Test - Question ${testState.currentIndex + 1}/${testState.questions.length}</h3>
+      <p style="color:var(--muted); font-size:.9rem; margin-bottom:1rem;">Complete the sentence:</p>
+      <div style="font-size:1.3rem; margin-bottom:1.5rem; line-height:1.8;">${blankedSentence}</div>
+      <input type="text" class="practice-input" id="testInput" placeholder="Type the missing word" autocomplete="off">
+      <div id="testFeedback" class="practice-feedback"></div>
+      <div style="display:flex; gap:.5rem; margin-top:1rem;">
+        <button type="button" onclick="checkSentenceAnswer('${word.word}', '${word.meaning}', '${lang}')" style="background:var(--main); color:#1b4332; border:none; padding:.6rem 1.2rem; border-radius:999px; cursor:pointer;">Check</button>
+        <button type="button" onclick="speakWord('${word.word}', '${lang}')" class="speak-btn">🔊 Hear</button>
+      </div>
+    </div>
+  `;
+  
+  const input = document.getElementById('testInput');
+  input.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') checkSentenceAnswer(word.word, word.meaning, lang);
+  });
+  input.focus();
+}
+
+function checkSentenceAnswer(correctWord, correctMeaning, lang) {
+  const input = document.getElementById('testInput');
+  const feedback = document.getElementById('testFeedback');
+  const userAnswer = input.value.trim().toLowerCase();
+  
+  testState.total.sentence++;
+  
+  if (userAnswer === correctWord.toLowerCase() || userAnswer === correctMeaning.toLowerCase()) {
+    testState.scores.sentence++;
+    feedback.textContent = '✓ Correct!';
+    feedback.className = 'practice-feedback correct';
+  } else {
+    feedback.textContent = `✗ Incorrect. The answer could be: ${correctWord} or ${correctMeaning}`;
+    feedback.className = 'practice-feedback incorrect';
+  }
+  
+  setTimeout(() => nextTestQuestion(lang), 1500);
+}
+
+function nextTestQuestion(lang) {
+  testState.currentIndex++;
+  
+  if (testState.currentTest === 'comprehensive') {
+    if (testState.currentIndex >= testState.questions.length) {
+      showTestResults(lang);
+    } else {
+      const skills = ['writing', 'reading', 'translating', 'speaking', 'fillblank', 'matching', 'sentence'];
+      testState.currentSkill = skills[testState.currentIndex % skills.length];
+      showNextTestQuestion(lang);
+    }
+  } else {
+    showNextTestQuestion(lang);
+  }
+}
+
+function showTestResults(lang) {
+  const container = document.getElementById('testContainer');
+  const testMenu = document.getElementById('testMenu');
+  
+  let resultsHTML = `
+    <div class="quiz-mode" style="text-align:center;">
+      <h3 style="margin:0 0 1rem;">🎯 Test Results</h3>
+  `;
+  
+  if (testState.currentTest === 'comprehensive') {
+    const totalScore = testState.scores.writing + testState.scores.reading + testState.scores.translating + testState.scores.speaking + testState.scores.fillblank + testState.scores.matching + testState.scores.sentence;
+    const totalQuestions = testState.total.writing + testState.total.reading + testState.total.translating + testState.total.speaking + testState.total.fillblank + testState.total.matching + testState.total.sentence;
+    const overallScore = totalQuestions > 0 ? Math.round((totalScore / totalQuestions) * 100) : 0;
+    
+    resultsHTML += `
+      <div style="font-size:3rem; margin:1rem 0;">${overallScore}%</div>
+      <p style="color:var(--muted);">Overall Score</p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:1rem; margin:2rem 0;">
+        <div style="background:rgba(255,255,255,0.05); padding:1rem; border-radius:12px;">
+          <div style="font-size:2rem;">✍️</div>
+          <div style="font-size:1.5rem; font-weight:600;">${testState.scores.writing}/${testState.total.writing}</div>
+          <div style="color:var(--muted); font-size:.9rem;">Writing</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05); padding:1rem; border-radius:12px;">
+          <div style="font-size:2rem;">📖</div>
+          <div style="font-size:1.5rem; font-weight:600;">${testState.scores.reading}/${testState.total.reading}</div>
+          <div style="color:var(--muted); font-size:.9rem;">Reading</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05); padding:1rem; border-radius:12px;">
+          <div style="font-size:2rem;">🔄</div>
+          <div style="font-size:1.5rem; font-weight:600;">${testState.scores.translating}/${testState.total.translating}</div>
+          <div style="color:var(--muted); font-size:.9rem;">Translating</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05); padding:1rem; border-radius:12px;">
+          <div style="font-size:2rem;">🎤</div>
+          <div style="font-size:1.5rem; font-weight:600;">${testState.scores.speaking}/${testState.total.speaking}</div>
+          <div style="color:var(--muted); font-size:.9rem;">Speaking</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05); padding:1rem; border-radius:12px;">
+          <div style="font-size:2rem;">✏️</div>
+          <div style="font-size:1.5rem; font-weight:600;">${testState.scores.fillblank}/${testState.total.fillblank}</div>
+          <div style="color:var(--muted); font-size:.9rem;">Fill Blank</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05); padding:1rem; border-radius:12px;">
+          <div style="font-size:2rem;">🔗</div>
+          <div style="font-size:1.5rem; font-weight:600;">${testState.scores.matching}/${testState.total.matching}</div>
+          <div style="color:var(--muted); font-size:.9rem;">Matching</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05); padding:1rem; border-radius:12px;">
+          <div style="font-size:2rem;">📝</div>
+          <div style="font-size:1.5rem; font-weight:600;">${testState.scores.sentence}/${testState.total.sentence}</div>
+          <div style="color:var(--muted); font-size:.9rem;">Sentence</div>
+        </div>
+      </div>
+    `;
+  } else {
+    const score = testState.scores[testState.currentSkill];
+    const total = testState.total[testState.currentSkill];
+    const percentage = Math.round((score / total) * 100);
+    
+    resultsHTML += `
+      <div style="font-size:3rem; margin:1rem 0;">${percentage}%</div>
+      <p style="color:var(--muted);">You got ${score} out of ${total} correct in ${testState.currentTest}.</p>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width:${percentage}%"></div>
+      </div>
+    `;
+  }
+  
+  resultsHTML += `
+      <div style="display:flex; gap:.5rem; margin-top:2rem; justify-content:center; flex-wrap:wrap;">
+        <button type="button" onclick="startTest('${testState.currentTest}')" style="background:var(--main); color:#1b4332; border:none; padding:.8rem 1.5rem; border-radius:999px; cursor:pointer; font-weight:600;">Retake Test</button>
+        <button type="button" onclick="backToTestMenu()" style="background:transparent; border:1px solid var(--border); color:var(--text); padding:.8rem 1.5rem; border-radius:999px; cursor:pointer;">Back to Menu</button>
+      </div>
+    </div>
+  `;
+  
+  container.innerHTML = resultsHTML;
+}
+
+function backToTestMenu() {
+  document.getElementById('testContainer').innerHTML = '';
+  document.getElementById('testMenu').classList.remove('hidden');
+}
+
+function renderLanguage() {
+  const rawKey = getQueryParam('lang') || 'Irish';
+  const languageMeta = findLanguage(rawKey) || { key: rawKey, name: rawKey, native: rawKey, flag:'🌍', region:'Worldwide' };
+  
+  if (!realLanguages.includes(languageMeta.key)) {
+    document.getElementById('languageHeading').textContent = 'Language not available';
+    document.getElementById('languageDescription').textContent = 'This language does not have content yet.';
+    document.getElementById('unitsContainer').parentElement.style.display = 'none';
+    return;
+  }
+  
+  document.title = `Revive — ${languageMeta.name}`;
+  document.getElementById('languageHeading').textContent = `${languageMeta.flag} ${languageMeta.name}`;
+  document.getElementById('languageDescription').textContent = `Learn ${languageMeta.name} through units and vocabulary practice.`;
+  
+  renderLanguageCourse(languageMeta.key);
+  renderQuickLinks(languageMeta.key);
+  renderVoiceSelector(languageMeta.key);
+  
+  const nextButton = document.getElementById('nextLanguageBtn');
+  if (nextButton) {
+    const currentIndex = getCurrentIndex(languageMeta.key);
+    let nextIndex = (currentIndex + 1) % languageData.length;
+    while (!realLanguages.includes(languageData[nextIndex].key)) {
+      nextIndex = (nextIndex + 1) % languageData.length;
+    }
+    nextButton.onclick = () => openLanguageWindow(languageData[nextIndex].key);
+  }
+  const showAllBtn = document.getElementById('showAllBtn');
+  if (showAllBtn) {
+    showAllBtn.onclick = () => {
+      const fullList = document.getElementById('fullLanguageList');
+      if (!fullList) return;
+      const isHidden = fullList.classList.toggle('hidden');
+      if (!isHidden) {
+        renderFullLanguageList();
+        showAllBtn.textContent = 'Hide all';
+      } else {
+        showAllBtn.textContent = 'Show all';
+      }
+    };
+  }
+}
+
+function renderQuickLinks(selectedKey) {
+  const container = document.getElementById('quickLinks');
+  if (!container) return;
+  container.innerHTML = languageData.filter(lang => realLanguages.includes(lang.key)).slice(0, 12).map(lang => {
+    return `<button class="quick-card" type="button" onclick="openLanguageWindow('${lang.key}')"><span>${lang.flag}</span><strong>${lang.name}</strong></button>`;
+  }).join('');
+}
+
+function renderFullLanguageList() {
+  const container = document.getElementById('fullLanguageList');
+  if (!container) return;
+  container.innerHTML = '<h2>Available languages (' + realLanguages.length + ')</h2>' + languageData.filter(lang => realLanguages.includes(lang.key)).map(lang => {
+    return `<button class="quick-card" type="button" style="width:100%; text-align:left;" onclick="openLanguageWindow('${lang.key}')"><span>${lang.flag}</span><strong>${lang.name}</strong><div style="color:var(--muted); margin-top:.4rem;">${lang.region}</div></button>`;
+  }).join('');
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  renderLanguage();
+});
+</script>
+</body>
+</html>

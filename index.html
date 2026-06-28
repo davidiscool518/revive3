@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revive</title>
+    <!-- <link rel="stylesheet" href="login_styles.css"> -->
+    <link rel="stylesheet" href="login_styles.css">
+    <link rel="icon" href="favicon.png">
+</head>
+<body>
+    <div class="login-page">
+        <div class="login-card">
+            <div class="login-header">
+                <div>
+                    <h1 class="am-title">Revive</h1>
+                    <p class="login-subtitle">Create an account or sign in to continue.</p>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <button type="button" class="tab-btn active" data-tab="sign-in">Sign In</button>
+                <button type="button" class="tab-btn" data-tab="sign-up">Create Account</button>
+            </div>
+
+            <div id="sign-in" class="tab-panel active">
+                <form id="login-form" class="login-form">
+                    <label for="username">Username</label>
+                    <input id="username" name="username" type="text" placeholder="Username" autocomplete="username">
+
+                    <label for="password">Password</label>
+                    <input id="password" name="password" type="password" placeholder="Password" autocomplete="current-password">
+
+                    <div class="captcha-row">
+                        <label><input type="checkbox" id="signin-captcha-checkbox"> I'm not a robot</label>
+                    </div>
+                    <div class="captcha-question">
+                        <span id="signin-captcha-question"></span>
+                        <input id="signin-captcha-answer" type="text" placeholder="Answer the question" autocomplete="off">
+                    </div>
+
+                    <button type="submit" class="submit-button">Sign In</button>
+                    <p id="signin-error-msg" class="error-msg"></p>
+                </form>
+            </div>
+
+            <div id="sign-up" class="tab-panel">
+                <form id="signup-form" class="login-form">
+                    <label for="new-username">Username</label>
+                    <input id="new-username" name="newUsername" type="text" placeholder="Choose a username" autocomplete="username">
+
+                    <label for="email">Email</label>
+                    <input id="email" name="email" type="email" placeholder="Email address" autocomplete="email">
+
+                    <label for="new-password">Password</label>
+                    <input id="new-password" name="newPassword" type="password" placeholder="Password" autocomplete="new-password">
+
+                    <label for="confirm-password">Confirm Password</label>
+                    <input id="confirm-password" name="confirmPassword" type="password" placeholder="Confirm password" autocomplete="new-password">
+
+                    <div class="captcha-row">
+                        <label><input type="checkbox" id="signup-captcha-checkbox"> I'm not a robot</label>
+                    </div>
+                    <div class="captcha-question">
+                        <span id="signup-captcha-question"></span>
+                        <input id="signup-captcha-answer" type="text" placeholder="Answer the question" autocomplete="off">
+                    </div>
+
+                    <button type="submit" class="submit-button">Create Account</button>
+                    <p id="signup-error-msg" class="error-msg"></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedUser = localStorage.getItem('reviveUser');
+            if (savedUser) {
+                window.location.href = 'Revive.html';
+            }
+        });
+
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const tabs = document.querySelectorAll('.tab-btn');
+        const signinError = document.getElementById('signin-error-msg');
+        const signupError = document.getElementById('signup-error-msg');
+        const signinCaptchaCheckbox = document.getElementById('signin-captcha-checkbox');
+        const signupCaptchaCheckbox = document.getElementById('signup-captcha-checkbox');
+        const signinCaptchaQuestion = document.getElementById('signin-captcha-question');
+        const signupCaptchaQuestion = document.getElementById('signup-captcha-question');
+        const signinCaptchaAnswer = document.getElementById('signin-captcha-answer');
+        const signupCaptchaAnswer = document.getElementById('signup-captcha-answer');
+
+        function getInitials(name) {
+            return name.trim().split(' ').map(part => part.charAt(0).toUpperCase()).slice(0, 2).join('') || 'U';
+        }
+
+        function createCaptcha() {
+            const a = Math.floor(Math.random() * 6) + 2;
+            const b = Math.floor(Math.random() * 6) + 2;
+            return { question: `What is ${a} + ${b}?`, answer: String(a + b) };
+        }
+
+        function setTab(tabName) {
+            tabs.forEach(btn => btn.classList.toggle('active', btn.dataset.tab === tabName));
+            document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.toggle('active', panel.id === tabName));
+            signinError.textContent = '';
+            signupError.textContent = '';
+        }
+
+        function getStoredAccounts() {
+            try {
+                return JSON.parse(localStorage.getItem('reviveAccounts') || '{}');
+            } catch (err) {
+                localStorage.removeItem('reviveAccounts');
+                return {};
+            }
+        }
+
+        function saveAccounts(accounts) {
+            localStorage.setItem('reviveAccounts', JSON.stringify(accounts));
+        }
+
+        function signInUser(username, email) {
+            const userData = {
+                username,
+                email,
+                signedIn: true,
+                initials: getInitials(username)
+            };
+            localStorage.setItem('reviveUser', JSON.stringify(userData));
+            window.location.href = 'Revive.html';
+        }
+
+        function validateCaptcha(checkbox, answer, expected, errorElement) {
+            if (!checkbox.checked) {
+                errorElement.textContent = 'Please confirm you are not a robot.';
+                return false;
+            }
+            if (answer.trim() !== expected) {
+                errorElement.textContent = 'Captcha answer is incorrect.';
+                return false;
+            }
+            return true;
+        }
+
+        function initializeCaptcha() {
+            const signInCaptcha = createCaptcha();
+            signinCaptchaQuestion.textContent = signInCaptcha.question;
+            signinCaptchaQuestion.dataset.answer = signInCaptcha.answer;
+            signinCaptchaCheckbox.checked = false;
+            signinCaptchaAnswer.value = '';
+
+            const signUpCaptcha = createCaptcha();
+            signupCaptchaQuestion.textContent = signUpCaptcha.question;
+            signupCaptchaQuestion.dataset.answer = signUpCaptcha.answer;
+            signupCaptchaCheckbox.checked = false;
+            signupCaptchaAnswer.value = '';
+        }
+
+        function lookupAccount(username) {
+            const accounts = getStoredAccounts();
+            return accounts[username.toLowerCase()] || null;
+        }
+
+        function registerAccount({ username, email, password }) {
+            const accounts = getStoredAccounts();
+            const normalizedUsername = username.toLowerCase();
+            const normalizedEmail = email.toLowerCase();
+
+            if (accounts[normalizedUsername]) {
+                return 'Username already exists.';
+            }
+            for (const account of Object.values(accounts)) {
+                if (account.email === normalizedEmail) {
+                    return 'Email already registered.';
+                }
+            }
+            accounts[normalizedUsername] = {
+                username,
+                email: normalizedEmail,
+                password,
+                initials: getInitials(username)
+            };
+            saveAccounts(accounts);
+            return null;
+        }
+
+        function getSavedUser() {
+            try {
+                const saved = JSON.parse(localStorage.getItem('reviveUser')) || null;
+                return saved && saved.username ? saved : null;
+            } catch (err) {
+                localStorage.removeItem('reviveUser');
+                return null;
+            }
+        }
+
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            signinError.textContent = '';
+            const username = loginForm.username.value.trim();
+            const password = loginForm.password.value;
+            const captchaAnswer = signinCaptchaAnswer.value.trim();
+            const captchaExpected = signinCaptchaQuestion.dataset.answer || '';
+
+            if (!username || !password) {
+                signinError.textContent = 'Please enter both username and password.';
+                return;
+            }
+
+            if (!validateCaptcha(signinCaptchaCheckbox, captchaAnswer, captchaExpected, signinError)) {
+                return;
+            }
+
+            const existing = lookupAccount(username);
+            if (!existing || existing.password !== password) {
+                signinError.textContent = 'Username or password is incorrect.';
+                return;
+            }
+
+            signInUser(existing.username, existing.email);
+        });
+
+        signupForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            signupError.textContent = '';
+            const username = signupForm['newUsername'].value.trim();
+            const email = signupForm.email.value.trim();
+            const password = signupForm['newPassword'].value;
+            const confirmPassword = signupForm['confirmPassword'].value;
+            const captchaAnswer = signupCaptchaAnswer.value.trim();
+            const captchaExpected = signupCaptchaQuestion.dataset.answer || '';
+
+            if (!username || !email || !password || !confirmPassword) {
+                signupError.textContent = 'Please complete all fields.';
+                return;
+            }
+
+            if (!email.includes('@') || email.indexOf('.') === -1) {
+                signupError.textContent = 'Enter a valid email address.';
+                return;
+            }
+
+            if (password.length < 6) {
+                signupError.textContent = 'Password must be at least 6 characters.';
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                signupError.textContent = 'Passwords do not match.';
+                return;
+            }
+
+            if (!validateCaptcha(signupCaptchaCheckbox, captchaAnswer, captchaExpected, signupError)) {
+                return;
+            }
+
+            const error = registerAccount({ username, email, password });
+            if (error) {
+                signupError.textContent = error;
+                return;
+            }
+
+            signInUser(username, email);
+        });
+
+        tabs.forEach(button => {
+            button.addEventListener('click', () => setTab(button.dataset.tab));
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (getSavedUser()) {
+                window.location.href = 'Revive.html';
+                return;
+            }
+            setTab('sign-in');
+            initializeCaptcha();
+        });
+    </script>
+</body>
+</html>

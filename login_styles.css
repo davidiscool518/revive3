@@ -1,0 +1,230 @@
+/* Revive - Vibrant green theme with multilingual connection */
+:root {
+    --bg-start: #0a4d2a;
+    --bg-end: #2d8a5e;
+    --panel: rgba(255, 255, 255, 0.12);
+    --panel-border: rgba(255, 255, 255, 0.18);
+    --text: #f3f8fb;
+    --text-muted: #cde3d7;
+    --accent: #7dd3a0;
+    --accent-dark: #2d7a4a;
+    --error: #ffb3b3;
+    --shadow: 0 26px 60px rgba(0, 0, 0, 0.18);
+}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+html, body {
+    min-height: 100%;
+    width: 100%;
+    background: radial-gradient(circle at top left, rgba(156, 233, 181, 0.22), transparent 28%),
+                radial-gradient(circle at bottom right, rgba(95, 183, 118, 0.18), transparent 30%),
+                linear-gradient(150deg, var(--bg-start), var(--bg-end));
+    color: var(--text);
+}
+body {
+    position: relative;
+    display: grid;
+    place-items: center;
+    padding: 1.5rem;
+}
+body::before {
+    content: "Revive   Bonjour   Hola   مرحبا   こんにちは   你好   안녕하세요   Привет   Olá   Ciao   Hallo   Hej   Szia   Γεια   Merhaba   Salam   Namaste   Zdravei   Ahoj   Shalom   Sawasdee   Kumusta   Selam   Buna   Sveiki   Labas   Tere   Hyvä   God dag   Hei   Hallå   Guten Tag   Dzień dobry   Bună ziua   Dobrý den   Pozdrav   Nazdar   Zdravo   Përshëndetje   Mirëdita   Shën   Alo   Moi   Heippa   Hei   Terve   Hyvää päivää   Hyvää huomenta   Hyvää iltaa   Kiitos   Tack   Danke   Grazie   Merci   Gracias   Obrigado   Tak   Dank u   Bedankt   Multumesc   Hvala   Köszönöm   Blagodarya   Efharistó   Teşekkürler   Shukran   Dhanyavaad   Spasibo   Aitäh   Ačiū   Paldies   Tänan   Tapadhò leat   Go raibh maith agat   Diolch   Misaotra   Asante   Siyabonga   Ke a leboga   Ngiyabonga   Ro livhuwa   Enkosi   Amogelang   Ke a leboga   Ndi a livhuwa   Inkomu   Kanimambo   Zikomo   Tatenda   Twalumba   Zikomo kwambiri   Natotela";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 15%;
+    color: rgba(255, 255, 255, 0.14);
+    font-size: clamp(1.5rem, 2vw, 2.5rem);
+    font-weight: 800;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    white-space: pre-wrap;
+    line-height: 1.1;
+    pointer-events: none;
+    z-index: -1;
+    transform: rotate(-90deg);
+}
+body::after {
+    content: "語言 | 언어 | Language | لغة | Langue | Lingua | Sprache | Язык | Língua | Γλώσσα | Dil | اللغة | भाषा | Język | Limba | Tun | Nyelv | Keel | Valoda | Kalba";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 15%;
+    color: rgba(255, 255, 255, 0.08);
+    font-size: clamp(1.2rem, 1.5vw, 2rem);
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 0.35em;
+    pointer-events: none;
+    z-index: -1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    padding: 1rem;
+    transform: rotate(90deg);
+}
+.login-page {
+    width: min(520px, 100%);
+}
+.login-card {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 28px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(20px);
+    padding: 2rem 2rem 2.5rem;
+    overflow: hidden;
+}
+.am-title {
+    text-align: center;
+    margin-bottom: 0.35rem;
+    font-size: clamp(2rem, 3vw, 3rem);
+    letter-spacing: 0.05em;
+}
+.login-subtitle {
+    text-align: center;
+    margin-bottom: 1.75rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+.login-form,
+.profile-panel {
+    display: grid;
+    gap: 1rem;
+}
+.login-form label {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+}
+.login-form input {
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text);
+    border-radius: 16px;
+    padding: 0.95rem 1rem;
+    outline: none;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+.login-form input:focus {
+    border-color: var(--accent);
+    background: rgba(255, 255, 255, 0.14);
+}
+.submit-button {
+    border: none;
+    border-radius: 999px;
+    padding: 0.95rem 1.25rem;
+    background: linear-gradient(135deg, rgba(122,216,177,0.95), rgba(61,141,121,0.9));
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+.submit-button:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.05);
+}
+.submit-button.secondary {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.28);
+}
+.error-msg {
+    color: var(--error);
+    font-size: 0.95rem;
+    min-height: 1.2rem;
+}
+.profile-panel {
+    text-align: center;
+    padding-top: 0.5rem;
+}
+.profile-avatar {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.32);
+    margin: 0 auto;
+    display: block;
+    object-fit: cover;
+}
+.profile-note {
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+.login-header {
+    margin-bottom: 1rem;
+}
+.tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    justify-content: center;
+}
+.tab-btn {
+    flex: 1;
+    padding: 0.85rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.08);
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+.tab-btn.active {
+    background: rgba(255,255,255,0.24);
+    border-color: rgba(255,255,255,0.35);
+}
+.tab-panel {
+    display: none;
+}
+.tab-panel.active {
+    display: block;
+}
+.captcha-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+}
+.captcha-row input {
+    width: auto;
+    margin-right: 0.5rem;
+}
+.captcha-question {
+    display: grid;
+    gap: 0.65rem;
+    margin-bottom: 1rem;
+}
+.captcha-question span {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+.login-card small {
+    color: var(--text-muted);
+}
+.hidden {
+    display: none !important;
+}
+@media (max-width: 520px) {
+    .login-card {
+        padding: 1.5rem 1.25rem 2rem;
+    }
+    .tabs {
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Revive</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GtvFq8j+Y6oBlGpFX4D9+GqA7LFKc1UyBuN5qjC6I1RiCRQa2AzKWtF0RbzjzQAF" crossorigin="anonymous">
+<style>
+:root {
+  --main:#56cceab7;
+  --accent:#e1b700;
+  --body-bg: linear-gradient(to bottom,#f4f9f6,#e6f0eb);
+  --header-bg: linear-gradient(135deg,var(--main),#1b4332);
+  --navbar-bg: rgba(255,255,255,0.18);
+  --navbar-border: rgba(255,255,255,0.35);
+  --card-bg: white;
+  --card-shadow: 0 10px 30px rgba(0,0,0,.1);
+  --text: #111;
+  --muted: #666;
+  --footer-bg: #109cac;
+  --footer-color: white;
+  --button-bg: var(--main);
+  --button-hover: #1b4332;
+  --input-bg: white;
+  --input-border: #ccc;
+}
+body.theme-aero {
+  --body-bg: linear-gradient(to bottom, rgba(244, 249, 246, 0.95), rgba(230, 240, 235, 0.95));
+  --header-bg: linear-gradient(135deg,var(--main),#1b4332);
+  --navbar-bg: rgba(255,255,255,0.32);
+  --navbar-border: rgba(255,255,255,0.45);
+  --card-bg: rgba(255,255,255,0.92);
+  --card-shadow: 0 22px 55px rgba(0,0,0,.12);
+  --text: #111;
+  --muted: #555;
+  --footer-bg: #109cac;
+  --footer-color: white;
+  --button-bg: var(--main);
+  --button-hover: #1b4332;
+  --input-bg: rgba(255,255,255,0.95);
+  --input-border: rgba(203,222,226,0.8);
+}
+body.theme-minimalist {
+  --body-bg: #f7f7f8;
+  --header-bg: #ffffff;
+  --navbar-bg: rgba(255,255,255,0.92);
+  --navbar-border: rgba(148,163,184,0.15);
+  --card-bg: #ffffff;
+  --card-shadow: 0 8px 24px rgba(0,0,0,.08);
+  --text: #111827;
+  --muted: #6b7280;
+  --footer-bg: #e2e8f0;
+  --footer-color: #111827;
+  --button-bg: #56cceab7;
+  --button-hover: #1b4332;
+  --input-bg: #f8fafc;
+  --input-border: #cbd5e1;
+}
+body.theme-dark {
+  --body-bg: #0f1720;
+  --header-bg: #111827;
+  --navbar-bg: rgba(15,23,42,0.95);
+  --navbar-border: rgba(255,255,255,0.12);
+  --card-bg: #111827;
+  --card-shadow: 0 24px 60px rgba(0,0,0,.5);
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --footer-bg: #0c121b;
+  --footer-color: #cbd5e1;
+  --button-bg: #3d8d79;
+  --button-hover: #27685d;
+  --input-bg: #1f2937;
+  --input-border: #334155;
+}
+body.theme-light {
+  --body-bg: linear-gradient(to bottom,#f4f9f6,#e6f0eb);
+  --header-bg: linear-gradient(135deg,var(--main),#1b4332);
+  --navbar-bg: rgba(255,255,255,0.92);
+  --navbar-border: rgba(229,246,253,0.8);
+  --card-bg: white;
+  --card-shadow: 0 10px 30px rgba(0,0,0,.08);
+  --text: #111;
+  --muted: #555;
+  --footer-bg: #109cac;
+  --footer-color: white;
+  --button-bg: var(--main);
+  --button-hover: #1b4332;
+  --input-bg: white;
+  --input-border: #cbd5e1;
+}
+* { box-sizing:border-box; font-family:Segoe UI, sans-serif; }
+body { margin:0; background:var(--body-bg); color: var(--text); }
+header { background:var(--header-bg); color:white; text-align:center; padding:2.5rem 1rem; }
+main { max-width:1200px; margin:auto; padding:2rem 1rem; }
+.hidden { display:none; }
+.page-grid { display:grid; grid-template-columns:1fr; gap:1.5rem; align-items:start; }
+.languages-panel { display:flex; flex-direction:column; gap:1.5rem; }
+#sidebar-toggle { position:fixed; left:1rem; top:1rem; transform:none; width:52px; height:52px; border-radius:50%; background:linear-gradient(135deg,#2ad1c6,#0c7d7a); border:1px solid rgba(255,255,255,0.65); color:white; font-size:1.55rem; font-weight:bold; opacity:0.9; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:120; transition:opacity .25s ease, transform .2s ease, box-shadow .2s ease; }
+#sidebar-toggle:hover { opacity:1; transform:scale(1.05); box-shadow:0 18px 40px rgba(10,118,112,0.32); }
+#language-sidebar { position:fixed; left:0; top:96px; width:320px; max-height:calc(100vh - 124px); overflow:auto; transform:translateX(-100%); transition:transform .35s ease; z-index:105; }
+#language-sidebar.open { transform:translateX(0); }
+#language-sidebar .sidebar-card { background:rgba(15,63,55,0.94); border:1px solid rgba(46,197,173,0.4); border-radius:22px; padding:1.5rem; box-shadow:0 30px 80px rgba(0,0,0,0.18); color:white; }
+#language-sidebar h2 { margin:1rem 0 0.9rem; font-size:1.2rem; color:#e6fffb; }
+.sidebar-list { display:grid; gap:0.7rem; }
+.sidebar-item { width:100%; text-align:left; border:none; border-radius:14px; background:rgba(255,255,255,0.08); color:white; padding:0.95rem 1rem; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06), 0 12px 28px rgba(0,0,0,0.10); transition:transform .2s ease, background .2s ease, box-shadow .2s ease; cursor:pointer; }
+.sidebar-item:hover, .sidebar-item:focus { transform:translateX(4px); background:rgba(255,255,255,0.14); box-shadow:0 18px 42px rgba(0,0,0,0.18); }
+.sidebar-item.active { background:rgba(28, 196, 179, 0.25); border-color:rgba(86,204,234,0.35); }
+.sidebar-profile { display:flex; align-items:center; gap:0.9rem; margin-bottom:1rem; padding:1rem 1rem 0.85rem; border-radius:18px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.1); }
+.sidebar-profile .profile-text strong { display:block; font-size:1rem; margin-bottom:0.1rem; color:#ffffff; }
+.sidebar-profile .profile-text span { display:block; font-size:0.82rem; color:rgba(255,255,255,0.72); }
+.sidebar-game { border-radius:18px; padding:1rem; margin-bottom:1rem; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); }
+.sidebar-metric { display:flex; justify-content:space-between; align-items:center; gap:0.5rem; margin-bottom:0.8rem; color:#f0fdfa; }
+.sidebar-metric strong { font-size:1rem; }
+.progress-wrapper { width:100%; height:14px; background:rgba(255,255,255,0.12); border-radius:999px; overflow:hidden; margin-top:0.4rem; }
+.progress-bar-fill { width:0%; height:100%; background:linear-gradient(135deg,#2ad1c6,#0c7d7a); transition:width .35s ease; }
+.progress-label { font-size:0.8rem; color:rgba(255,255,255,0.72); margin-top:0.4rem; display:flex; justify-content:space-between; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1.5rem; }
+.card { background:rgba(255,255,255,0.24); border:1px solid rgba(255,255,255,0.3); border-radius:22px; padding:1.5rem; box-shadow:var(--card-shadow); cursor:pointer; transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease; backdrop-filter:blur(12px); }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1.5rem; }
+.card { background:rgba(255,255,255,0.62); border:1px solid rgba(255,255,255,0.7); border-radius:22px; padding:1.5rem; box-shadow:var(--card-shadow); cursor:pointer; transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease; backdrop-filter:blur(12px); }
+.card:hover { transform:translateY(-6px); box-shadow:0 24px 60px rgba(0,0,0,0.12); border-color:rgba(86,204,234,0.45); }
+.lesson-box { background:var(--card-bg); border-radius:16px; padding:2rem; box-shadow:var(--card-shadow); }
+.lesson-top { display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; flex-wrap:wrap; margin-bottom:1rem; }
+.learning-tagline { color:var(--muted); font-size:.95rem; margin:0.35rem 0 1rem; max-width:620px; }
+.skill-badge { display:inline-flex; align-items:center; gap:.45rem; padding:.55rem .9rem; border-radius:999px; background:rgba(42,209,198,.18); color:#0e4d43; font-size:.85rem; font-weight:700; }
+.unit-overview { display:grid; gap:1rem; margin-bottom:1.2rem; }
+.unit-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1rem; }
+.unit-card { background:rgba(255,255,255,0.16); border:1px solid rgba(255,255,255,0.22); border-radius:20px; padding:1rem 1rem 1.05rem; cursor:pointer; transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease; color:var(--text); }
+.unit-card:hover { transform:translateY(-4px); border-color:rgba(86,204,234,0.45); box-shadow:0 18px 40px rgba(0,0,0,.1); }
+.unit-card.active { background:rgba(42,209,198,.22); border-color:rgba(42,209,198,.45); }
+.unit-card h4 { margin:0 0 .35rem; font-size:1rem; }
+.unit-card p { margin:0 0 .75rem; color:var(--muted); font-size:.92rem; line-height:1.4; }
+.unit-card .unit-meta { font-size:.82rem; color:var(--muted); display:flex; justify-content:space-between; gap:.5rem; }
+.lesson-actions { display:flex; gap:0.8rem; flex-wrap:wrap; margin-top:1.4rem; }
+.progress-pill { display:inline-flex; align-items:center; gap:.5rem; padding:.55rem .9rem; border-radius:999px; background:rgba(255,255,255,.12); color:var(--muted); font-size:.88rem; margin-bottom:1rem; }
+.word { font-size:1.5rem; font-weight:bold; }
+.translit { font-style:italic; color:var(--muted); }
+.translation { margin-bottom:1rem; }
+button { border:none; border-radius:999px; padding:.6rem 1.2rem; background:var(--button-bg); color:white; cursor:pointer; margin:.4rem .2rem; }
+button:hover { background:var(--button-hover); }
+input { width:100%; padding:.6rem; border-radius:8px; border:1px solid var(--input-border); margin:.6rem 0; background:var(--input-bg); }
+footer { text-align:center; padding:2rem; background:var(--footer-bg); color:var(--footer-color); margin-top:4rem; }
+
+.speak-btn {
+  display:inline-flex; align-items:center; gap:6px;
+  background:#e8f5e9; color:#1b4332; border:1.5px solid #1b4332;
+  border-radius:999px; padding:.5rem 1.2rem; cursor:pointer;
+  font-size:.95rem; margin:.4rem .2rem; transition:.2s;
+}
+.speak-btn:hover { background:#1b4332; color:white; }
+.speak-btn.speaking { background:#1b4332; color:white; animation:pulse 1s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.6} }
+
+.speech-status { font-size:.8rem; color:#888; margin-top:.3rem; min-height:1.2em; }
+.lang-voice-select { margin:.5rem 0; font-size:.9rem; }
+.lang-voice-select select { padding:.4rem .7rem; border-radius:8px; border:1px solid #ccc; background:white; font-size:.9rem; cursor:pointer; }
+
+.navbar { background:var(--navbar-bg); backdrop-filter:blur(18px); padding:0.75rem 1rem; width:100%; box-sizing:border-box; border:1px solid var(--navbar-border); box-shadow:0 14px 40px rgba(0,0,0,.08); }
+.navbar, .navbar * { user-select:none; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; }
+.navbar .container-fluid { width:100%; max-width:1200px; }
+.navbar ul { list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:0.75rem; justify-content:space-between; align-items:center; width:100%; }
+.navbar li { display:flex; flex:1 1 170px; }
+.navbar .nav-item a { width:100%; }
+.navbar a.btn { background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.35); color:white; text-decoration:none; padding:0.5rem 0.9rem; border-radius:999px; display:inline-flex; justify-content:center; align-items:center; transition:background .2s ease, transform .2s ease; }
+.navbar a.btn:hover { background:rgba(255,255,255,0.24); transform:translateY(-1px); }
+.user-badge { color:white; background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.28); padding:0.45rem 0.9rem; border-radius:999px; font-size:0.95rem; display:inline-flex; align-items:center; }
+.profile-dropdown { position:absolute; right:1rem; top:100%; margin-top:0.5rem; width:280px; background:var(--card-bg); border-radius:18px; box-shadow:0 22px 60px rgba(0,0,0,.18); padding:1rem; display:none; z-index:50; color: var(--text); border:1px solid rgba(0,0,0,0.08); }
+.profile-dropdown.visible { display:block; }
+.profile-card { display:flex; gap:0.75rem; align-items:center; margin-bottom:1rem; }
+.profile-avatar-small { width:44px; height:44px; border-radius:50%; object-fit:cover; border:1px solid rgba(0,0,0,0.08); }
+.profile-text { min-width:0; }
+.profile-text strong { display:block; font-size:0.95rem; margin-bottom:0.2rem; }
+.profile-text span { display:block; font-size:0.85rem; color:var(--muted); }
+.profile-actions { display:grid; gap:0.65rem; }
+.dropdown-action { width:100%; border-radius:14px; padding:0.8rem 1rem; border:1px solid rgba(27,67,50,0.12); background: var(--card-bg); color: var(--text); cursor:pointer; text-align:left; transition:background 0.2s ease; }
+.dropdown-action:hover { background: rgba(255,255,255,0.08); }
+.settings-panel { margin-top:1rem; display:none; }
+.settings-panel.visible { display:block; }
+.settings-instruction { margin-bottom:0.75rem; color:#4a5568; font-size:0.9rem; }
+.theme-options { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0.6rem; }
+.theme-option { border-radius:14px; padding:0.85rem 0.9rem; border:1px solid rgba(27,67,50,0.12); background:#ffffff; color:#1b4332; cursor:pointer; transition:transform 0.15s ease, border-color 0.2s ease; }
+.theme-option:hover { transform:translateY(-1px); border-color:rgba(27,67,50,0.2); }
+.theme-option.active { background:rgba(20,83,45,0.1); border-color:rgba(27,67,50,0.2); }
+header h1 img, .navbar img {
+  width: 30px;
+  height: 30px;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+  opacity: 100%;
+}
+.emoji-flag {
+  width: 1.2em;
+  height: auto;
+  vertical-align: middle;
+  margin-right: 0.35rem;
+}
+@media (max-width: 920px) {
+  .navbar li { flex:1 1 140px; }
+}
+@media (max-width: 720px) {
+  header { padding:1.5rem 0.75rem; }
+  main { padding:1.25rem 0.75rem; }
+  .navbar { padding:0.5rem 0.75rem; }
+  .navbar ul { gap:0.5rem; justify-content:center; }
+  .navbar li { flex:1 1 130px; }
+  .navbar a.btn { padding:0.45rem 0.75rem; }
+  .page-grid { grid-template-columns:1fr; }
+  #language-sidebar { position:static; top:auto; }
+  .sidebar-card { margin-bottom:1rem; }
+  .grid { gap:1rem; }
+  .card, .lesson-box { padding:1rem; }
+  button { width: auto; }
+  .speak-btn { width:auto; }
+}
+</style>
+</head>
+<body class="theme-aero">
+<button id="sidebar-toggle" aria-label="Open sidebar">⋯</button>
+
+<header>
+  <h1><img src="Screenshot_2026-06-08_at_2.41.00_PM-removebg-preview.png"> Revive</h1>
+  
+  <p>Teach · Preserve · Restore</p>
+   <nav class="navbar navbar-expand-lg">
+     <div class="container-fluid justify-content-between align-items-center">
+       <ul class="d-flex flex-wrap justify-content-center gap-2 m-0 p-0">
+         <li class="nav-item"><a class="btn btn-outline-light btn-sm" href="reviveaboutus.html">About us</a></li>
+         <li class="nav-item"><a class="btn btn-outline-light btn-sm" href="contactus.html">Contact us</a></li>
+         <li class="nav-item"><a class="btn btn-outline-light btn-sm" href="revivebetatesting.html">Report errors/improvements</a></li>
+       </ul>
+       <div class="d-flex flex-wrap align-items-center gap-2 position-relative">
+         <span id="welcome-badge" class="user-badge hidden"></span>
+         <button id="profile-toggle" class="btn btn-outline-light btn-sm hidden" type="button">
+           <span id="nav-avatar" class="profile-avatar-small"></span>
+           <span id="nav-username-label" style="margin-left:.5rem; white-space:nowrap;"></span>
+         </button>
+         <a id="login-link" class="btn btn-outline-light btn-sm" href="index.html">Log in</a>
+         <a id="logout-link" class="btn btn-outline-light btn-sm hidden" href="index.html">Sign Out</a>
+         <div id="profile-dropdown" class="profile-dropdown hidden">
+           <div class="profile-card">
+             <img id="nav-avatar-img" class="profile-avatar-small" src="https://via.placeholder.com/44/3d8d79/ffffff?text=U" alt="Profile picture">
+             <div class="profile-text">
+               <strong id="nav-username-display">User</strong>
+               <span id="nav-email-display">email@example.com</span>
+             </div>
+           </div>
+           <div class="profile-actions">
+             <button id="settings-toggle" class="dropdown-action" type="button">Appearance settings</button>
+             <button id="logout-dropdown" class="dropdown-action" type="button">Sign Out</button>
+           </div>
+           <div id="settings-panel" class="settings-panel">
+             <p class="settings-instruction">Choose the look and feel of Revive.</p>
+             <div class="theme-options">
+               <button type="button" data-theme="aero" class="theme-option">Aero</button>
+               <button type="button" data-theme="minimalist" class="theme-option">Minimalist</button>
+               <button type="button" data-theme="dark" class="theme-option">Dark</button>
+               <button type="button" data-theme="light" class="theme-option">Light</button>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+   </nav>
+</header>
+<main>
+  <div class="page-grid">
+    <aside id="language-sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-profile">
+          <img id="sidebar-avatar" class="profile-avatar-small" src="https://via.placeholder.com/44/3d8d79/ffffff?text=?" alt="User avatar">
+          <div class="profile-text">
+            <strong id="sidebar-username">Guest</strong>
+            <span id="sidebar-email">Sign in to access your progress</span>
+          </div>
+        </div>
+        <div class="sidebar-auth-actions">
+          <button id="sidebar-login-btn" class="sidebar-auth-btn" type="button">Sign in</button>
+          <button id="sidebar-logout-btn" class="sidebar-auth-btn hidden" type="button">Log out</button>
+        </div>
+        <div class="sidebar-game">
+          <div class="sidebar-metric"><span>Points</span><strong id="sidebar-points">0</strong></div>
+          <div class="sidebar-metric"><span>Badge</span><strong id="sidebar-badge">Novice</strong></div>
+          <div class="sidebar-metric"><span>Level</span><strong id="sidebar-level">1</strong></div>
+          <div class="progress-wrapper"><div id="sidebar-progress" class="progress-bar-fill"></div></div>
+          <div class="progress-label"><span id="sidebar-progress-text">0 / 0 lessons</span><span id="sidebar-progress-percent">0%</span></div>
+        </div>
+      </div>
+    </aside>
+    <section id="languages" class="languages-panel">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Select a Language</h2>
+        <span class="badge rounded-pill text-bg-light text-dark">Aero</span>
+      </div>
+      <div class="grid" id="languageGrid"></div>
+    </section></section>
+
+<div id="lesson" class="hidden">
+  <div class="lesson-box">
+    <div class="lesson-top">
+      <div>
+        <h2 id="languageTitle"></h2>
+        <p class="learning-tagline">Course units, meaningful progression, and a clean interface with no battery meter. Just practice.</p>
+      </div>
+      <span id="languageUnitBadge" class="skill-badge">No battery required</span>
+    </div>
+    <div id="unitOverview" class="unit-overview"></div>
+    
+    <div id="topicSection" class="hidden" style="margin-top:2rem;">
+      <h3 style="margin-bottom:1rem;">📚 Topic-Based Learning</h3>
+      <p style="color:var(--muted); margin-bottom:1rem;">Focus on specific vocabulary areas with dedicated lessons.</p>
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));">
+        <button onclick="openTopic('food')" class="card" style="cursor:pointer; text-align:center; padding:1.5rem;">
+          <div style="font-size:2rem; margin-bottom:.5rem;">🍽️</div>
+          <div>Food & Drink</div>
+          <div style="font-size:.8rem; opacity:.8; margin-top:.3rem;">15 words</div>
+        </button>
+        <button onclick="openTopic('jobs')" class="card" style="cursor:pointer; text-align:center; padding:1.5rem;">
+          <div style="font-size:2rem; margin-bottom:.5rem;">💼</div>
+          <div>Jobs & Professions</div>
+          <div style="font-size:.8rem; opacity:.8; margin-top:.3rem;">12 words</div>
+        </button>
+        <button onclick="openTopic('transport')" class="card" style="cursor:pointer; text-align:center; padding:1.5rem;">
+          <div style="font-size:2rem; margin-bottom:.5rem;">🚗</div>
+          <div>Transport</div>
+          <div style="font-size:.8rem; opacity:.8; margin-top:.3rem;">10 words</div>
+        </button>
+        <button onclick="openTopic('dailylife')" class="card" style="cursor:pointer; text-align:center; padding:1.5rem;">
+          <div style="font-size:2rem; margin-bottom:.5rem;">🏠</div>
+          <div>Daily Life</div>
+          <div style="font-size:.8rem; opacity:.8; margin-top:.3rem;">12 words</div>
+        </button>
+      </div>
+    </div>
+    
+    <div id="lessonContent" class="hidden">
+      <h3 id="levelTitle"></h3>
+      <div id="content"></div>
+      <div class="speech-status" id="speechStatus"></div>
+      <div class="lesson-actions">
+        <button onclick="nextLevel()">Continue</button>
+        <button onclick="back()">Back</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+<footer>🌱 Every language matters</footer>
+
+<script>
+let currentLanguage = "";
+let level = 0;
+let selectedUnit = -1;
+let selectedLesson = 0;
+let requiresTyping = false;
+let availableVoices = [];
+let selectedVoiceIndex = -1;
+let userPoints = 0;
+let userBadge = 'Novice';
+
+const langToCode = {
+  Irish: 'ga-IE', Welsh: 'cy-GB', Ainu: 'ja-JP', TerSami: 'fi-FI',
+  Manchu: 'zh-CN', Picard: 'fr-FR', LowSaxon: 'de-DE', Gondi: 'hi-IN',
+  German: 'de-DE', Japanese: 'ja-JP', Chinese: 'zh-CN', Spanish: 'es-ES', French: 'fr-FR', Italian: 'it-IT', Portuguese: 'pt-PT', Russian: 'ru-RU', Korean: 'ko-KR', Hindi: 'hi-IN',
+  Arabic: 'ar-SA', Farsi: 'fa-IR', Asturian: 'es-ES', Tatar: 'ru-RU', Navajo: 'en-US', Cherokee: 'en-US', Ojibwe: 'en-US', Lakota: 'en-US', KuwaitiPersian: 'fa-IR'
+};
+
+const voicePreferenceMap = {
+  Irish:['google ireland','ga-IE','irish','karl','tessa'],
+  Welsh:['google wales','cy-GB','welsh','daniel','matthew'],
+  Ainu:['google japanese','japanese','kyoko','hikari','takumi'],
+  TerSami:['google finnish','finnish','fi-fi','fi'],
+  Manchu:['google chinese','chinese','zh-cn','mandarin'],
+  Picard:['google french','french','fr-fr','pierre','nicolas'],
+  LowSaxon:['german','de-de','nds','niederdeutsch'],
+  Gondi:['google hindi','hindi','hi-in','indian'],
+  German:['google german','german','de-de','anna','markus'],
+  Japanese:['google japanese','japanese','kyoko','hikari','takumi'],
+  Chinese:['google chinese','chinese','zh-cn','cmn'],
+  Spanish:['google spanish','spanish','es-es','es-mx','sofia','lucia'],
+  French:['google french','french','fr-fr','celine','aurelie'],
+  Italian:['google italian','italian','it-it','carla','giulia'],
+  Portuguese:['google portuguese','portuguese','pt-pt','pt-br','fernanda'],
+  Russian:['google russian','russian','ru-ru','alyona'],
+  Tatar:['google russian','russian','ru-ru','alyona'],
+  Korean:['google korean','korean','ko-kr','seoyeon','sora'],
+  Hindi:['google hindi','hindi','hi-in','indian'],
+  Arabic:['google arabic','arabic','ar-sa'],
+  Farsi:['google persian','persian','fa-ir'],
+  KuwaitiPersian:['google persian','persian','fa-ir'],
+  Navajo:['en-us','english','us'],
+  Cherokee:['en-us','english','us'],
+  Ojibwe:['en-us','english','us'],
+  Lakota:['en-us','english','us'],
+  Asturian:['google spanish','spanish','es-es']
+};
+
+const voiceFallbacks = {
+  Irish:['ga','en-IE','en-GB'],
+  Welsh:['cy','en-GB'],
+  Ainu:['ja','en-JP'],
+  TerSami:['fi','se','en-GB'],
+  Manchu:['zh','en-CN'],
+  Picard:['fr','fr-FR'],
+  LowSaxon:['nds','de','de-DE'],
+  Gondi:['hi','en-IN'],
+  German:['de','de-DE'],
+  Japanese:['ja','ja-JP'],
+  Chinese:['zh','zh-CN','cmn'],
+  Spanish:['es','es-ES','es-MX'],
+  French:['fr','fr-FR'],
+  Italian:['it','it-IT'],
+  Portuguese:['pt','pt-PT','pt-BR'],
+  Russian:['ru','ru-RU'],
+  Tatar:['tt','ru-RU','tt-RU'],
+  Korean:['ko','ko-KR'],
+  Hindi:['hi','hi-IN'],
+  Arabic:['ar','ar-SA'],
+  Farsi:['fa','fa-IR'],
+  KuwaitiPersian:['fa','fa-IR','ar-SA'],
+  Navajo:['en','en-US','en-GB'],
+  Cherokee:['en','en-US','en-GB'],
+  Ojibwe:['en','en-US','en-GB'],
+  Lakota:['en','en-US','en-GB'],
+  Asturian:['es','es-ES']
+};
+
+const endangeredLanguages = [
+  { key:'Irish', name:'Irish', native:'Gaeilge', flag:'🇮🇪', region:'Ireland' },
+  { key:'Welsh', name:'Welsh', native:'Cymraeg', flag:'🏴', region:'Wales' },
+  { key:'Ainu', name:'Ainu', native:'アイヌ・イタㇰ', flag:'🇯🇵', region:'Japan' },
+  { key:'TerSami', name:'Ter Sámi', native:'Doaje sámegiella', flag:'🇫🇮', region:'Finland' },
+  { key:'Manchu', name:'Manchu', native:'ᠮᠠᠨᠵᡠ', flag:'🇨🇳', region:'China' },
+  { key:'Picard', name:'Picard', native:'Picard', flag:'🇫🇷', region:'France' },
+  { key:'LowSaxon', name:'Low Saxon', native:'Plattdüütsch', flag:'🇩🇪', region:'Germany' },
+  { key:'Gondi', name:'Gondi', native:'Gonḍi', flag:'🇮🇳', region:'India' },
+  { key:'Cornish', name:'Cornish', native:'Kernewek', flag:'🏴', region:'England' },
+  { key:'Breton', name:'Breton', native:'Brezhoneg', flag:'🇫🇷', region:'Brittany' },
+  { key:'ScottishGaelic', name:'Scottish Gaelic', native:'Gàidhlig', flag:'🇬🇧', region:'Scotland' },
+  { key:'Yiddish', name:'Yiddish', native:'ייִדיש', flag:'🇮🇱', region:'Europe' },
+  { key:'Navajo', name:'Navajo', native:'Diné bizaad', flag:'🇺🇸', region:'USA' },
+  { key:'Guarani', name:'Guarani', native:'Avañeʼẽ', flag:'🇵🇾', region:'South America' },
+  { key:'Uighur', name:'Uighur', native:'ئۇيغۇر تىلى', flag:'🇨🇳', region:'China' },
+  { key:'Quechua', name:'Quechua', native:'Runa Simi', flag:'🇵🇪', region:'Andes' },
+  { key:'Kiche', name:'Kʼicheʼ', native:'Kʼicheʼ', flag:'🇬🇹', region:'Guatemala' },
+  { key:'Basque', name:'Basque', native:'Euskara', flag:'🇪🇸', region:'Spain' },
+  { key:'Frisian', name:'Frisian', native:'Frysk', flag:'🇳🇱', region:'Netherlands' },
+  { key:'Sardinian', name:'Sardinian', native:'Sardu', flag:'🇮🇹', region:'Italy' },
+  { key:'Occitan', name:'Occitan', native:'Occitan', flag:'🇫🇷', region:'France' },
+  { key:'Catalan', name:'Catalan', native:'Català', flag:'🇪🇸', region:'Spain' },
+  { key:'Romani', name:'Romani', native:'Romani', flag:'🌍', region:'Europe' },
+  { key:'Inuktitut', name:'Inuktitut', native:'ᐃᓄᒃᑎᑐᑦ', flag:'🇨🇦', region:'Canada' },
+  { key:'Kalaallisut', name:'Kalaallisut', native:'Kalaallisut', flag:'🇬🇱', region:'Greenland' },
+  { key:'Ojibwe', name:'Ojibwe', native:'Anishinaabemowin', flag:'🇨🇦', region:'Canada' },
+  { key:'Cree', name:'Cree', native:'ᓀᐦᐃᑲᐣ', flag:'🇨🇦', region:'Canada' },
+  { key:'Lakota', name:'Lakota', native:'Lakȟótiyapi', flag:'🇺🇸', region:'USA' },
+  { key:'Cherokee', name:'Cherokee', native:'ᏣᎳᎩ', flag:'🇺🇸', region:'USA' },
+  { key:'Hawaiian', name:'Hawaiian', native:'ʻŌlelo Hawaiʻi', flag:'🇺🇸', region:'Hawaii' },
+  { key:'Maori', name:'Māori', native:'Te Reo Māori', flag:'🇳🇿', region:'New Zealand' },
+  { key:'Samoan', name:'Samoan', native:'Gagana Samoa', flag:'🇼🇸', region:'Samoa' },
+  { key:'Tahitian', name:'Tahitian', native:'Reo Tahiti', flag:'🇵🇫', region:'French Polynesia' },
+  { key:'Fijian', name:'Fijian', native:'Vosa Vakaviti', flag:'🇫🇯', region:'Fiji' },
+  { key:'Chamorro', name:'Chamorro', native:'Chamoru', flag:'🇬🇺', region:'Guam' },
+  { key:'Palauan', name:'Palauan', native:'Belau', flag:'🇵🇼', region:'Palau' },
+  { key:'Tlingit', name:'Tlingit', native:'Lingít', flag:'🇺🇸', region:'Alaska' },
+  { key:'Haida', name:'Haida', native:'X̱aad Kil', flag:'🇨🇦', region:'Canada' },
+  { key:'Nuxalk', name:'Nuxalk', native:"Sm'algya̱x", flag:'🇨🇦', region:'Canada' },
+  { key:'LuleSami', name:'Lule Sámi', native:'Julevsámegiella', flag:'🇳🇴', region:'Norway' },
+  { key:'Dhivehi', name:'Dhivehi', native:'ދިވެހި', flag:'🇲🇻', region:'Maldives' },
+  { key:'Aromanian', name:'Aromanian', native:'Armãneashce', flag:'🇷🇴', region:'Balkans' },
+  { key:'Ladino', name:'Ladino', native:'Ladino', flag:'🇹🇷', region:'Eastern Mediterranean' },
+  { key:'Sicilian', name:'Sicilian', native:'Sicilianu', flag:'🇮🇹', region:'Italy' },
+  { key:'Galician', name:'Galician', native:'Galego', flag:'🇪🇸', region:'Spain' },
+  { key:'Friulian', name:'Friulian', native:'Furlan', flag:'🇮🇹', region:'Italy' },
+  { key:'FrancoProvençal', name:'Franco-Provençal', native:'Arpitan', flag:'🇫🇷', region:'France' },
+  { key:'SaterlandFrisian', name:'Saterland Frisian', native:'Seeltersk', flag:'🇩🇪', region:'Germany' },
+  { key:'Yoruba', name:'Yorùbá', native:'Yorùbá', flag:'🇳🇬', region:'Nigeria' },
+  { key:'Igbo', name:'Igbo', native:'Igbo', flag:'🇳🇬', region:'Nigeria' },
+  { key:'Ewe', name:'Ewe', native:'Eʋegbe', flag:'🇬🇭', region:'Ghana' },
+  { key:'Wolof', name:'Wolof', native:'Wolof', flag:'🇸🇳', region:'Senegal' },
+  { key:'Kinyarwanda', name:'Kinyarwanda', native:'Kinyarwanda', flag:'🇷🇼', region:'Rwanda' },
+  { key:'Akan', name:'Akan', native:'Twi', flag:'🇬🇭', region:'Ghana' },
+  { key:'Shona', name:'Shona', native:'ChiShona', flag:'🇿🇼', region:'Zimbabwe' },
+  { key:'Xhosa', name:'Xhosa', native:'isiXhosa', flag:'🇿🇦', region:'South Africa' },
+  { key:'Zulu', name:'Zulu', native:'isiZulu', flag:'🇿🇦', region:'South Africa' },
+  { key:'Afrikaans', name:'Afrikaans', native:'Afrikaans', flag:'🇿🇦', region:'South Africa' },
+  { key:'Kurdish', name:'Kurdish', native:'Kurdî', flag:'🇹🇷', region:'Turkey' },
+  { key:'Sorbian', name:'Sorbian', native:'Serbsce', flag:'🇩🇪', region:'Germany' },
+  { key:'Czech', name:'Czech', native:'Čeština', flag:'🇨🇿', region:'Czech Republic' },
+  { key:'Slovak', name:'Slovak', native:'Slovenčina', flag:'🇸🇰', region:'Slovakia' },
+  { key:'Slovene', name:'Slovene', native:'Slovenščina', flag:'🇸🇮', region:'Slovenia' },
+  { key:'Maltese', name:'Maltese', native:'Malti', flag:'🇲🇹', region:'Malta' },
+  { key:'Aragonese', name:'Aragonese', native:'Aragonés', flag:'🇪🇸', region:'Spain' },
+  { key:'Asturian', name:'Asturian', native:'Asturianu', flag:'🇪🇸', region:'Spain' },
+  { key:'Mingrelian', name:'Mingrelian', native:'მარგალური', flag:'🇬🇪', region:'Georgia' },
+  { key:'Tatar', name:'Tatar', native:'Tatarça', flag:'🇷🇺', region:'Russia' },
+  { key:'KuwaitiPersian', name:'Kuwaiti Persian', native:'فارسی کویتی', flag:'🇰🇼', region:'Kuwait' },
+  { key:'Bashkir', name:'Bashkir', native:'Башҡörtса', flag:'🇷🇺', region:'Russia' },
+  { key:'Yakut', name:'Yakut', native:'Саха тыла', flag:'🇷🇺', region:'Russia' },
+  { key:'Chechen', name:'Chechen', native:'Нохчийн мотт', flag:'🇷🇺', region:'Russia' },
+  { key:'Aymara', name:'Aymara', native:'Aymar aru', flag:'🇧🇴', region:'Bolivia' },
+  { key:'Basay', name:'Basay', native:'Basay', flag:'🇹🇼', region:'Taiwan' },
+  { key:'SakhalinAinu', name:'Sakhalin Ainu', native:'アイヌ イタク', flag:'🇷🇺', region:'Russia' },
+  { key:'SamiInari', name:'Inari Sami', native:'Anarâškielâ', flag:'🇫🇮', region:'Finland' },
+  { key:'Pomo', name:'Pomo', native:'Pomo', flag:'🇺🇸', region:'USA' },
+  { key:'Mayan', name:'Mayan', native:'Maya', flag:'🇲🇽', region:'Mexico' },
+  { key:'Tzotzil', name:'Tzotzil', native:'Batsʼil kʼop', flag:'🇲🇽', region:'Mexico' },
+  { key:'Zapotec', name:'Zapotec', native:'Diidxazá', flag:'🇲🇽', region:'Mexico' },
+  { key:'Mixe', name:'Mixe', native:'Teej Makom', flag:'🇲🇽', region:'Mexico' },
+  { key:'CherokeeSyllabary', name:'Cherokee', native:'ᏣᎳᎩ', flag:'🇺🇸', region:'USA' },
+  { key:'Sundanese', name:'Sundanese', native:'Basa Sunda', flag:'🇮🇩', region:'Indonesia' },
+  { key:'Balinese', name:'Balinese', native:'Basa Bali', flag:'🇮🇩', region:'Indonesia' },
+  { key:'RapaNui', name:'Rapa Nui', native:'Rapa Nui', flag:'🇨🇱', region:'Easter Island' },
+  { key:'Kalaallisut', name:'Greenlandic', native:'Kalaallisut', flag:'🇬🇱', region:'Greenland' },
+  { key:'Saramaccan', name:'Saramaccan', native:'Saramaka', flag:'🇸🇷', region:'Suriname' },
+  { key:'AkanFante', name:'Fante', native:'Fante', flag:'🇬🇭', region:'Ghana' },
+  { key:'Miwok', name:'Miwok', native:'Miwu', flag:'🇺🇸', region:'USA' },
+  { key:'Salish', name:'Salish', native:'nsyilxcən', flag:'🇨🇦', region:'Canada' },
+  { key:'Hupa', name:'Hupa', native:'Natinixwe', flag:'🇺🇸', region:'USA' },
+  { key:'Udmurt', name:'Udmurt', native:'удмurt кыв', flag:'🇷🇺', region:'Russia' },
+  { key:'Mari', name:'Mari', native:'марий йылме', flag:'🇷🇺', region:'Russia' },
+  { key:'Komi', name:'Komi', native:'коми кыв', flag:'🇷🇺', region:'Russia' },
+  { key:'Tibetan', name:'Tibetan', native:'བོད་ཡིག', flag:'🇨🇳', region:'Tibet' },
+  { key:'Udmurt', name:'Udmurt', native:'удмурт кыл', flag:'🇷🇺', region:'Russia' },
+  { key:'Svan', name:'Svan', native:'სვანური', flag:'🇬🇪', region:'Georgia' },
+  { key:'Zazaki', name:'Zazaki', native:'Zazakî', flag:'🇹🇷', region:'Turkey' },
+  { key:'Chepang', name:'Chepang', native:'Chepang', flag:'🇳🇵', region:'Nepal' },
+  { key:'Rombo', name:'Rombo', native:'Kihorombo', flag:'🇹🇿', region:'Tanzania' },
+  { key:'Naro', name:'Naro', native:'Naro', flag:'🇧🇼', region:'Botswana' }
+];
+
+function createPlaceholderCourse(lang) {
+  return {
+    units:[
+      { name:'Starter', description:`Quick intro to ${lang}`, lessons:[
+        ['Hello','','hello'],
+        ['Thank you','','thank you'],
+        ['Yes','','yes'],
+        ['No','','no']
+      ]},
+      { name:'Everyday', description:'Useful daily expressions', lessons:[
+        ['How are you?','','how are you'],
+        ['Good morning','','good morning'],
+        ['Good night','','good night'],
+        ['See you later','','see you later']
+      ]},
+      { name:'Culture', description:'Learn around food, family, and greetings', lessons:[
+        ['I am learning','',`I am learning ${lang}`],
+        ['Please','','please'],
+        ['Excuse me','','excuse me'],
+        ['Nice to meet you','','nice to meet you']
+      ]}
+    ]
+  };
+}
+
+function getCourseForLang(lang) {
+  if (courses[lang]) return courses[lang];
+
+  // Fallback: generate a simple three-unit course for any language not explicitly listed
+  const languageMeta = findLanguage(lang) || { name: lang, native: '', flag: '🌍', region: 'Worldwide' };
+  const fallbackCourse = {
+    units: [
+      { name: 'Basics', icon: '📘', description: 'Common greetings and essential words.', lessons: [
+          { word: languageMeta.native || languageMeta.name, translit: '', meaning: languageMeta.name },
+          { word: 'Hello', translit: '', meaning: 'hello' },
+          { word: 'Thank you', translit: '', meaning: 'thank you' },
+          { word: 'Yes', translit: '', meaning: 'yes' },
+          { word: 'No', translit: '', meaning: 'no' },
+          { word: 'How are you?', translit: '', meaning: 'how are you?' }
+      ] },
+      { name: 'Everyday', icon: '🏠', description: 'Useful everyday vocabulary.', lessons: [
+          { word: 'Please', translit: '', meaning: 'please' },
+          { word: 'Goodbye', translit: '', meaning: 'goodbye' },
+          { word: 'Water', translit: '', meaning: 'water' },
+          { word: 'Eat', translit: '', meaning: 'eat' },
+          { word: 'Where?', translit: '', meaning: 'where?' }
+      ] },
+      { name: 'Travel', icon: '🧭', description: 'Basic travel and directions.', lessons: [
+          { word: 'Where is...', translit: '', meaning: 'where is...' },
+          { word: 'How much?', translit: '', meaning: 'how much?' },
+          { word: 'Help', translit: '', meaning: 'help' },
+          { word: 'I need...', translit: '', meaning: 'I need...' }
+      ] }
+    ]
+  };
+
+  return fallbackCourse;
+}
+
+function renderLanguageSelection() {
+  const languageGrid = document.getElementById('languageGrid');
+  if (!languageGrid) return;
+  languageGrid.innerHTML = '';
+
+  endangeredLanguages.forEach((lang) => {
+    if (!courseData[lang.key]) return;
+    
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.onclick = () => openLanguage(lang.key);
+    card.innerHTML = `<div style="font-size:1.4rem; margin-bottom:.5rem;">${lang.flag}</div><strong>${lang.name}</strong><div style="margin-top:.5rem; color:var(--muted); font-size:.92rem;">${lang.native} · ${lang.region}</div>`;
+    languageGrid.appendChild(card);
+  });
+}
+
+const lessons = {
+  Irish:[
+    [["Dia duit","","hello"]],[["Go raibh maith agat","","thank you"]],[["Tá","","yes"]],
+    [["Conas atá tú?","","how are you"]],[["Oíche mhaith","","good night"]],[["Slán","","goodbye"]],
+    [["Fáilte","","welcome"]],[["Le do thoil","","please"]],[["Gabh mo leithscéal","","excuse me"]],
+    [["Níl","","no"]],[["Tá mé go maith","","I'm good"]],[["An bhfuil tú ceart go leor?","","are you okay?"]],
+    [["Tá sé go deas bualadh leat","","nice to meet you"]],[["Cén t-am é?","","what time is it?"]],
+    [["Tá mé tuirseach","","I'm tired"]],[["An féidir leat cabhrú liom?","","can you help me?"]],
+    [["Tá mé ag foghlaim Gaeilge","","I'm learning Irish"]],[["Is maith liom ceol","","I like music"]],
+    [["Tá an aimsir go hálainn inniu","","the weather is beautiful today"]],[["Sláinte!","","cheers!"]],
+    [["Go n-éirí an bóthar leat","","good luck"]],[["Tá mé i ngrá le Gaeilge","","I love Irish"]],
+  ],
+  Welsh:[
+    [["Helo","","hello"]],[["Diolch","","thank you"]],[["Ie","","yes"]],
+    [["Sut wyt ti?","","how are you"]],[["Nos da","","good night"]],[["Hwyl fawr","","goodbye"]],
+    [["Croeso","","welcome"]],[["Os gwelwch yn dda","","please"]],[["Esgusodwch fi","","excuse me"]],
+    [["Na","","no"]],[["Dw i'n iawn","","I'm good"]],[["Wyt ti'n iawn?","","are you okay?"]],
+    [["Mae'n braf cwrdd â chi","","nice to meet you"]],[["Faint o'r gloch ydy hi?","","what time is it?"]],
+    [["Dw i'n flinedig","","I'm tired"]],[["Allwch chi helpu fi?","","can you help me?"]],
+    [["Dw i'n dysgu Cymraeg","","I'm learning Welsh"]],[["Dw i'n hoffi cerddoriaeth","","I like music"]],
+    [["Mae'r tywydd yn braf heddiw","","the weather is beautiful today"]],[["Iechyd da!","","cheers!"]],
+    [["Pob lwc!","","good luck"]],[["Dw i'n caru Cymraeg","","I love Welsh"]],
+  ],
+  Ainu:[
+    [["Irankarapte","","hello"]],[["Iyairaykere","","thank you"]],[["Ku=an","","I"]],
+    [["E=an","","you"]],[["Kamuy","","spirit"]],[["Irankarapte ku=an","","hello I"]],
+    [["Irankarapte e=an","","hello you"]]
+  ],
+  TerSami:[
+    [["Terve","","hello"]],[["Kiitos","","thank you"]],[["Mun","","I"]],[["Tun","","you"]],
+    [["Jieʹnn","","night"]],[["Terve mun","","hello I"]],[["Terve tun","","hello you"]],
+    [["Kiitos mun","","thank you I"]],[["Kiitos tun","","thank you you"]]
+  ],
+  Manchu:[
+    [["ᡥᠠᡳ","hai","hello"]],[["ᡥᡡᠸᠠᠯᡳ","huwali","thanks"]],[["ᠪᡝ","be","I"]],
+    [["ᡤᡳᠰᡠᠨ","gisun","language"]],[["ᡥᠠᡳ ᠪᡝ","hai be","hello I"]],
+    [["ᡥᠠᡳ ᡤᡳᠰᡠᠨ","hai gisun","hello language"]],[["ᡥᡡᠸᠠᠯᡳ ᡪᡝ","huwali be","thanks I"]],
+    [["ᡥᡡᠸᠠᠯᡳ ᡤᡳᠰᡠᠨ","huwali gisun","thanks language"]],
+    [["ᠮᠠᠨᠵᡠ ᡩᡝ","manju de","Manchu people"]],[["ᠮᠠᠨᠵᡠ ᡤᡳᠰᡠᠨ","manju gisun","Manchu language"]],
+    [["ᡤᡝᠯᡳ","geli","good"]],[["ᠵᠠᠯᠠ","jala","eat" ]],[["ᠮᠠᠨᡠ","manu","water"]],
+    [["ᡤᡡᠰᡝ","guse","where" ]],[["ᡩᡝ ᠪᡠ","de bu","thank you very much"]],[["ᡤᡝ ᠪᡠ","ge bu","please"]]
+  ],
+  Picard:[
+    [["Bonjorn","","hello"]],[["Merci","","thank you"]],[["Oé","","yes"]],
+    [["Commin t'es?","","how are you"]],[["Bonn nuée","","good night"]]
+    [["Adieu","","goodbye"]],[["Binv'nue","","welcome"]],[["S'il vous plaît","","please"]],
+    [["Excusez-mi","","excuse me"]],[["Nin","","no"]],[["J'sus bin","","I'm good"]],
+    [["T'es bin?","","are you okay?"]],[["Ravi d'vous r'contrer","","nice to meet you"]],
+    [["Quell heure est-chi?","","what time is it?"]],[["J'sus fatigué","","I'm tired"]],
+    [["Pouvez-vous m'aider?","","can you help me?"]],[["J'apprends le picard","","I'm learning Picard"]],
+    [["J'aime l'musique","","I like music"]],[["L'temps est biau ichi","","the weather is beautiful today"]],
+    [["Santé!","","cheers!"]],[["Bonne chance!","","good luck"]],[["J'aime le picard!","","I love Picard"]],
+    [["Comment t'appelles-tu?","","what's your name"]],[["J'm'appelle...","","my name is..."]],
+    [["D'où viens-tu?","","where are you from"]],[["J'sus d'...","","I'm from..."]],
+  ],
+  LowSaxon:[
+    [["Moin","","hello"]],[["Dank di","","thank you"]],[["Jo","","yes"]],
+    [["Wo geiht di?","","how are you"]],[["Gode Nacht","","good night"]]
+  ],
+  Gondi:[
+    [["Namaskar","","hello"]],[["Dhanyavaad","","thank you"]],[["Ha","","yes"]],
+    [["Nee etta?","","how are you"]],[["Raati","","night"]],[["Namaskar ha","","hello yes"]],
+    [["Namaskar nee etta?","","hello how are you"]],[["Dhanyavaad ha","","thank you yes"]],
+    [["Dhanyavaad nee etta?","","thank you how are you"]]
+  ],
+  German:[
+    [["Hallo","","hello"]],[["Danke","","thank you"]],[["Ja","","yes"]],[["Wie geht's?","","how are you"]],
+    [["Gute Nacht","","good night"]],[["Auf Wiedersehen","","goodbye"]],[["Willkommen","","welcome"]],
+    [["Bitte","","please"]],[["Entschuldigung","","excuse me"]],[["Nein","","no"]],
+    [["Ich bin gut","","I'm good"]],[["Bist du okay?","","are you okay?"]],
+    [["Freut mich, dich kennenzulernen","","nice to meet you"]],[["Wie spät ist es?","","what time is it?"]],
+    [["Ich bin müde","","I'm tired"]],[["Kannst du mir helfen?","","can you help me?"]],
+    [["Ich lerne Deutsch","","I'm learning German"]],[["Ich mag Musik","","I like music"]],
+    [["Das Wetter ist heute schön","","the weather is beautiful today"]],[["Prost!","","cheers!"]],
+    [["Viel Glück!","","good luck"]],[["Ich liebe Deutsch!","","I love German"]],
+  ],
+  Japanese:[
+    [["こんにちは","konnichiwa","hello"]],[["ありがとう","arigatō","thank you"]],[["はい","hai","yes"]],
+    [["元気ですか","genki desu ka","how are you"]],[["おやすみ","oyasumi","good night"]]
+  ],
+  Chinese:[
+    [["你好","nǐ hǎo","hello"]],[["谢谢","xièxie","thank you"]],[["是","shì","yes"]],
+    [["你好吗","nǐ hǎo ma","how are you"]],[["晚安","wǎn ān","good night"]],[["再见","zài jiàn","goodbye"]],
+    [["欢迎","huān yíng","welcome"]],[["请","qǐng","please"]],[["对不起","duì bù qǐ","excuse me"]],
+    [["不","bù","no"]],[["我很好","wǒ hěn hǎo","I'm good"]],[["你还好吗","nǐ hái hǎo ma","are you okay?"]],
+    [["很高兴见到你","hěn gāoxìng jiàn dào nǐ","nice to meet you"]],[["现在几点了","xiàn zài jǐ diǎn le","what time is it?"]],
+    [["我很累","wǒ hěn lèi","I'm tired"]],[["你能帮我吗","nǐ néng bāng wǒ ma","can you help me?"]],
+    [["我在学中文","wǒ zài xué zhōng wén","I'm learning Chinese"]],[["我喜欢音乐","wǒ xǐ huān yīn yuè","I like music"]],
+    [["今天天气真好","jīn tiān tiān qì zhēn hǎo","the weather is beautiful today"]],[["干杯!","","cheers!"]],
+    [["祝你好运!","","good luck"]],[["我爱中文!","","I love Chinese"]],
+  ],
+  Hindi:[
+    [["नमस्ते","namaste","hello"]],[["धन्यवाद","dhanyavād","thank you"]],[["हाँ","hā̃","yes"]],
+    [["आप कैसे हैं","āp kaise hain","how are you"]],[["शुभ रात्रि","shubh rātri","good night"]]
+  ],
+  Arabic:[
+    [["مرحبا","marḥabā","hello"]],[["شكراً","shukran","thank you"]],[["نعم","naʿam","yes"]],
+    [["كيف حالك","kayfa ḥāluk","how are you"]],[["مساء الخير","masāʾ al-khayr","good evening"]],
+    [["من فضلك","min faḍlik","please"]],[["عفواً","ʿafwan","excuse me"]],[["لا","lā","no"]],
+    [["أهلاً وسهلاً","ahlan wa sahlan","welcome"]],[["الحياة جميلة","al-ḥayāh jamīlah","life is beautiful"]],
+    [["مع السلامة","maʿ al-salāmah","goodbye"]],
+  ],
+  Farsi:[
+    [["سلام","salam","hello"]],[["متشکرم","moteshkaram","thank you"]],[["بله","beleh","yes"]],
+    [["چطوری","chetori","how are you"]],[["شب بخیر","shab bekheir","good night"]],
+    [["خداحافظ","khodahafez","goodbye"]],[["لطفاً","lotfan","please"]],
+    [["ببخشید","bebakhshid","excuse me"]],[["نه","na","no"]],
+    [["خوش آمدید","khosh amadid","welcome"]],[["زندگی زیباست","zendegi zibast","life is beautiful"]],
+    [["من خوبم","man khobam","I'm good"]],[["حالت خوبه؟","halet khobe?","are you okay?"]],
+    [["خوشبختم","khoshbakhtam","nice to meet you"]],[["ساعت چند است؟","sā'at chand ast?","what time is it?"]],
+           
+  ],
+  Asturian:[
+    [["Hola","","hello"]],[["Gracies","","thank you"]],[["Sí","","yes"]],
+    [["¿Cómo tas?","","how are you"]],[["Bona nueche","","good night"]],[["Adiós","","goodbye"]],
+    [["Bienveníu","","welcome"]],[["Por favor","","please"]],[["Perdón","","excuse me"]],
+    [["Nun","","no"]],[["Toy bien","","I'm good"]],[["¿Tas bien?","","are you okay?"]],
+    [["Encantáu de conocete","","nice to meet you"]],[["¿Qué hora ye?","","what time is it?"]],
+    [["Toy cansáu","","I'm tired"]],[["¿Puedes ayudarme?","","can you help me?"]],
+    [["Toy aprendiendo asturianu","","I'm learning Asturian"]],[["Gústame la música","","I like music"]],
+    [["El tiempu ta guapu güei","","the weather is beautiful today"]],[["¡Salud!","","cheers!"]],
+    [["¡Mucha güey!","","good luck"]],[["¡Amo'l asturianu!","","I love Asturian"]],
+    [["¿Cómo te llamas?","","what's your name"]],[["Me llamo...","","my name is..."]],
+    [["¿De dónde eres?","","where are you from"]],[["Soy de...","","I'm from..."]],
+    ],
+  
+};
+
+const courseData = {
+  Irish: {
+    units: [
+      { name: 'Basics', icon: '🍀', description: 'Greetings, pronunciation, and polite answers.', lessons: lessons.Irish.slice(0, 6) },
+      { name: 'Travel', icon: '🧭', description: 'Directions, food, and key phrases for journeys.', lessons: lessons.Irish.slice(6, 14) },
+      { name: 'Everyday', icon: '🌦️', description: 'Daily life phrases, weather, and feel-good expressions.', lessons: lessons.Irish.slice(14, 22) }
+    ]
+  },
+  Welsh: {
+    units: [
+      { name: 'Basics', icon: '🏴', description: 'Hello, thank you, and polite talk in Welsh.', lessons: lessons.Welsh.slice(0, 6) },
+      { name: 'Travel', icon: '🧭', description: 'Meeting people, directions and local phrases.', lessons: lessons.Welsh.slice(6, 14) },
+      { name: 'Culture', icon: '🎶', description: 'Weather, emotions, and small talk with confidence.', lessons: lessons.Welsh.slice(14, 22) }
+    ]
+  },
+  Ainu: { units: [ { name: 'Intro', icon: '🐻', description: 'Basic greetings and cultural keywords.', lessons: lessons.Ainu } ] },
+  TerSami: { units: [ { name: 'Start', icon: '❄️', description: 'Learn core words and phrases in Ter Sámi.', lessons: lessons.TerSami } ] },
+  Manchu: {
+    units: [
+      { name: 'Foundations', icon: '🕊️', description: 'Basic greetings, pronouns, and introduction to script.', lessons: lessons.Manchu.slice(0,6) },
+      { name: 'Everyday', icon: '🏠', description: 'Daily life phrases and common verbs.', lessons: lessons.Manchu.slice(6,12) },
+      { name: 'Food & Travel', icon: '🍜', description: 'Ordering, directions, and helpful travel phrases.', lessons: [ ['ᠵᠠᠯᠠ','','eat'], ['ᠮᠠᠨᡠ','','water'], ['ᡤᡡᠰᡝ','','where'], ['ᡤᡝ ᠪᡠ','','please'] ] },
+      { name: 'Numbers & Time', icon: '🕰️', description: 'Numbers, time and basic questions.', lessons: [ ['ᠠᠯᡝ','','one'], ['ᠪᠠ','','two'], ['ᠰᡝᠨ','','three'], ['ᡤᡠᠨ ᡠᠷᡳ','','what time?'] ] }
+    ]
+  },
+  Picard: { units: [ { name: 'Basics', icon: '🥖', description: 'Say hello, thank you, and simple questions in Picard.', lessons: lessons.Picard } ] },
+  LowSaxon: { units: [ { name: 'Basics', icon: '🌾', description: 'Lower Saxon greetings and polite voice.', lessons: lessons.LowSaxon } ] },
+  Gondi: { units: [ { name: 'Basics', icon: '🌿', description: 'Greetings and essential expressions in Gondi.', lessons: lessons.Gondi } ] },
+  German: { units: [ { name: 'Basics', icon: '🛡️', description: 'Everyday German greetings and polite phrases.', lessons: lessons.German } ] },
+  Japanese: { units: [ { name: 'Basics', icon: '🎎', description: 'Say hello, thank you, and basic Japanese expressions.', lessons: lessons.Japanese } ] },
+  Chinese: { units: [ { name: 'Basics', icon: '🐉', description: 'Foundational Mandarin phrases and useful speech.', lessons: lessons.Chinese } ] },
+  Spanish: {
+    units: [
+      { name: 'Basics', icon: '¡Hola!', description: 'Greetings and useful expressions for beginners.', lessons: [ ['Hola','','hello'], ['Gracias','','thank you'], ['Sí','','yes'], ['No','','no'], ['Por favor','','please'], ['Adiós','','goodbye'] ] },
+      { name: 'Travel', icon: '🧭', description: 'Travel phrases, directions, and questions.', lessons: [ ['¿Dónde está el baño?','','where is the bathroom?'], ['¿Cuánto cuesta?','','how much does it cost?'], ['Necesito ayuda','','I need help'], ['Un billete, por favor','','one ticket, please'], ['¿Habla inglés?','','do you speak English?'], ['Estoy perdido','','I am lost'] ] },
+      { name: 'Conversation', icon: '💬', description: 'Small talk, weather, and simple chat.', lessons: [ ['¿Cómo estás?','','how are you?'], ['Estoy bien','','I am good'], ['Hace calor','','It is hot'], ['Me gusta la música','','I like music'], ['¿Qué hora es?','','what time is it?'], ['Hasta luego','','see you later'] ] }
+    ]
+  },
+  French: {
+    units: [
+      { name: 'Basics', icon: 'Bonjour', description: 'Learn greetings and quick phrases in French.', lessons: [ ['Bonjour','','hello'], ['Merci','','thank you'], ['Oui','','yes'], ['Non','','no'], ['S’il vous plaît','','please'], ['Au revoir','','goodbye'] ] },
+      { name: 'Travel', icon: '🧳', description: 'Ask directions, order food, and navigate towns.', lessons: [ ['Où est la gare?','','where is the station?'], ['Combien ça coûte?','','how much is this?'], ['Je voudrais','','I would like'], ['Parlez-vous anglais?','','do you speak English?'], ['L’addition, s’il vous plaît','','the check please'], ['Je suis perdu','','I am lost'] ] }
+    ]
+  },
+  Italian: {
+    units: [
+      { name: 'Basics', icon: 'Ciao', description: 'Italian greetings, polite words, and introductions.', lessons: [ ['Ciao','','hello'], ['Grazie','','thank you'], ['Sì','','yes'], ['No','','no'], ['Per favore','','please'], ['Arrivederci','','goodbye'] ] },
+      { name: 'Food', icon: '🍝', description: 'Order meals, ask about ingredients, and enjoy local cuisine.', lessons: [ ['Vorrei un caffè','','I would like a coffee'], ['Il conto, per favore','','the bill, please'], ['Che cosa consigli?','','what do you recommend?'], ['Sono vegetariano','','I am vegetarian'], ['È piccante?','','is it spicy?'], ['Acqua naturale','','still water'] ] }
+    ]
+  },
+  Portuguese: {
+    units: [
+      { name: 'Basics', icon: 'Olá', description: 'Portuguese greetings, thanks, and simple expressions.', lessons: [ ['Olá','','hello'], ['Obrigado','','thank you'], ['Sim','','yes'], ['Não','','no'], ['Por favor','','please'], ['Adeus','','goodbye'] ] },
+      { name: 'Travel', icon: '✈️', description: 'Useful phrases for travel and directions.', lessons: [ ['Onde fica o banheiro?','','where is the bathroom?'], ['Quanto custa?','','how much does it cost?'], ['Eu preciso de ajuda','','I need help'], ['Fala inglês?','','do you speak English?'], ['Estou perdido','','I am lost'], ['Um bilhete, por favor','','one ticket please'] ] }
+    ]
+  },
+  Russian: {
+    units: [
+      { name: 'Basics', icon: 'Привет', description: 'Greetings and essential Russian phrases.', lessons: [ ['Привет','privet','hello'], ['Спасибо','spasibo','thank you'], ['Да','da','yes'], ['Нет','net','no'], ['Пожалуйста','pozhaluysta','please'], ['До свидания','do svidaniya','goodbye'] ] },
+      { name: 'Everyday', icon: '🏙️', description: 'Ask questions and chat about daily life.', lessons: [ ['Как дела?','kak dela','how are you?'], ['Я хорошо','ya khorosho','I am good'], ['Где туалет?','gde tualet','where is the restroom?'], ['Сколько стоит?','skolko stoit','how much does it cost?'], ['Я потерялся','ya poteryalsya','I am lost'], ['Я хочу воды','ya khochu vody','I want water'] ] }
+    ]
+  },
+  Tatar: {
+    units: [
+      { name: 'Basics', icon: '🪶', description: 'Core Tatar greetings and polite travel phrases.', lessons: [ ['Isänmesez','','hello'], ['Rähmät','','thank you'], ['Äye','','yes'], ['Yuq','','no'], ['Nihayät?','','how are you?'], ['Xäyerle kiç','','good night'] ] }
+    ]
+  },
+  Navajo: {
+    units: [
+      { name: 'Basics', icon: '🏜️', description: 'Navajo greetings and common expressions.', lessons: [ ['Yáʼátʼééh','','hello'], ['Ahéheeʼ','','thank you'], ['Aooʼ','','yes'], ['Dooda','','no'], ['Haash yinilyé?','','how are you?'], ['Hágoóneeʼ','','goodbye'] ] }
+    ]
+  },
+  Cherokee: {
+    units: [
+      { name: 'Basics', icon: '🪶', description: 'Cherokee greetings and polite phrases.', lessons: [ ['ᎣᏏᏲ','Osiyo','hello'], ['ᎯᎠ','Hia','yes'], ['ᎥᎥ','Vv','no'], ['ᎯᎠ ᎯᎳ?','Hia hala?','how are you?'], ['ᎍᎦ','Sgali','thank you'], ['ᎣᏏᏲ ᎤᎾᎵᎮᎵᏍᎩ','Osiyo unalihelisgi','nice to meet you'] ] }
+    ]
+  },
+  Ojibwe: {
+    units: [
+      { name: 'Basics', icon: '🍁', description: 'Ojibwe greetings and simple conversation starters.', lessons: [ ['Boozhoo','','hello'], ['Miigwech','','thank you'], ['Eeyaa','','yes'], ['Gaawiin','','no'], ['Aaniin ezhi-ayaayan?','','how are you?'], ['Miigwech','','goodbye'] ] }
+    ]
+  },
+  Lakota: {
+    units: [
+      { name: 'Basics', icon: '🪶', description: 'Lakota greetings, kindness, and travel phrases.', lessons: [ ['Hau','','hello'], ['Pilamaya','','thank you'], ['Haa','','yes'], ['Maȟpíya','','no'], ['Tókȟa wóyakapi?','','how are you?'], ['Hau mitákuye oyás’iŋ','','hello everyone'] ] }
+    ]
+  },
+  KuwaitiPersian: {
+    units: [
+      { name: 'Basics', icon: '🕌', description: 'Everyday Kuwaiti Persian greetings and polite phrases.', lessons: [ ['سلام','salaam','hello'], ['ممنون','mamnoon','thank you'], ['بله','bale','yes'], ['نه','na','no'], ['حالت چطوره؟','haalet chetore?','how are you?'], ['شب بخیر','shab bekheir','good night'] ] },
+      { name: 'Travel', icon: '🛫', description: 'Useful Kuwaiti Persian phrases for travel and local help.', lessons: [ ['دنبال سرویس می‌گردم','donbāl service migardam','I am looking for a taxi'], ['چقدر هزینه دارد؟','cheghadr hazineh darad?','how much does it cost?'], ['لطفاً کمک کنید','lotfan komak konid','please help me'], ['کجا می‌روم؟','koja miravam?','where am I going?'], ['بفهمید؟','befahmid?','do you understand?'], ['خدا حافظ','khodā hāfez','goodbye'] ] }
+    ]
+  },
+  Korean: {
+    units: [
+      { name: 'Basics', icon: '안녕', description: 'Korean greetings, thanks, and introductions.', lessons: [ ['안녕하세요','annyeonghaseyo','hello'], ['감사합니다','gamsahamnida','thank you'], ['네','ne','yes'], ['아니요','aniyo','no'], ['제발','jebal','please'], ['안녕히 가세요','annyeonghi gaseyo','goodbye'] ] },
+      { name: 'Travel', icon: '🚌', description: 'Find the station, order food, and ask for help.', lessons: [ ['화장실 어디예요?','hwajangsil eodiyeyo','where is the bathroom?'], ['얼마예요?','eolmayeyo','how much is it?'], ['도와주세요','dowajuseyo','please help me'], ['영어 하세요?','yeongeo haseyo','do you speak English?'], ['길을 잃었어요','gireul ilheosseoyo','I am lost'], ['물 주세요','mul juseyo','please give me water'] ] }
+    ]
+  }
+};
+
+function loadVoices() {
+  availableVoices = window.speechSynthesis.getVoices();
+}
+loadVoices();
+if (window.speechSynthesis.onvoiceschanged !== undefined) {
+  window.speechSynthesis.onvoiceschanged = loadVoices;
+}
+
+function getBestVoice(langCode, language) {
+  if (!availableVoices.length) availableVoices = window.speechSynthesis.getVoices();
+  const lowerCode = langCode.toLowerCase();
+  const exact = availableVoices.filter(v => v.lang && v.lang.toLowerCase().startsWith(lowerCode));
+  if (exact.length) return exact[0];
+  const prefNames = voicePreferenceMap[language] || [];
+  for (const name of prefNames) {
+    const voice = availableVoices.find(v => v.name && v.name.toLowerCase().includes(name));
+    if (voice) return voice;
+  }
+  const fallbackCodes = voiceFallbacks[language] || [];
+  for (const code of fallbackCodes) {
+    const fallback = availableVoices.find(v => v.lang && v.lang.toLowerCase().startsWith(code.toLowerCase()));
+    if (fallback) return fallback;
+  }
+  const nameMatch = availableVoices.find(v => v.name && v.name.toLowerCase().includes(language.toLowerCase()));
+  if (nameMatch) return nameMatch;
+  return availableVoices.find(v => v.lang && v.lang.toLowerCase().startsWith('en')) || availableVoices[0] || null;
+}
+
+function getVoicesForLang(langCode, language) {
+  if (!availableVoices.length) availableVoices = window.speechSynthesis.getVoices();
+  const lowerCode = langCode.toLowerCase();
+  const exact = availableVoices.filter(v => v.lang && v.lang.toLowerCase().startsWith(lowerCode));
+  if (exact.length) return exact;
+  const prefNames = voicePreferenceMap[language] || [];
+  for (const name of prefNames) {
+    const matches = availableVoices.filter(v => v.name && v.name.toLowerCase().includes(name));
+    if (matches.length) return matches;
+  }
+  const fallbackCodes = voiceFallbacks[language] || [];
+  let fallbackVoices = [];
+  fallbackCodes.forEach(code => {
+    fallbackVoices = fallbackVoices.concat(availableVoices.filter(v => v.lang && v.lang.toLowerCase().startsWith(code.toLowerCase())));
+  });
+  if (fallbackVoices.length) return fallbackVoices;
+  const nameMatches = availableVoices.filter(v => v.name && v.name.toLowerCase().includes(language.toLowerCase()));
+  if (nameMatches.length) return nameMatches;
+  const englishVoices = availableVoices.filter(v => v.lang && v.lang.toLowerCase().startsWith('en'));
+  return englishVoices.length ? englishVoices : availableVoices;
+}
+
+const onlineSpeechClips = {
+  // Add natural external clip URLs here to enable richer language audio playback.
+};
+
+function playOnlineClipIfAvailable(language, text, btnEl) {
+  const clipUrl = onlineSpeechClips[language];
+  if (!clipUrl) return false;
+  if (btnEl) { btnEl.classList.add('speaking'); btnEl.textContent = '🔊 Loading clip...'; }
+  setStatus('Loading natural speech clip…');
+  const audio = new Audio(clipUrl);
+  audio.crossOrigin = 'anonymous';
+  audio.onended = () => {
+    if (btnEl) { btnEl.classList.remove('speaking'); btnEl.textContent = '🔊 Hear it'; }
+    setStatus('');
+  };
+  audio.onerror = () => {
+    if (btnEl) { btnEl.classList.remove('speaking'); btnEl.textContent = '🔊 Hear it'; }
+    setStatus('⚠️ External clip failed. Falling back to built-in voice.');
+  };
+  audio.play();
+  return true;
+}
+
+function speakText(text, langCode, btnEl, language) {
+  if (!window.speechSynthesis) {
+    setStatus("❌ Speech not supported in this browser.");
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  const voice = getBestVoice(langCode, language);
+  if (voice) { utter.voice = voice; utter.lang = voice.lang; }
+  else { utter.lang = langCode; }
+  utter.rate = 0.95;
+  utter.pitch = 1.05;
+  utter.volume = 1;
+  if (btnEl) { btnEl.classList.add('speaking'); btnEl.textContent = '🔊 Speaking...'; }
+  setStatus(voice ? `Voice: ${voice.name}` : `Speaking (no exact voice for ${langCode}, using default)`);
+  utter.onend = () => { if (btnEl) { btnEl.classList.remove('speaking'); btnEl.textContent = '🔊 Hear it'; } setStatus(''); };
+  utter.onerror = () => { if (btnEl) { btnEl.classList.remove('speaking'); btnEl.textContent = '🔊 Hear it'; } setStatus('⚠️ Speech error. Try Chrome or Edge.'); };
+  window.speechSynthesis.speak(utter);
+}
+
+function setStatus(msg) {
+  const el = document.getElementById('speechStatus');
+  if (el) el.textContent = msg;
+}
+
+function getBadgeFromPoints(points) {
+  if (points >= 250) return 'Legend';
+  if (points >= 180) return 'Master';
+  if (points >= 110) return 'Expert';
+  if (points >= 60) return 'Apprentice';
+  return 'Novice';
+}
+
+function getCourseForLang(lang) {
+  return courseData[lang] || { units: [] };
+}
+
+function getCurrentUnitData() {
+  const course = getCourseForLang(currentLanguage);
+  return course.units[selectedUnit] || null;
+}
+
+function getTotalLessons(course) {
+  return course.units.reduce((sum, unit) => sum + (unit.lessons ? unit.lessons.length : 0), 0);
+}
+
+function getCompletedLessons(course) {
+  if (selectedUnit < 0) return 0;
+  const before = course.units.slice(0, selectedUnit).reduce((sum, unit) => sum + (unit.lessons ? unit.lessons.length : 0), 0);
+  return before + selectedLesson;
+}
+
+function renderLanguageUnits() {
+  const course = getCourseForLang(currentLanguage);
+  const total = getTotalLessons(course);
+  const completed = getCompletedLessons(course);
+  const unitCards = course.units.map((unit, i) => {
+    const percent = unit.lessons.length ? Math.round(((selectedUnit === i ? selectedLesson : 0) / unit.lessons.length) * 100) : 0;
+    return `
+      <div class="unit-card ${selectedUnit === i ? 'active' : ''}" onclick="openUnit(${i})">
+        <h4>${unit.icon} ${unit.name}</h4>
+        <p>${unit.description}</p>
+        <div class="unit-meta"><span>${unit.lessons.length} lessons</span><span>${percent}%</span></div>
+      </div>`;
+  }).join('');
+  const progressLine = `<div class="progress-pill">${completed}/${total} lessons unlocked • Skill ${Math.min(10, Math.max(1, Math.ceil((completed + 1) / Math.max(1, total / 10))))}</div>`;
+  document.getElementById('languageTitle').textContent = currentLanguage;
+  document.getElementById('languageUnitBadge').textContent = 'Select a unit';
+  document.getElementById('unitOverview').innerHTML = course.units.length ? `${progressLine}<div class="unit-grid">${unitCards}</div>` : '<div class="progress-pill">No course units available yet.</div>';
+  document.getElementById('unitOverview').classList.remove('hidden');
+  document.getElementById('lessonContent').classList.add('hidden');
+}
+
+function updateSidebarProgress() {
+  const sidebarPoints = document.getElementById('sidebar-points');
+  const sidebarBadge = document.getElementById('sidebar-badge');
+  const sidebarLevel = document.getElementById('sidebar-level');
+  const sidebarProgress = document.getElementById('sidebar-progress');
+  const progressText = document.getElementById('sidebar-progress-text');
+  const progressPercent = document.getElementById('sidebar-progress-percent');
+  const course = getCourseForLang(currentLanguage);
+  const total = getTotalLessons(course);
+  const completed = getCompletedLessons(course);
+  const percent = total ? Math.round((completed / total) * 100) : 0;
+  userBadge = getBadgeFromPoints(userPoints);
+  if (sidebarPoints) sidebarPoints.textContent = userPoints;
+  if (sidebarBadge) sidebarBadge.textContent = userBadge;
+  if (sidebarLevel) sidebarLevel.textContent = total ? `${Math.min(10, Math.max(1, Math.ceil((completed + 1) / Math.max(1, total / 10))))}` : '1';
+  if (sidebarProgress) sidebarProgress.style.width = `${percent}%`;
+  if (progressText) progressText.textContent = total ? `${completed} / ${total} lessons` : '0 / 0 lessons';
+  if (progressPercent) progressPercent.textContent = `${percent}%`;
+}
+
+function openLanguage(lang) {
+  const pageUrl = `language.html?lang=${encodeURIComponent(lang)}`;
+  window.open(pageUrl, '_blank', 'noopener');
+}
+
+function openTopic(topic) {
+  const pageUrl = `topics_${topic}.html?lang=${encodeURIComponent(currentLanguage)}`;
+  window.open(pageUrl, '_blank', 'noopener');
+}
+
+function openUnit(unitIndex) {
+  selectedUnit = unitIndex;
+  selectedLesson = 0;
+  const course = getCourseForLang(currentLanguage);
+  const unit = course.units[selectedUnit];
+  if (!unit) return;
+  document.getElementById('languageUnitBadge').textContent = `${unit.icon} ${unit.name}`;
+  document.getElementById('unitOverview').classList.add('hidden');
+  document.getElementById('topicSection').classList.remove('hidden');
+  document.getElementById('lessonContent').classList.add('hidden');
+  loadLevel();
+  updateSidebarProgress();
+}
+
+function isLatin(text) {
+  return /^[A-Za-z\s'=?.!,āēīōūǎěǐǒǔàèìòùáéíóúâêîôûäëïöüãõñçşğýřžšč'ʿḥḫṭṣṡḍḏẓẗẖʾʿ]+$/.test(text);
+}
+
+function getTypingTarget(word, translit, translation) {
+  if (isLatin(word)) return { target: word, hint: 'Type the word' };
+  if (translit && isLatin(translit)) return { target: translit, hint: 'Type the romanization' };
+  return { target: translation, hint: 'Type the English meaning' };
+}
+
+function loadLevel() {
+  const c = document.getElementById("content");
+  c.innerHTML = "";
+  const unit = getCurrentUnitData();
+  if (!unit || selectedLesson >= unit.lessons.length) return;
+  const item = unit.lessons[selectedLesson];
+  const word = item[0];
+  const translit = item[1];
+  const translation = item[2];
+  const langCode = langToCode[currentLanguage] || 'en';
+  const total = unit.lessons.length;
+  const { target, hint } = getTypingTarget(word, translit, translation);
+  requiresTyping = true;
+  document.getElementById("levelTitle").textContent = `Lesson ${selectedLesson + 1} of ${total} · ${unit.name}`;
+  const voices = getVoicesForLang(langCode, currentLanguage);
+  let voiceSelectHTML = '';
+  if (voices.length > 1) {
+    voiceSelectHTML = `<div class="lang-voice-select">
+      <label style="color:#555;font-size:.85rem;">Voice: </label>
+      <select id="voiceSelect">
+        ${voices.map((v,i) => `<option value="${i}">${v.name} (${v.lang})</option>`).join('')}
+      </select>
+    </div>`;
+  } else if (voices.length === 1) {
+    voiceSelectHTML = `<div class="lang-voice-select" style="color:#555;font-size:.85rem;">Voice: ${voices[0].name} (${voices[0].lang})</div>`;
+  } else {
+    voiceSelectHTML = `<div class="lang-voice-select" style="color:#999;font-size:.85rem;">No speech voice found for this language.</div>`;
+  }
+  c.innerHTML = `
+    <div class="word">${word}</div>
+    ${translit ? `<div class="translit">${translit}</div>` : ''}
+    <div class="translation">📖 ${translation}</div>
+    ${voiceSelectHTML}
+    <button class="speak-btn" id="speakBtn" onclick="handleSpeak()">🔊 Hear it</button>
+    <p style="margin:.8rem 0 .2rem;color:#555;font-size:.9rem;">${hint}:</p>
+    <input id="typeInput" placeholder="Type here...">
+  `;
+}
+
+function handleSpeak() {
+  const unit = getCurrentUnitData();
+  if (!unit || selectedLesson >= unit.lessons.length) return;
+  const item = unit.lessons[selectedLesson];
+  const word = item[0];
+  const translit = item[1];
+  const langCode = langToCode[currentLanguage] || 'en';
+  const speakWord = translit ? translit : word;
+  const btnEl = document.getElementById('speakBtn');
+  const voiceSelectEl = document.getElementById('voiceSelect');
+  if (voiceSelectEl) {
+    const voices = getVoicesForLang(langCode, currentLanguage);
+    const idx = parseInt(voiceSelectEl.value);
+    const selectedVoice = voices[idx];
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(speakWord);
+    if (selectedVoice) { utter.voice = selectedVoice; utter.lang = selectedVoice.lang; }
+    else { utter.lang = langCode; }
+    utter.rate = 0.95;
+    utter.pitch = 1.05;
+    if (btnEl) { btnEl.classList.add('speaking'); btnEl.textContent = '🔊 Speaking...'; }
+    setStatus(selectedVoice ? `Voice: ${selectedVoice.name}` : '');
+    utter.onend = () => { if (btnEl) { btnEl.classList.remove('speaking'); btnEl.textContent = '🔊 Hear it'; } setStatus(''); };
+    utter.onerror = () => { if (btnEl) { btnEl.classList.remove('speaking'); btnEl.textContent = '🔊 Hear it'; } setStatus('⚠️ Speech error.'); };
+    window.speechSynthesis.speak(utter);
+  } else {
+    if (!playOnlineClipIfAvailable(currentLanguage, speakWord, btnEl)) {
+      speakText(speakWord, langCode, btnEl, currentLanguage);
+    }
+  }
+}
+
+function nextLevel() {
+  const course = getCourseForLang(currentLanguage);
+  const unit = getCurrentUnitData();
+  if (!unit) {
+    openUnit(0);
+    return;
+  }
+  if (requiresTyping) {
+    const typed = document.getElementById("typeInput") ? document.getElementById("typeInput").value.trim() : "";
+    const item = unit.lessons[selectedLesson];
+    const { target } = getTypingTarget(item[0], item[1], item[2]);
+    if (typed.toLowerCase() !== target.toLowerCase()) { alert("Expected: " + target); return; }
+  }
+  window.speechSynthesis.cancel();
+  if (selectedLesson < unit.lessons.length - 1) {
+    selectedLesson++;
+    userPoints += 10;
+    userBadge = getBadgeFromPoints(userPoints);
+    loadLevel();
+    updateSidebarProgress();
+  } else {
+    userPoints += 25;
+    userBadge = getBadgeFromPoints(userPoints);
+    updateSidebarProgress();
+    if (selectedUnit < course.units.length - 1) {
+      alert(`✅ Unit complete! Next up: ${course.units[selectedUnit + 1].name}`);
+      openUnit(selectedUnit + 1);
+    } else {
+      alert("🎉 Course complete! You've finished all units for this language.");
+      selectedUnit = -1;
+      selectedLesson = 0;
+      renderLanguageUnits();
+    }
+  }
+}
+
+function back() {
+  window.speechSynthesis.cancel();
+  if (selectedUnit >= 0) {
+    selectedUnit = -1;
+    selectedLesson = 0;
+    document.getElementById('languageUnitBadge').textContent = 'No battery required';
+    renderLanguageUnits();
+    updateSidebarProgress();
+    return;
+  }
+  document.getElementById("lesson").classList.add("hidden");
+  document.getElementById("languages").classList.remove("hidden");
+  updateSidebarProgress();
+}
+
+function getSavedUser() {
+  try {
+    const saved = localStorage.getItem('reviveUser');
+    if (!saved) return null;
+    const user = JSON.parse(saved);
+    return user && user.username ? user : null;
+  } catch (e) {
+    localStorage.removeItem('reviveUser');
+    return null;
+  }
+}
+
+function handleSignOut(event) {
+  if (event) event.preventDefault();
+  localStorage.removeItem('reviveUser');
+  window.location.href = 'index.html';
+}
+
+function applyTheme(theme) {
+  const themeClass = `theme-${theme}`;
+  document.body.classList.remove('theme-aero', 'theme-minimalist', 'theme-dark', 'theme-light');
+  document.body.classList.add(themeClass);
+  localStorage.setItem('reviveTheme', theme);
+  document.querySelectorAll('.theme-option').forEach(button => {
+    button.classList.toggle('active', button.dataset.theme === theme);
+  });
+}
+
+function loadTheme() {
+  const savedTheme = localStorage.getItem('reviveTheme') || 'aero';
+  applyTheme(savedTheme);
+}
+
+function setProfileHeader(user) {
+  const loginLink = document.getElementById('login-link');
+  const profileToggle = document.getElementById('profile-toggle');
+  const logoutLink = document.getElementById('logout-link');
+  const welcomeBadge = document.getElementById('welcome-badge');
+  const avatar = document.getElementById('nav-avatar');
+  const avatarImg = document.getElementById('nav-avatar-img');
+  const usernameLabel = document.getElementById('nav-username-label');
+  const usernameDisplay = document.getElementById('nav-username-display');
+  const emailDisplay = document.getElementById('nav-email-display');
+  const initials = user.initials || (user.username ? user.username.charAt(0).toUpperCase() : 'U');
+  const avatarUrl = `https://via.placeholder.com/44/3d8d79/ffffff?text=${encodeURIComponent(initials)}`;
+
+  loginLink.classList.add('hidden');
+  profileToggle.classList.remove('hidden');
+  logoutLink.classList.remove('hidden');
+  welcomeBadge.classList.remove('hidden');
+  welcomeBadge.textContent = `Signed in as ${user.username}`;
+  usernameLabel.textContent = user.username;
+  usernameDisplay.textContent = user.username;
+  emailDisplay.textContent = user.email || 'No email set';
+  avatar.style.backgroundImage = `url(${avatarUrl})`;
+  avatar.style.backgroundSize = 'cover';
+  avatarImg.src = avatarUrl;
+
+  const sidebarUsername = document.getElementById('sidebar-username');
+  const sidebarEmail = document.getElementById('sidebar-email');
+  const sidebarAvatar = document.getElementById('sidebar-avatar');
+  const sidebarLoginBtn = document.getElementById('sidebar-login-btn');
+  const sidebarLogoutBtn = document.getElementById('sidebar-logout-btn');
+
+  if (sidebarUsername) sidebarUsername.textContent = user.username;
+  if (sidebarEmail) sidebarEmail.textContent = user.email || 'No email set';
+  if (sidebarAvatar) sidebarAvatar.src = avatarUrl;
+  if (sidebarLoginBtn) sidebarLoginBtn.classList.add('hidden');
+  if (sidebarLogoutBtn) {
+    sidebarLogoutBtn.classList.remove('hidden');
+    sidebarLogoutBtn.onclick = handleSignOut;
+  }
+}
+
+function setGuestProfile() {
+  const loginLink = document.getElementById('login-link');
+  const logoutLink = document.getElementById('logout-link');
+  const welcomeBadge = document.getElementById('welcome-badge');
+  const profileToggle = document.getElementById('profile-toggle');
+  const sidebarUsername = document.getElementById('sidebar-username');
+  const sidebarEmail = document.getElementById('sidebar-email');
+  const sidebarAvatar = document.getElementById('sidebar-avatar');
+  const sidebarLoginBtn = document.getElementById('sidebar-login-btn');
+  const sidebarLogoutBtn = document.getElementById('sidebar-logout-btn');
+
+  loginLink.classList.remove('hidden');
+  loginLink.textContent = 'Sign in';
+  loginLink.href = "index.html";
+  logoutLink.classList.add('hidden');
+  welcomeBadge.classList.add('hidden');
+  profileToggle.classList.add('hidden');
+  if (sidebarUsername) sidebarUsername.textContent = 'Guest';
+  if (sidebarEmail) sidebarEmail.textContent = 'Sign in to access your progress';
+  if (sidebarAvatar) sidebarAvatar.src = 'https://via.placeholder.com/44/3d8d79/ffffff?text=?';
+  if (sidebarLoginBtn) {
+    sidebarLoginBtn.classList.remove('hidden');
+    sidebarLoginBtn.onclick = () => window.location.href = "index.html";
+  }
+  if (sidebarLogoutBtn) {
+    sidebarLogoutBtn.classList.add('hidden');
+    sidebarLogoutBtn.onclick = null;
+  }
+}
+
+function initializeProfileMenu() {
+  const profileToggle = document.getElementById('profile-toggle');
+  const profileDropdown = document.getElementById('profile-dropdown');
+  const settingsToggle = document.getElementById('settings-toggle');
+  const settingsPanel = document.getElementById('settings-panel');
+  const themeButtons = document.querySelectorAll('.theme-option');
+  const logoutDropdown = document.getElementById('logout-dropdown');
+
+  profileToggle.addEventListener('click', () => {
+    profileDropdown.classList.toggle('visible');
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!event.target.closest('#profile-dropdown') && !event.target.closest('#profile-toggle')) {
+      profileDropdown.classList.remove('visible');
+    }
+  });
+
+  settingsToggle.addEventListener('click', () => {
+    settingsPanel.classList.toggle('visible');
+  });
+
+  themeButtons.forEach(button => {
+    button.addEventListener('click', () => applyTheme(button.dataset.theme));
+  });
+
+  logoutDropdown.addEventListener('click', handleSignOut);
+  document.getElementById('logout-link').addEventListener('click', handleSignOut);
+
+  const sidebarToggle = document.getElementById('sidebar-toggle');
+  const sidebar = document.getElementById('language-sidebar');
+  if (sidebarToggle && sidebar) {
+    sidebarToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+    document.addEventListener('click', (event) => {
+      if (sidebar.classList.contains('open') && !event.target.closest('#language-sidebar') && !event.target.closest('#sidebar-toggle')) {
+        sidebar.classList.remove('open');
+      }
+    });
+  }
+}
+
+function updateAuthNav() {
+  const user = getSavedUser();
+  const loginLink = document.getElementById('login-link');
+  const logoutLink = document.getElementById('logout-link');
+  const welcomeBadge = document.getElementById('welcome-badge');
+  const profileToggle = document.getElementById('profile-toggle');
+
+  if (user) {
+    loginLink.classList.add('hidden');
+    logoutLink.classList.remove('hidden');
+    welcomeBadge.classList.remove('hidden');
+    profileToggle.classList.remove('hidden');
+    setProfileHeader(user);
+  } else {
+    setGuestProfile();
+  }
+  initializeProfileMenu();
+  loadTheme();
+}
+
+renderLanguageSelection();
+updateAuthNav();
+</script>
+</body>
+</html>
